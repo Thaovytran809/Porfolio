@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivian Tran — Data Analytics Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+/* ══ DESIGN TOKENS ══════════════════════════════════════════ */
+:root{
+  --accent:#91c2eb; --accent-tech:#1567ab; --accent-light:#cde5f7;
+  --accent-xlight:#eaf4fd; --white:#fff; --off-white:#f7f9fc;
+  --ink:#1e293b; --ink-mid:#334155; --ink-muted:#64748b;
+  --border:#dde4ed; --border-strong:#b8cfe0;
+  --font-d:'IBM Plex Sans',sans-serif; --font-b:'Inter',system-ui,sans-serif;
+  --nav-h:60px; --r:7px; --rs:6px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--white);color:var(--ink);line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block;border-radius:var(--rs)}
+a{color:inherit;text-decoration:none}
+strong{font-weight:600;color:var(--ink)}
+video{max-width:100%;border-radius:var(--rs)}
+
+/* ══ NAV ═════════════════════════════════════════════════════ */
+#nb{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,72px);transition:background .25s,box-shadow .25s}
+#nb.sc{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
+.nav-logo{font-family:var(--font-d);font-size:1.1rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.nav-logo span{color:var(--accent-tech)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{font-size:.8rem;font-weight:500;color:var(--ink-muted);letter-spacing:.04em;text-transform:uppercase;transition:color .2s;position:relative;padding-bottom:4px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent-tech);transition:width .22s var(--ease)}
+.nav-links a:hover{color:var(--ink)} .nav-links a:hover::after{width:100%}
+#lt{display:flex;align-items:center;background:var(--off-white);border:1px solid var(--border);border-radius:7px;padding:2px;cursor:pointer}
+.lb{padding:3px 11px;border-radius:5px;font-size:.72rem;font-weight:600;letter-spacing:.08em;color:var(--ink-muted);transition:all .18s var(--ease);user-select:none}
+.lb.on{background:var(--accent-tech);color:#fff}
+.burg{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px}
+.burg span{display:block;width:20px;height:1.5px;background:var(--ink);transition:all .22s}
+@media(max-width:720px){
+  .nav-links{display:none}
+  .burg{display:flex}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(255,255,255,.98);padding:20px 24px;gap:14px;border-bottom:1px solid var(--border);animation:sd .18s}
+}
+@keyframes sd{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ HERO ═════════════════════════════════════════════════════ */
+#home{min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden;background:var(--white)}
+
+/* ── Soft gradient glow background ── */
+#home::before{
+  content:'';position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -5%, rgba(145,194,235,.38) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 10%, rgba(145,194,235,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 10%, rgba(145,194,235,.18) 0%, transparent 60%),
+    linear-gradient(180deg, #eef6fd 0%, #f4f8fc 30%, #fff 70%);
+  pointer-events:none;
+}
+/* Subtle animated shimmer */
+#home::after{
+  content:'';position:absolute;top:-20%;left:-10%;right:-10%;height:60%;
+  background:radial-gradient(ellipse 60% 50% at 50% 0%, rgba(145,194,235,.22) 0%, transparent 65%);
+  animation:glow-pulse 6s ease-in-out infinite;pointer-events:none;z-index:0;
+}
+@keyframes glow-pulse{0%,100%{opacity:.7;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.08)}}
+
+/* Hero content */
+.hero-c{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(100px,16vh,160px) clamp(24px,6vw,80px) 64px;position:relative;z-index:3}
+.h-eyebrow{font-family:var(--font-b);font-size:clamp(.7rem,1vw,.82rem);font-weight:500;letter-spacing:.22em;color:var(--accent-tech);text-transform:uppercase;margin-bottom:16px;opacity:0;animation:fu .6s var(--ease) .2s forwards}
+/* .h-name{font-family:var(--font-d);font-size:clamp(2.4rem,7vw,6.5rem);font-weight:500;line-height:1.05;letter-spacing:-.02em;color:#1e293b;margin-bottom:12px;opacity:0;animation:fu .7s var(--ease) .38s forwards} */
+.h-name{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,7vw,6.5rem);font-weight:500;line-height:1.05;letter-spacing:-.02em;color:#1567ab;margin-bottom:12px;opacity:0;animation:fu .7s var(--ease) .38s forwards}
+.h-role{font-family:var(--font-b);font-size:clamp(1rem,2vw,1.5rem);font-weight:300;font-style:italic;color:var(--ink-muted);margin-bottom:18px;letter-spacing:.02em;opacity:0;animation:fu .7s var(--ease) .52s forwards}
+.h-tag{display:inline-flex;align-items:center;gap:8px;opacity:0;animation:fu .7s var(--ease) .62s forwards;margin-bottom:32px}
+.h-badge{padding:4px 12px;background:var(--white);border:1px solid var(--border-strong);border-radius:6px;font-size:.75rem;font-weight:600;color:var(--ink-mid);letter-spacing:.06em;font-family:var(--font-d)}
+.h-badge.accent{background:rgba(21,103,171,.07);border-color:rgba(21,103,171,.25);color:var(--accent-tech)}
+.h-desc{font-size:clamp(.85rem,1.2vw,.97rem);color:var(--ink-muted);max-width:500px;line-height:1.8;margin:0 auto 34px;opacity:0;animation:fu .7s var(--ease) .72s forwards}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fu .7s var(--ease) .86s forwards}
+.btn-p{padding:11px 28px;background:var(--accent-tech);color:#fff;border-radius:7px;font-size:.85rem;font-weight:600;letter-spacing:.04em;transition:background .18s,transform .18s,box-shadow .18s;border:none;cursor:pointer;font-family:var(--font-b)}
+.btn-p:hover{background:#1256a0;transform:translateY(-1px);box-shadow:0 6px 20px rgba(21,103,171,.28)}
+.btn-o{padding:11px 28px;background:transparent;color:var(--ink);border:1px solid var(--border-strong);border-radius:7px;font-size:.85rem;font-weight:500;letter-spacing:.04em;transition:all .18s;cursor:pointer;font-family:var(--font-b)}
+.btn-o:hover{border-color:var(--accent-tech);color:var(--accent-tech);background:rgba(21,103,171,.04)}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.68rem;letter-spacing:.14em;color:var(--ink-muted);text-transform:uppercase;opacity:0;animation:fu .7s var(--ease) 1.1s forwards}
+.s-arr{width:16px;height:16px;border-right:1.5px solid var(--accent-tech);border-bottom:1.5px solid var(--accent-tech);transform:rotate(45deg);animation:sb 1.5s ease-in-out infinite}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sb{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(4px)}}
+
+/* ══ SECTION SHARED ══════════════════════════════════════════ */
+.section{padding:clamp(60px,8vw,100px) clamp(24px,5vw,72px)}
+.sec-inner{max-width:1120px;margin:0 auto}
+.sec-hd{margin-bottom:clamp(36px,5vw,56px)}
+.sec-lbl{font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-tech);margin-bottom:10px;display:block;font-family:var(--font-b)}
+.sec-title{font-family:var(--font-d);font-size:clamp(1.8rem,3.5vw,4rem);font-weight:600;line-height:1.1;letter-spacing:-.02em;color:#1e293b}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
+.accent-div{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--accent-light),transparent)}
+
+/* ══ ABOUT ═══════════════════════════════════════════════════ */
+#about{background:var(--white)}
+/* Text LEFT, Image RIGHT */
+.about-grid{display:grid;grid-template-columns:1.65fr 1fr;gap:clamp(40px,5vw,80px);align-items:start}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+.about-bio{order:-1}
+.avatar-col{order:1}
+.avatar-wrap{position:relative;max-width:300px;margin-left:auto}
+.avatar-wrap::before{content:'';position:absolute;inset:-12px 12px 12px -12px;border:1px solid var(--accent-light);z-index:0}
+.avatar-placeholder{width:100%;aspect-ratio:3/4;background:linear-gradient(145deg,var(--accent-light),var(--accent-xlight));display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--accent-tech);position:relative;z-index:1;font-family:var(--font-d);font-weight:500}
+.avatar-placeholder img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0;z-index:2}
+.avatar-badges{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3;white-space:nowrap}
+.av-badge{padding:4px 12px;background:rgba(13,17,23,.88);backdrop-filter:blur(8px);border:1px solid rgba(145,194,235,.3);border-radius:3px;font-size:.72rem;font-weight:700;color:#e2eaf5;letter-spacing:.06em;font-family:var(--font-d)}
+.about-bio p{font-size:.96rem;color:var(--ink-mid);margin-bottom:16px;line-height:1.85}
+.skills-table{margin-top:28px;padding:0;border-top:2px solid #1e293b;border-bottom:1px solid var(--border)}
+.skill-row{display:flex;align-items:baseline;gap:20px;padding:12px 0;border-bottom:1px solid var(--border)}
+.skill-row:last-child{border-bottom:none}
+.skill-cat{font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);min-width:110px;flex-shrink:0;font-family:var(--font-b)}
+.skill-vals{font-size:.85rem;color:var(--ink-mid);font-weight:400;display:flex;flex-wrap:wrap;gap:6px}
+.sk-tag{padding:2px 9px;background:var(--off-white);border:1px solid var(--border);border-radius:5px;font-size:.76rem;font-weight:500;color:var(--ink-mid);font-family:var(--font-d)}
+
+/* ══ PROJECTS ════════════════════════════════════════════════ */
+#projects{background:var(--white)}
+.proj-list{border-top:2px solid #1e293b}
+.proj-row{display:grid;grid-template-columns:56px 1fr auto;gap:clamp(16px,3vw,36px);align-items:center;padding:clamp(22px,3vw,32px) 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .18s,padding-left .18s;position:relative;overflow:hidden}
+.proj-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent-tech);transform:scaleY(0);transform-origin:top;transition:transform .22s var(--ease)}
+.proj-row:hover{background:rgba(145,194,235,.04);padding-left:12px}
+.proj-row:hover::before{transform:scaleY(1)}
+.proj-row-num{font-family:var(--font-d);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;color:var(--border-strong);line-height:1;transition:color .2s;text-align:right}
+.proj-row:hover .proj-row-num{color:var(--accent-tech)}
+.proj-row-body{min-width:0}
+.proj-row-top{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+.pc-title{font-family:var(--font-d);font-size:clamp(1.05rem,1.7vw,1.45rem);font-weight:600;color:#1e293b;line-height:1.25;letter-spacing:-.01em}
+.pc-tags{display:flex;flex-wrap:wrap;gap:5px}
+.pc-tag{padding:2px 8px;background:rgba(21,103,171,.07);border:1px solid rgba(21,103,171,.18);border-radius:5px;font-size:.67rem;font-weight:600;letter-spacing:.06em;color:var(--accent-tech);text-transform:uppercase;font-family:var(--font-b)}
+.pc-sub{font-size:.76rem;color:var(--ink-muted);letter-spacing:.04em;margin-bottom:10px;font-family:var(--font-b)}
+.pc-sum{font-size:.9rem;color:var(--ink-mid);line-height:1.72}
+.pc-cta-btn{padding:9px 20px;background:transparent;color:var(--ink);border:1px solid var(--border-strong);border-radius:7px;font-size:.8rem;font-weight:600;letter-spacing:.04em;cursor:pointer;white-space:nowrap;transition:border-color .18s,background .18s,color .18s;font-family:var(--font-b);flex-shrink:0}
+.pc-cta-btn:hover{border-color:var(--accent-tech);background:var(--accent-tech);color:#fff}
+.see-more-w{text-align:center;margin-top:36px}
+.btn-sm{display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border:1px solid var(--accent-tech);border-radius:7px;background:transparent;color:var(--accent-tech);font-size:.82rem;font-weight:600;letter-spacing:.04em;cursor:pointer;transition:background .18s,color .18s;font-family:var(--font-b)}
+.btn-sm:hover{background:var(--accent-tech);color:#fff}
+@media(max-width:600px){
+  .proj-row{grid-template-columns:40px 1fr}
+  .pc-cta-btn{display:none}
+}
+
+/* ══ CONTACT ══════════════════════════════════════════════════ */
+#contact{background:linear-gradient(180deg,var(--white) 0%,var(--accent-xlight) 100%)}
+.contact-c{max-width:580px;margin:0 auto;text-align:center}
+.contact-sub{font-size:.96rem;color:var(--ink-muted);margin-bottom:32px;line-height:1.8}
+.contact-group{display:flex;flex-direction:column;align-items:center;gap:16px}
+.contact-email{display:inline-flex;align-items:center;gap:10px;padding:13px 32px;background:var(--ink);color:#fff;border-radius:7px;font-size:.92rem;font-weight:600;letter-spacing:.02em;transition:background .18s,transform .18s,box-shadow .18s;font-family:var(--font-b)}
+.contact-email:hover{background:var(--ink-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(30,41,59,.2)}
+.contact-social{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--ink-muted);flex-wrap:wrap;justify-content:center}
+.soc-link{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border:1px solid var(--border);border-radius:7px;font-size:.8rem;font-weight:500;color:var(--ink-mid);transition:border-color .18s,color .18s,background .18s;font-family:var(--font-b)}
+.soc-link:hover{border-color:var(--accent-tech);color:var(--accent-tech);background:rgba(21,103,171,.04)}
+footer{padding:24px clamp(24px,5vw,72px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.75rem;color:var(--ink-muted);font-family:var(--font-b)}
+
+/* ══ MODAL ════════════════════════════════════════════════════ */
+#modal{position:fixed;inset:0;z-index:1000;display:none;background:var(--white);overflow-y:auto;scroll-behavior:smooth}
+#modal.open{display:block;animation:mi .3s var(--ease)}
+@keyframes mi{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.m-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 clamp(20px,4vw,64px);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;gap:16px}
+.m-back{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--ink-muted);cursor:pointer;transition:color .18s;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-b)}
+.m-back:hover{color:var(--accent-tech)}
+.m-sec-nav{display:flex;gap:2px;list-style:none;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:center}
+.m-sec-nav::-webkit-scrollbar{display:none}
+.m-sec-btn{padding:4px 13px;border-radius:6px;font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-muted);cursor:pointer;white-space:nowrap;transition:color .18s;font-family:var(--font-b)}
+.m-sec-btn:hover{color:var(--ink)}
+.m-close{padding:6px 16px;border-radius:7px;border:1px solid var(--border);font-size:.78rem;font-weight:600;color:var(--ink-muted);cursor:pointer;transition:all .18s;white-space:nowrap;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-b)}
+.m-close:hover{border-color:var(--ink-muted);background:var(--off-white)}
+
+/* Modal title area — subtle gradient, no big blue block */
+.m-title-area{position:relative;padding:clamp(32px,4vw,56px) 0 28px;margin-bottom:40px;border-bottom:1px solid var(--border)}
+.m-title-area::before{content:'';position:absolute;top:0;left:calc(-1 * clamp(20px,4vw,64px));right:calc(-1 * clamp(20px,4vw,64px));height:100%;background:linear-gradient(180deg,rgba(145,194,235,.09) 0%,rgba(145,194,235,.03) 60%,transparent 100%);pointer-events:none;z-index:0}
+.m-title-area-inner{position:relative;z-index:1}
+.m-proj-title{font-family:var(--font-d);font-size:clamp(1.7rem,4vw,3.6rem);font-weight:600;letter-spacing:-.025em;color:#1e293b;margin-bottom:8px;line-height:1.1}
+.m-proj-sub{font-size:.82rem;color:var(--ink-muted);letter-spacing:.06em;text-transform:uppercase;font-family:var(--font-b);font-weight:500}
+.m-body{max-width:920px;margin:0 auto;padding:0 clamp(20px,4vw,64px) clamp(40px,6vw,80px)}
+
+/* Section blocks */
+.m-section{margin-bottom:clamp(40px,5vw,64px);scroll-margin-top:calc(var(--nav-h) + 12px)}
+.m-sec-title{font-family:var(--font-d);font-size:clamp(1.2rem,2vw,1.75rem);font-weight:600;color:#1e293b;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--border-strong);letter-spacing:-.01em}
+/* Tech stack */
+.ts-grid{display:flex;flex-wrap:wrap;gap:8px}
+.ts-tag{padding:6px 14px;background:var(--off-white);border:1px solid var(--border);border-radius:6px;font-size:.82rem;font-weight:500;color:var(--ink-mid);font-family:var(--font-d)}
+.ts-group{margin-bottom:16px}
+.ts-group-name{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-tech);margin-bottom:8px;font-family:var(--font-b)}
+/* Content text */
+.m-text{font-size:.94rem;color:var(--ink-mid);line-height:1.85;font-family:var(--font-b)}
+.m-text p{margin-bottom:14px}
+.m-text ul,.m-text ol{margin:12px 0 12px 20px}
+.m-text li{margin-bottom:8px}
+.m-text img{margin:16px 0;border:1px solid var(--border)}
+/* Architecture blocks */
+.arch-block{margin-bottom:28px;border:1px solid var(--border);overflow:hidden;border-radius:7px}
+.arch-block-title{padding:11px 18px;background:var(--off-white);border-bottom:1px solid var(--border);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-tech);font-family:var(--font-b)}
+.arch-flex-row{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.arch-flex-col{display:flex;flex-direction:column}
+@media(max-width:640px){.arch-flex-row{grid-template-columns:1fr}}
+.arch-diagram{padding:18px;display:flex;align-items:center;justify-content:center;background:var(--white)}
+.arch-diagram img{max-height:300px;width:100%;object-fit:contain}
+.arch-diagram-placeholder{width:100%;min-height:160px;background:var(--off-white);border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.82rem;color:var(--ink-muted);font-weight:500;text-align:center;padding:16px;font-family:var(--font-b)}
+.arch-desc{padding:18px 22px;font-size:.86rem;color:var(--ink-mid);line-height:1.8;font-family:var(--font-b)}
+.arch-desc p{margin-bottom:10px}
+/* Links */
+.ext-link{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--off-white);border:1px solid var(--border);border-radius:6px;font-size:.79rem;font-weight:500;color:var(--ink-mid);transition:border-color .18s,color .18s;margin:3px 0;font-family:var(--font-b)}
+.ext-link:hover{border-color:var(--accent-tech);color:var(--accent-tech)}
+/* Challenges */
+.challenge-item{padding:18px 22px;background:var(--off-white);border:1px solid var(--border);border-left:3px solid var(--accent-tech);border-radius:0 7px 7px 0;margin-bottom:14px}
+.ch-prob{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:7px;font-family:var(--font-b)}
+.ch-sol{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-tech);margin-top:12px;margin-bottom:6px;font-family:var(--font-b)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nb">
+  <a href="#home" class="nav-logo">Vivian <span>Tran</span></a>
+  <ul class="nav-links" id="nls"></ul>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div id="lt" role="button"><span class="lb" data-l="vi">VI</span><span class="lb" data-l="en">EN</span></div>
+    <div class="burg" id="burg"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-c">
+    <span class="h-eyebrow" id="h-greeting">Xin chào, mình là</span>
+    <h1 class="h-name" id="h-name">Trần Thị Thảo Vy</h1>
+    <p class="h-role">Data Analytics Engineer</p>
+    <div class="h-tag">
+      <span class="h-badge accent">GPA 3.83 / 4.0</span>
+      <span class="h-badge">TOEIC 650</span>
+    </div>
+        <p class="h-desc" id="h-desc">Định hướng chuyên môn của mình là Data Analytics Engineering. Hiện tại, mình đang mở rộng nghiên cứu và xây dựng các ứng dụng AI Agent với RAG &amp; LLM.</p>
+        <div class="hero-ctas">
+      <a class="btn-p" href="image/CV_VN.pdf" download="CV_TranThiThaoVy_VI.pdf" id="h-cta1">
+        ↓ Tải CV (Tiếng Việt)
+      </a>
+      <a class="btn-o" href="image/CV_ENG.pdf" download="CV_TranThiThaoVy_EN.pdf" id="h-cta2">
+        ↓ Download CV (English)
+      </a>
+    </div>
+  </div>
+  <div class="scroll-hint"><span id="sh-txt"></span><div class="s-arr"></div></div>
+</section>
+<div class="accent-div"></div>
+
+<!-- ABOUT — text LEFT, image RIGHT -->
+<section id="about" class="section">
+  <div class="sec-inner">
+    <div class="sec-hd reveal">
+      <span class="sec-lbl">01</span>
+      <h2 class="sec-title" id="about-title">Giới Thiệu</h2>
+    </div>
+    <div class="about-grid">
+      <!-- TEXT (order: -1 via CSS → appears left) -->
+      <div class="about-bio reveal rd1">
+        <div id="about-bio-text"></div>
+        <div class="skills-table" id="skills-table-el"></div>
+      </div>
+      <!-- IMAGE (order: 1 via CSS → appears right) -->
+      <div class="avatar-col reveal rd2">
+        <div class="avatar-wrap">
+          <div class="avatar-placeholder">
+            <img src="image/avata.jpg" alt="Trần Thị Thảo Vy" onerror="this.style.display='none'">
+            Photo
+          </div>
+          <div class="avatar-badges">
+            <span class="av-badge">GPA 3.83</span>
+            <span class="av-badge">TOEIC 650</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="accent-div"></div>
+
+<!-- PROJECTS — stacked list -->
+<section id="projects" class="section">
+  <div class="sec-inner">
+    <div class="sec-hd reveal">
+      <span class="sec-lbl">02</span>
+      <h2 class="sec-title" id="proj-title">Dự Án Nổi Bật</h2>
+    </div>
+    <div class="proj-list" id="proj-grid"></div>
+    <div class="see-more-w reveal">
+      <button class="btn-sm" id="see-more-btn">Xem Tất Cả</button>
+    </div>
+  </div>
+</section>
+<div class="accent-div"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="sec-inner">
+    <div class="contact-c">
+      <div class="sec-hd reveal" style="margin-bottom:16px">
+        <span class="sec-lbl">03</span>
+        <h2 class="sec-title" id="contact-title">Liên Hệ</h2>
+      </div>
+      <p class="contact-sub reveal" id="contact-sub">Có dự án muốn hợp tác hoặc chỉ muốn kết nối?</p>
+      <div class="contact-group reveal">
+        <a class="contact-email" href="mailto:thaovytran809@gmail.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          thaovytran809@gmail.com
+        </a>
+        <div class="contact-social">
+          <span id="contact-or">hoặc tìm mình trên</span>
+          <a class="soc-link" href="https://www.linkedin.com/in/tr%E1%BA%A7n-th%E1%BB%8B-th%E1%BA%A3o-vy-vivian-a507622a4/" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a class="soc-link" href="https://github.com/Thaovytran809" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a class="soc-link" href="https://public.tableau.com/app/profile/tran.thi.thao.vy/vizzes" target="_blank" rel="noopener">Tableau</a>
+        </div>
+        <div class="contact-social" style="margin-top:-4px">
+          <span style="font-size:.8rem;color:var(--ink-muted)" id="phone-label">SĐT:</span>
+          <a class="soc-link" href="tel:+84329870065">(+84) 329-870-065</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <span>Trần Thị Thảo Vy — Data Analytics Engineer</span>
+  <span id="yr"></span>
+</footer>
+
+<!-- PROJECT MODAL — no big blue hero block -->
+<div id="modal" role="dialog" aria-modal="true">
+  <nav class="m-nav">
+    <div class="m-back" id="m-back">← <span id="m-back-txt">Quay lại</span></div>
+    <ul class="m-sec-nav" id="m-sec-nav"></ul>
+    <button class="m-close" id="m-close">Đóng</button>
+  </nav>
+  <div class="m-body">
+    <!-- Subtle gradient header instead of big blue block -->
+    <div class="m-title-area">
+      <div class="m-title-area-inner">
+        <h1 class="m-proj-title" id="m-title"></h1>
+        <p class="m-proj-sub" id="m-sub"></p>
+      </div>
+    </div>
+    <div id="m-sections"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  DATA — Giữ nguyên hoàn toàn từ bản cũ
+// ═══════════════════════════════════════════════════════════
+const D = {
+  nav:{
+    vi:["Giới Thiệu","Dự Án","Liên Hệ"],
+    en:["About Me","Projects","Contact"],
+    anchors:["#about","#projects","#contact"]
+  },
+  hero:{
+    vi:{greeting:"Xin chào, mình là",desc:"Data Analytics Engineer có khả năng thích ứng cao: Tích hợp AI Agent (RAG & LLM) vào kiến tạo giải pháp dữ liệu thông minh.",cta1:"↓ Tải CV (Tiếng Việt)",cta2:"↓ Tải CV (Tiếng Anh)",scroll:""},
+    en:{greeting:"Hi, I'm",desc:"Highly Adaptable Data Analytics Engineer: Integrating AI Agents (RAG & LLM) to craft intelligent data solutions.",cta1:"↓ Download CV (Vietnamese)",cta2:"↓ Download CV (English)",scroll:""}
+  },
+  about:{
+    title:{vi:"Giới Thiệu",en:"About Me"},
+    bio:{
+      vi:"Xuất phát từ niềm đam mê với dữ liệu, mình luôn cố gắng tìm cách **thu thập, xử lý** và biến dữ liệu thô thành các **giải pháp thực tế** cho doanh nghiệp. Điểm mạnh của mình nằm ở **tư duy giải quyết vấn đề**, sự kiên nhẫn khi **debug** và **tối ưu hóa các pipeline tự động**. Trong 1–2 năm tới, mục tiêu của mình là trở thành một **Data Analytics Engineer** vững chuyên môn, có khả năng thiết kế hệ thống **end-to-end** và ứng dụng linh hoạt **AI Agent (RAG & LLM)**.",
+      en:"Driven by a passion for data, I always strive to **collect, process** and transform raw data into **practical solutions** for businesses. My strengths lie in a **problem-solving mindset**, patience in **debugging**, and **optimizing automated pipelines**. In the next 1–2 years, my goal is to become a highly skilled **Data Analytics Engineer** capable of designing **end-to-end** data systems while flexibly applying **AI Agents (RAG & LLM)**."
+    },
+    skills:[
+      {cat_vi:"Ngôn Ngữ",cat_en:"Languages",items:["Python","SQL"]},
+      {cat_vi:"Cơ Sở Dữ Liệu",cat_en:"Databases",items:["PostgreSQL","SQL Server"]},
+      {cat_vi:"Frameworks",cat_en:"Frameworks",items:["Django","Selenium","Git","Docker"]},
+      {cat_vi:"AI / LLMs",cat_en:"AI / LLMs",items:["LangChain","RAG Systems"]}
+    ]
+  },
+  projects:{
+    section_title:{vi:"Dự Án Nổi Bật",en:"Featured Projects"},
+    see_more:{vi:"Xem Tất Cả",en:"View All"},
+    close:{vi:"Đóng",en:"Close"},
+    back:{vi:"Quay lại",en:"Back"},
+    view:{vi:"Xem Chi Tiết →",en:"View Case Study →"},
+    items:[
+      {
+        id:"p1",
+        tags_vi:["Python","LangChain","RAG","Django"],
+        tags_en:["Python","LangChain","RAG","Django"],
+        title:{vi:"AI Travel Chatbot",en:"AI Travel Chatbot"},
+        sub:{vi:"Web Crawling · LLM & RAG · Google OR-Tools · Django",en:"Web Crawling · LLM & RAG · Google OR-Tools · Django"},
+        summary:{
+          vi:"**AI Travel Chatbot** (T9/2025-T3/2026) là một trợ lý ảo **AI thiết kế lịch trình du lịch cá nhân hóa**, thể hiện trọn vẹn quy trình xây dựng sản phẩm dữ liệu **End-to-End**. Hệ thống vận hành bằng cách thu thập dữ liệu từ các Online Travel Agents (OTA) thông qua **Web Scraping**, sau đó tiền xử lý và tổ chức lưu trữ chuẩn hóa trên **PostgreSQL**. Nền tảng dữ liệu này được tích hợp vào kiến trúc **Multi-Agent** bằng cách kết hợp **LLM**, công nghệ **RAG** cùng các thuật toán tối ưu như **VRPTW và Score-based Ranking**. Nhờ đó, các Agent có khả năng tương tác tự nhiên để hiểu nhu cầu người dùng và xuất ra một bản **lịch trình hoàn chỉnh với thời gian và lộ trình di chuyển đã được tối ưu hóa**.",
+          en:"**AI Travel Chatbot** (09/2025 – 03/2026) focusing on building an **AI virtual assistant for personalized travel itinerary planning**. This project demonstrates a complete **End-to-End data product lifecycle**.The system operates by extracting data from Online Travel Agents (OTAs) via **Web Scraping**. The raw data is then preprocessed and structured into a **PostgreSQL database**.This data foundation is integrated into a **Multi-Agent architecture** powered by **LLMs and RAG** (Retrieval-Augmented Generation). It also applies advanced optimization algorithms such as **VRPTW** (Vehicle Routing Problem with Time Windows) and **Score-based Ranking**. As a result, the Agents can interact naturally to understand user preferences and output a complete, **fully optimized travel schedule and routing**."
+        },
+        detail:{sections:[
+          {id:"overview",label:{vi:"Mô Tả",en:"Overview"},content:{
+            vi:`<p>Hệ thống là 1 ứng dụng website dùng để quản lý hồ sơ kế hoạch du lịch của người dùng có tích hợp AI Travelchatbot là một trợ lý du lịch tự động, được thiết kế để biến những yêu cầu thô của người dùng thành một lịch trình chi tiết, logic và tối ưu thời gian di chuyển.</p>
+            <p>Hệ thống cung cấp giao diện để người dùng thống kê về số lượng kế hoạch du lịch, trạng thái kế hoạch và danh sách các kế hoạch gần đây, giúp người dùng dễ dàng theo dõi và quản lý lịch trình của mình.</p>
+            <img src="image/travel_db.png" alt="Travel Dashboard" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs);margin:12px 0">
+            <p>Hệ thống còn có giao diện thêm mới kế hoạch du lịch thủ công cho phép người dùng tạo kế hoạch mới bằng cách nhập các thông tin cơ bản như tên kế hoạch, mô tả, thời gian, trạng thái và địa điểm.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:12px 0">
+              <img src="image/travel_new_1.png" alt="New Plan Step 1" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs)">
+              <img src="image/travel_new_2.png" alt="New Plan Step 2" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs)">
+              <img src="image/travel_new_3.png" alt="New Plan Step 3" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs)">
+            </div>
+            <p>Hệ thống cũng xây dựng giao diện Trợ lý AI cho phép người dùng tương tác với hệ thống bằng ngôn ngữ tự nhiên để xây dựng lịch trình du lịch. Người dùng có thể nhập yêu cầu về địa điểm, thời gian, số lượng người hoặc lựa chọn các gợi ý nhanh để hệ thống tự động đề xuất lịch trình phù hợp.</p>
+            <video src="image/demochatbot.mp4" controls style="width:100%;border-radius:var(--rs);border:1px solid var(--border);margin-top:12px"></video>`,
+
+            en:`<p>The system is a web application for managing users' travel itineraries, integrated with an AI Travel Chatbot — an automated travel assistant designed to transform raw user requests into a detailed, logical, and time-optimized travel schedule.</p>
+            <p>The system provides a dashboard interface for users to view statistics on total travel plans, plan statuses, and a list of recent itineraries, making it easy to track and manage their schedules.</p>
+            <img src="image/travel_db.png" alt="Travel Dashboard" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs);margin:12px 0">
+            <p>The system also includes a manual plan creation interface, allowing users to create a new travel plan by entering basic information such as plan name, description, time, status, and destinations.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:12px 0">
+              <img src="image/travel_new_1.png" alt="New Plan Step 1" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs)">
+              <img src="image/travel_new_2.png" alt="New Plan Step 2" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs)">
+              <img src="image/travel_new_3.png" alt="New Plan Step 3" loading="lazy" style="border:1px solid var(--border);border-radius:var(--rs)">
+            </div>
+            <p>The system also features an AI Assistant interface that allows users to interact in natural language to build their travel itinerary. Users can enter requests about destinations, dates, group size, or choose quick suggestions for the system to automatically recommend a suitable plan.</p>
+            <video src="image/demochatbot.mp4" controls style="width:100%;border-radius:var(--rs);border:1px solid var(--border);margin-top:12px"></video>`
+            }},
+          {id:"techstack",label:{vi:"Tech Stack",en:"Tech Stack"},techstack:[{group:"AI Core & Logic",items:["Python","LangChain","LLMs (Gemini API)"]},{group:"Database",items:["PostgreSQL","Vector Database (RAG)"]},{group:"Backend",items:["Django"]},{group:"Tools",items:["Google OR-Tools (VRPTW)","HereMap API","OpenWeatherAPI","Selenium"]}]},
+          {id:"task",label:{vi:"Nhiệm Vụ",en:"Main Task"},content:{vi:`<p>Đảm nhiệm vị trí quan trọng trong dự án, mình chịu trách nhiệm thiết kế toàn bộ kiến trúc hệ thống và xây dựng luồng dữ liệu hoàn chỉnh từ giai đoạn thu thập thô đến khi xuất API cho người dùng cuối.</p><p><strong>Thu thập & Tiền xử lý Dữ liệu:</strong> Xây dựng luồng đa nguồn bằng <strong>Selenium</strong> từ Traveloka, Klook, VNExpress và <strong>HereMap</strong> + <strong>OpenWeatherAPI</strong>. Pipeline làm sạch: xử lý dữ liệu khuyết thiếu, Min-Max Scaling, Z-score Standardization, One-hot/Label Encoding, <strong>Fuzzy Matching</strong>.</p><p><strong>Thiết kế Kiến trúc & Tích hợp AI:</strong> Trực tiếp thiết kế kiến trúc <strong>Multi-Agent</strong>, điều phối LLM Agents. Tích hợp <strong>RAG</strong> giải quyết triệt để hallucination. Thiết kế prompt cho tất cả LLM Agents.</p><p><strong>Tối ưu Thuật toán:</strong> Ứng dụng <strong>Google OR-Tools</strong> giải VRPTW. Xây dựng <strong>Score-based Ranking + Cosine Similarity</strong> xếp hạng điểm đến. Logic tính chi phí độc lập bằng code (không phụ thuộc LLM).</p><p><strong>Backend & API:</strong> Xây dựng hệ thống Django, API endpoints, đóng gói kết quả <strong>JSON</strong> chuẩn.</p>`,en:`<p>As a core member, I designed the overall system architecture and built an end-to-end data pipeline from raw collection to API delivery for end-users.</p><p><strong>Data Crawling & Preprocessing:</strong> Multi-source pipeline using <strong>Selenium</strong> from Traveloka, Klook, VNExpress + <strong>HereMap</strong> & <strong>OpenWeatherAPI</strong>. Cleaning pipeline: missing values, Min-Max Scaling, Z-score Standardization, One-hot/Label Encoding, <strong>Fuzzy Matching</strong>.</p><p><strong>Architecture & AI Integration:</strong> Directly designed the <strong>Multi-Agent</strong> architecture, orchestrated LLM Agents. Integrated <strong>RAG</strong> to completely eliminate hallucination. Designed prompts for all agents.</p><p><strong>Algorithm Optimization:</strong> Applied <strong>Google OR-Tools</strong> for VRPTW. Built <strong>Score-based Ranking + Cosine Similarity</strong>. Independent budget math in code (not relying on LLM).</p><p><strong>Backend:</strong> Built Django server, API endpoints, packaged results in standard <strong>JSON</strong>.</p>`}},
+          {id: "arch", label: { vi: "Kiến Trúc", en: "Architecture" }, arch_blocks: [
+              {
+                layout: "flex-row",
+                title: { vi: "Luồng Thu Thập Dữ Liệu Traveloka", en: "Traveloka Scraping Data Flow" },
+                image: "traveloka_crawl.svg",
+                desc: {
+                  vi: `<p><strong>1. Khởi tạo & Xác thực:</strong> Dùng <code>undetected_chromedriver</code> và nạp Cookie cục bộ để tự động vượt tường đăng nhập.</p>
+          <p><strong>2. Định tuyến:</strong> Phân tích URL đầu vào để tự động phân loại khu vực địa lý.</p>
+          <p><strong>3. Thu thập:</strong> Bot tự động hóa bộ lọc hạng sao, cuộn trang vô cực (infinite scroll). Tích hợp Unique Key Hash để loại bỏ dữ liệu trùng lặp realtime.</p>
+          <p><strong>4. Kết xuất:</strong> Làm sạch dữ liệu thô ngay trong luồng và xuất ra file CSV.</p>`,
+                  en: `<p><strong>1. Setup & Auth:</strong> Bypass login walls automatically using <code>undetected_chromedriver</code> and local cookies.</p>
+          <p><strong>2. Routing:</strong> Parse input URLs to dynamically categorize geographic regions.</p>
+          <p><strong>3. Scraping:</strong> Automate star filters and infinite scrolling. Integrate Unique Key Hash for real-time deduplication.</p>
+          <p><strong>4. Export:</strong> Clean raw data on the fly and output to CSV files.</p>`
+                }
+              },
+              {
+                layout: "flex-row",
+                title: { vi: "Luồng Thu Thập Dữ Liệu Klook", en: "Klook Scraping Data Flow" },
+                image: "klook_crawl.svg",
+                desc: {
+                  vi: `<p><strong>1. Khởi tạo & Xác thực:</strong> Khôi phục phiên đăng nhập bằng Cookie để vượt qua bước xác thực mượt mà.</p>
+          <p><strong>2. Lọc thời gian thực:</strong> Quét thẻ dịch vụ và tự động loại trừ các kết quả chứa từ khóa "tour" để triệt tiêu nhiễu dữ liệu.</p>
+          <p><strong>3. Phân trang:</strong> Script tự động nhận diện và click nút "Show more" cho đến khi tải cạn kiệt dữ liệu.</p>
+          <p><strong>4. Kết xuất:</strong> Lưu trực tiếp dưới định dạng <strong>JSONL</strong> nhằm tối ưu hóa bộ nhớ khi xử lý dữ liệu lớn.</p>`,
+                  en: `<p><strong>1. Setup & Auth:</strong> Restore sessions via local cookies for seamless authentication bypass.</p>
+          <p><strong>2. Real-time Filtering:</strong> Scan service cards and automatically exclude "tour" keywords to ensure zero data noise.</p>
+          <p><strong>3. Pagination:</strong> Auto-detect and interact with "Show more" buttons until data is exhausted.</p>
+          <p><strong>4. Export:</strong> Save output directly as <strong>JSONL</strong> to optimize memory during large-scale processing.</p>`
+                }
+              },
+              {
+                layout: "flex-row",
+                title: { vi: "Luồng Tiền Xử Lý Dữ Liệu Khách Sạn", en: "Hotel Data Preprocessing Workflow" },
+                image: "traveloka_clean.svg",
+                desc: {
+                  vi: `<p><strong>1. Tổng hợp & Làm sạch:</strong> Gộp các file CSV phân mảnh. Ứng dụng Regex để bóc tách và ép kiểu các trường giá trị tài chính.</p>
+          <p><strong>2. Kiểm soát chất lượng:</strong> Quét và drop triệt để các bản ghi thiếu trường thông tin trọng yếu (như address) để bảo toàn tính toàn vẹn.</p>
+          <p><strong>3. Chuẩn hóa cấu trúc:</strong> Ánh xạ chính xác 100% cột dữ liệu với Schema của Database PostgreSQL mục tiêu.</p>
+          <p><strong>4. Điền khuyết:</strong> Khởi tạo khóa chính (hotel_id) và xử lý giá trị thiếu bằng zero-imputation trước khi kết xuất.</p>`,
+                  en: `<p><strong>1. Extract & Clean:</strong> Merge fragmented CSVs. Apply Regex to parse and format financial data fields.</p>
+          <p><strong>2. Data Filtering:</strong> Strictly drop records missing critical information (e.g., address) to maintain data integrity.</p>
+          <p><strong>3. Schema Standardization:</strong> Map data columns perfectly to the target PostgreSQL Database Schema.</p>
+          <p><strong>4. Imputation:</strong> Generate primary keys (hotel_id) and apply zero-imputation for missing values before final export.</p>`
+                }
+              },
+              {
+                layout: "flex-row",
+                title: { vi: "Luồng Tiền Xử Lý & Tạo Sinh Vector Nhúng", en: "Data Cleaning & Embedding Workflow" },
+                image: "point_clean.svg",
+                desc: {
+                  vi: `<p><strong>1. Tối ưu:</strong> Nạp file JSONL và lược bỏ tức thời các trường thừa ngay khi đọc để tiết kiệm RAM.</p>
+          <p><strong>2. Chuẩn hóa:</strong> Đồng nhất tên khu vực, tinh gọn tags và dùng Regex để bóc tách dữ liệu số.</p>
+          <p><strong>3. AI Embedding:</strong> Gộp các trường đặc trưng thành ngữ cảnh. Sử dụng <strong>Gemini API</strong> mã hóa văn bản thành Vector. Tích hợp Auto-Retry chống lỗi mạng, đảm bảo tỷ lệ thành công 100%.</p>
+          <p><strong>4. Kết xuất:</strong> Kiểm tra tính hợp lệ và xuất file CSV sẵn sàng nạp vào Vector Database.</p>`,
+                  en: `<p><strong>1. Optimize:</strong> Ingest JSONL and instantly drop unused fields during read to save memory.</p>
+          <p><strong>2. Standardize:</strong> Format region names, streamline tags, and use Regex for numeric extraction.</p>
+          <p><strong>3. AI Embedding:</strong> Concatenate features into context. Use <strong>Gemini API</strong> for vector encoding with a built-in Auto-Retry mechanism for a 100% success rate.</p>
+          <p><strong>4. Export:</strong> Validate and export CSV files ready for Vector Database ingestion.</p>`
+                }
+              },
+              {
+                layout: "flex-col",
+                title: { vi: "Kiến Trúc Hệ Thống Đa Tác Tử — LLM & RAG", en: "Multi-Agent System Architecture — LLM & RAG" },
+                image: "multi_agent.svg",
+                desc: {
+                  vi: `<p>Hệ thống vận hành bởi 3 tác tử chuyên biệt, kết nối qua Gemini và RAG:</p>
+          <p><strong>1. Chat Agent:</strong> Khai thác nhu cầu qua hội thoại tự nhiên. Ứng dụng phương pháp SAW (chấm điểm khách quan) và RAG Cosine Similarity (khớp sở thích) để đề xuất điểm đến.</p>
+          <p><strong>2. Strategy Agent:</strong> Phân cụm điểm đến bằng LLM. Chạy thuật toán <strong>VRPTW</strong> (qua OR-Tools) trên ma trận Distance API để tìm lộ trình tốn ít thời gian nhất. Tự động Fallback về kết quả LLM nếu thuật toán không tìm được nghiệm.</p>
+          <p><strong>3. Advise Agent:</strong> Dự toán chi phí với độ chính xác cao: truy xuất thẳng giá phòng khách sạn/vé từ Database nội bộ, bám sát cước Grab thực tế, và dùng LLM ước lượng linh hoạt chi phí ăn uống.</p>`,
+                  en: `<p>The system is driven by 3 specialized Agents via Gemini and RAG:</p>
+          <p><strong>1. Chat Agent:</strong> Gathers preferences conversationally. Applies SAW (objective scoring) and RAG Cosine Similarity to recommend optimal destinations.</p>
+          <p><strong>2. Strategy Agent:</strong> Clusters destinations via LLM. Runs the <strong>VRPTW</strong> algorithm (OR-Tools) on Distance API matrices for time-efficient routing, with an automatic LLM fallback.</p>
+          <p><strong>3. Advise Agent:</strong> Estimates precise budgets by fetching exact hotel/ticket prices from internal DBs, applying real-world Grab rates, and using LLM for dynamic food cost estimation.</p>`
+                }
+              },
+              {
+                layout: "flex-col",
+                title: { vi: "Luồng Đóng Gói Dữ Liệu Trả Về Frontend", en: "Data Packaging & API Response Workflow" },
+                image: "BetoFe.svg",
+                desc: {
+                  vi: `<p><strong>Backend (Django):</strong> Đóng vai trò trạm kiểm soát, tổng hợp dữ liệu từ 3 tác tử (nhu cầu, tọa độ lộ trình, dự toán chi phí) và đóng gói thành một <strong>JSON payload</strong> thống nhất.</p>
+          <p><strong>Frontend:</strong> Tiếp nhận JSON để bóc tách và render tức thời lên giao diện: bản đồ lộ trình polyline, timeline từng ngày và bảng chi phí minh bạch. Thiết kế tách bạch giúp hệ thống phản hồi siêu tốc.</p>`,
+                  en: `<p><strong>Backend (Django):</strong> Acts as the control hub, aggregating output from the 3 agents (preferences, routing coordinates, budgets) into a unified <strong>JSON payload</strong>.</p>
+          <p><strong>Frontend:</strong> Parses the JSON instantly to render interactive UI components: polyline maps, daily timelines, and transparent cost tables, ensuring ultra-fast response times.</p>`
+                }
+              }
+            ]
+          },
+          {id:"challenges",label:{vi:"Thách Thức",en:"Challenges"},challenges:[{title:{vi:"Giới hạn tài nguyên & Chi phí API",en:"Cost & Resource Optimization"},problem:{vi:"Gọi liên tục HereMap, OpenWeather, Gemini API dễ vượt free-tier, gây gián đoạn hoặc chi phí lớn.",en:"Continuously calling external services could easily exceed free-tier limits, causing disruptions."},solution:{vi:"API Call Optimization: caching phản hồi thường xuyên. Agents ưu tiên cache trước. Key Rotation tự động đổi key khi hết quota.",en:"API Call Optimization strategy: caching frequent responses. Agents prioritize cached data. Key Rotation auto-switches when quota exceeded."}},{title:{vi:"Điều hướng Multi-Agent (Prompt Engineering)",en:"Multi-Agent Behavior Routing"},problem:{vi:"Agents bị mất ngữ cảnh, sinh hallucination hoặc phá vỡ định dạng JSON khi xử lý thông tin phức tạp.",en:"Agents prone to context loss, hallucinations, or breaking required JSON structure with complex information."},solution:{vi:"Few-shot + Chain-of-Thought, ranh giới nhiệm vụ khắt khe. Python Validation Layer tự động kiểm tra output; nếu sai → bắt lỗi và sinh lại.",en:"Few-shot + Chain-of-Thought, strict task boundaries. Python Validation Layer auto-verifies output format; if invalid → catches error and requests regeneration."}},{title:{vi:"Vượt rào Anti-Bot",en:"Anti-Bot & Scraping Resilience"},problem:{vi:"OTA liên tục cập nhật chống bot (IP block, CAPTCHA, A/B testing), gây crash toàn bộ tiến trình thu thập.",en:"OTA platforms continuously update anti-automation (IP blocking, CAPTCHAs, A/B testing), easily crashing entire extraction processes."},solution:{vi:"Human-like Browsing: xoay Chrome Profile, random độ trễ, giả lập cuộn/click tự nhiên. Lỗi ghi log để xử lý thủ công.",en:"Human-like Browsing: rotating Chrome Profiles, randomized delays, natural scroll/click simulation. Errors logged for manual processing."}}]}
+        ]}
+      },
+      {
+        id:"p2",
+        tags_vi:["Python","Selenium","Gemini API","F5-TTS"],
+        tags_en:["Python","Selenium","Gemini API","F5-TTS"],
+        title:{vi:"Automated Audiobook Pipeline",en:"Automated Audiobook Pipeline"},
+        sub:{vi:"Web Crawling · GenAI · F5-TTS · RPA · Google Sheets",en:"Web Crawling · GenAI · F5-TTS · RPA · Google Sheets"},
+        summary:{
+          vi:"Dự án là một **hệ thống Data Pipeline khép kín** nhằm **tự động hóa quy trình sản xuất sách nói kèm hình ảnh trực quan** cho các tác phẩm truyện chữ dài kỳ (tiên hiệp, kiếm hiệp) (làm từ T1/2026-T4/2026). Hệ thống tích hợp toàn diện các kỹ năng từ **cào dữ liệu phân tán**, **quản lý trạng thái bằng Google Sheets**, đến việc ứng dụng linh hoạt các **mô hình GenAI (Gemini, F5-TTS)** và **kỹ thuật RPA** (Robotic Process Automation) để xử lý văn bản, **phân tách nhân vật và sinh ảnh ngữ cảnh tự động**.",
+          en:"This project (01/2026 – 04/2026) is an **end-to-end Data Pipeline** designed to **automate the production of audiobooks with visual illustrations** for long-form serialized novels. The system integrates **distributed web scraping** and **state management via Google Sheets**. It leverages **GenAI models (Gemini, F5-TTS)** and **RPA (Robotic Process Automation)** techniques to seamlessly handle text processing, **character segmentation**, and **automated contextual image generation**."
+        },
+        detail:{sections:[
+          {id:"overview",label:{vi:"Mô Tả",en:"Overview"},content:{
+          vi:`<p>Dự án là một hệ thống tự động hóa sản xuất nội dung hàng loạt, được thiết kế chuyên biệt để chuyển đổi các tác phẩm truyện chữ dài kỳ thành định dạng video sách nói (audiobook) trực quan trên YouTube.</p>
+          <p>Thay vì những giọng đọc AI vô hồn, sản phẩm đầu ra mang đến trải nghiệm nghe nhìn sống động: hệ thống <strong>phân vai nhân vật rõ ràng</strong> kết hợp cùng <strong>hình ảnh minh họa bám sát ngữ cảnh</strong> từng phân đoạn truyện. Mục tiêu cốt lõi của dự án là tối ưu hóa năng suất xuất bản, cho phép sản xuất hàng loạt video chất lượng cao để giữ chân khán giả một cách liên tục với tiêu chí <strong>"zero-touch operations"</strong> (hoàn toàn không cần con người can thiệp).</p>
+          <img src="image/tts_youtube.png" alt="Kênh YouTube Trung Hoa Tiên Hiệp Audio" loading="lazy" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:16px 0">
+          <a class="ext-link" href="https://www.youtube.com/@vntienhiepaudio/playlists" target="_blank" rel="noopener">🔗 Xem kênh YouTube</a>`,
+
+          en:`<p>This project is an automated mass content production system specifically designed to transform long-form serialized novels into highly engaging visual audiobook videos for YouTube.</p>
+          <p>Unlike monotonous AI readings, the final output delivers a dynamic audio-visual experience: it features <strong>distinct character voiceovers</strong> seamlessly combined with <strong>contextually generated visual illustrations</strong>. The core objective is to maximize publishing throughput, enabling the continuous mass production of high-quality videos with the principle of <strong>"zero-touch operations"</strong> — no human intervention required.</p>
+          <img src="image/tts_youtube.png" alt="Trung Hoa Tien Hiep Audio YouTube Channel" loading="lazy" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:16px 0">
+          <a class="ext-link" href="https://www.youtube.com/@vntienhiepaudio/playlists" target="_blank" rel="noopener">🔗 View YouTube Channel</a>`
+          }},
+          {id:"techstack",label:{vi:"Tech Stack",en:"Tech Stack"},techstack:[{group:"Data Extraction & RPA",items:["Python","Selenium WebDriver"]},{group:"Orchestration & Logging",items:["Google Sheets API","JSON"]},{group:"AI / LLMs & Audio",items:["Gemini API","Gemini Web","F5-TTS (Text-to-Speech)"]},{group:"Data Processing",items:["Pandas","Regex"]}]},
+          {
+            id: "task",
+            label: { vi: "Nhiệm Vụ", en: "Main Tasks" },
+            content: {
+              vi: `<p>Trong dự án này, mình đóng vai trò là kỹ sư phát triển luồng dữ liệu và tích hợp AI, phụ trách một vài phân đoạn quan trọng trong chuỗi quy trình End-to-End:</p>
+          <p><strong>Xây dựng Pipeline Thu thập & Điều phối:</strong> Triển khai Selenium cào dữ liệu phân tán dữ liệu truyện linh hoạt trên nhiều máy trạm. Sử dụng Google Sheets làm trung tâm điều khiển (Dashboard) để theo dõi tiến độ, hàng đợi và ghi log lỗi phát sinh. <em>Hiệu suất: 4 bộ truyện (~2.387 chương)/ngày.</em></p>
+          <p><strong>Thiết kế Prompt & Kịch bản (LLM Prompt Engineering):</strong> Trực tiếp thiết kế và tối ưu hóa Prompt thông qua Gemini API để đọc hiểu văn bản thô, phân vai nhân vật chính xác cho từng câu thoại, chuẩn bị cho giọng đọc đa âm sắc. <em>Hiệu suất: 3 bộ truyện (~2.071 chương)/ngày.</em></p>
+          <p><strong>Tiền xử lý Dữ liệu Văn bản (Text Preprocessing):</strong> Thực hiện làm sạch và định dạng lại cấu trúc văn bản sau khi LLM phân vai, đảm bảo dữ liệu đầu vào tuân thủ nghiêm ngặt chuẩn định dạng của mô hình <strong>F5-TTS</strong> trước khi render giọng nói.</p>
+          <p><strong>Triển khai RPA Sinh ảnh tự động:</strong> Dùng API phân cảnh truyện thành các prompt hình ảnh. Ứng dụng Selenium giả lập thao tác người dùng trên nền tảng Gemini Web (nhập prompt, chờ kết quả, tải ảnh) để tối ưu hóa chi phí sản xuất thay vì gọi API trả phí. <em>Hiệu suất: 125 ảnh/ngày qua 4 Chrome profiles (TB 11 phút/ảnh đã tính thời gian render và nghỉ giãn cách tránh quét IP, khoảng 31 ảnh/profile trước khi hết limit).</em></p>`,
+
+              en: `<p>In this project, I acted as a Data and AI Integration Engineer, taking charge of critical segments within the End-to-End pipeline:</p>
+          <p><strong>Scraping & Orchestration Pipeline:</strong> Built a distributed web scraping workflow using Selenium across multiple workstations. Leveraged Google Sheets as a centralized control dashboard for state management, task queuing, and comprehensive error logging. <em>Performance: ~2,387 chapters across 4 novel series daily.</em></p>
+          <p><strong>LLM Prompt Engineering:</strong> Directly designed and optimized prompts via the Gemini API for deep text comprehension. Accurately extracted and mapped characters to their specific dialogue lines, preparing the data for multi-voice TTS rendering. <em>Performance: ~2,071 chapters across 3 novel series daily.</em></p>
+          <p><strong>Text Preprocessing:</strong> Cleaned and reformatted the text structure post-LLM character segmentation. Strictly ensured the input data adhered to the formatting requirements of the <strong>F5-TTS</strong> model prior to voice rendering.</p>
+          <p><strong>RPA for Image Generation:</strong> Segmented story scenes into visual prompts using LLMs. Implemented an RPA pipeline using Selenium to fully automate human-like interactions on the Gemini Web interface (prompt inputs, wait times, and image downloads) to bypass paid APIs. <em>Performance: 125 images per day using 4 rotating Chrome profiles (~31 images/profile, optimized to ~11 mins/image including rendering times and anti-bot delays to prevent IP bans).</em></p>`
+            }
+          },
+          {
+            id: "arch",
+            label: { vi: "Kiến Trúc", en: "Architecture" },
+            arch_blocks: [
+              {
+                layout: "flex-col",
+                title: { vi: "Luồng Cào Dữ Liệu Tự Động", en: "Automated Scraping Workflow" },
+                image: "automation_crawl.svg",
+                desc: {
+                  vi: `<p>Hệ thống phân tán 2 giai đoạn, tập trung vào khả năng tự phục hồi và tối ưu tài nguyên:</p>
+          <p><strong>1. Giai đoạn 1 (Quản lý Task):</strong> Quét danh mục và cập nhật liên tục hàng đợi tác vụ (chia luồng VIP/Dự bị) lên Database trung tâm.</p>
+          <p><strong>2. Giai đoạn 2 (Trích xuất & Chống đứt gãy):</strong> Vận hành với 3 cơ chế: <strong>Ngủ đông (Hibernation)</strong> để tiết kiệm tài nguyên khi cạn task; <strong>Khôi phục</strong> tại điểm dừng cuối qua Checkpoint nhằm chống trùng lặp; và <strong>Điều hướng 2 lớp (Fallback)</strong> tự động kích hoạt Regex nếu click chuyển trang thất bại.</p>`,
+                  en: `<p>A two-stage distributed system focused on self-healing capabilities and resource optimization:</p>
+          <p><strong>1. Stage 1 (Task Management):</strong> Scans categories and continuously updates task queues (split into VIP and Backup streams) to a central database.</p>
+          <p><strong>2. Stage 2 (Extraction & Resilience):</strong> Executes via 3 core mechanisms: <strong>Hibernation</strong> to save hardware resources when tasks deplete; <strong>Resume</strong> via local checkpoints to prevent duplicate extraction; and <strong>Two-Layer Fallback</strong> that activates Regex if standard pagination fails.</p>`
+                }
+              },
+              {
+                layout: "flex-col",
+                title: { vi: "Luồng Phân Vai Nhân Vật GenAI", en: "GenAI Character Segmentation Workflow" },
+                image: "role.svg",
+                desc: {
+                  vi: `<p><strong>1. Tiền xử lý (Heuristic):</strong> Bóc tách văn bản thô bằng Regex và thuật toán đếm từ để sinh "Hint", định hướng không gian suy luận cho LLM.</p>
+          <p><strong>2. Suy luận GenAI:</strong> Gọi API tích hợp cơ chế xoay vòng Key và "Ngủ đông" để vượt qua Rate Limit, duy trì vận hành liên tục.</p>
+          <p><strong>3. Hậu kiểm 2 lớp:</strong> Lọc từ vựng chống "ảo giác" (hallucination) và tự động ghi log lỗi nhạy cảm vào Correction Ledger (chay_tay.json) giúp hệ thống không bị crash, dễ dàng rà soát thủ công.</p>`,
+                  en: `<p><strong>1. Heuristic Preprocessing:</strong> Uses Regex and word-counting algorithms to generate contextual "Hints," bounding the LLM's reasoning scope.</p>
+          <p><strong>2. GenAI Inference:</strong> Executes API calls with automated Key Rotation and sleep mechanisms to effectively bypass Rate Limits and sustain continuous execution.</p>
+          <p><strong>3. Two-Layer Post-Validation:</strong> Filters vocabulary to prevent AI "hallucinations" and automatically logs sensitive errors into a Correction Ledger (chay_tay.json) to prevent crashes and enable manual review.</p>`
+                }
+              },
+              {
+                layout: "flex-col",
+                title: { vi: "Luồng Tiền Xử Lý Dữ Liệu F5-TTS", en: "F5-TTS Data Preprocessing Workflow" },
+                image: "tts_clean.svg",
+                desc: {
+                  vi: `<p>Luồng tự động biến đổi văn bản thô thành kịch bản âm học chuẩn mực, giải quyết 3 bài toán cốt lõi:</p>
+          <p><strong>1. Khắc phục Ảo giác AI:</strong> Tự động dò quét và cắt bỏ các đoạn rò rỉ prompt tiếng Anh hoặc lỗi sinh chữ, bảo toàn 100% kịch bản gốc.</p>
+          <p><strong>2. Tối ưu Nhịp đọc:</strong> Đo đếm từ vựng để gộp câu siêu ngắn và điều chỉnh dấu ngắt nghỉ, giúp giọng đọc luyến láy tự nhiên, không giật cục.</p>
+          <p><strong>3. Chuẩn hóa Ngữ âm:</strong> Tích hợp Regex xử lý triệt để số thập phân, ngày tháng, ký hiệu toán học thành tiếng Việt thuần túy.</p>
+          <p><em>Kết quả:</em> Các phân mảnh tự động nối thành Kịch bản Tổng, ghi log minh bạch và đưa vào Engine sản xuất hàng loạt.</p>`,
+                  en: `<p>A fully automated pipeline transforming raw text into a standardized acoustic script, addressing 3 core challenges:</p>
+          <p><strong>1. Hallucination Recovery:</strong> Automatically scans and trims English prompt leaks or generation errors, preserving 100% of the original script.</p>
+          <p><strong>2. Rhythm Optimization:</strong> Merges ultra-short sentences and adjusts punctuation to ensure natural AI voice intonation without robotic stuttering.</p>
+          <p><strong>3. Phonetic Standardization:</strong> Thoroughly handles complex cases (decimals, dates, math symbols) via Regex, translating them into plain Vietnamese text.</p>
+          <p><em>Result:</em> Data fragments are automatically reassembled into a complete Master Script, transparently logged, and ready for mass audio production.</p>`
+                }
+              },
+              {
+                layout: "flex-col",
+                title: { vi: "Luồng Tạo Hình Ảnh Bằng RPA", en: "RPA Image Generation Workflow" },
+                image: "image_tts.svg",
+                desc: {
+                  vi: `<p>Kiến trúc RPA vận hành tự động liên tục, giải quyết bài toán giới hạn tài nguyên và Anti-Bot thông qua 3 cơ chế:</p>
+          <p><strong>1. Quản lý Hàng đợi & Giả lập:</strong> Lọc task từ CSV theo Batch. Bọc ngụy trang bằng Chrome Profile và thuật toán giả lập gõ phím (Human Typing) để vượt bảo mật Anti-Bot.</p>
+          <p><strong>2. Trích xuất Không-Tải-Xuống (Download-Free):</strong> Dùng JavaScript can thiệp DOM, giải mã trực tiếp chuỗi Base64 từ thẻ Canvas thay vì click nút tải ảnh (tránh bị hệ thống block).</p>
+          <p><strong>3. Xoay vòng & Ngủ đông:</strong> Tự động chuyển Profile dự phòng khi gặp Rate Limit. Chủ động "Ngủ đông" (Hibernate) 3 tiếng khi cạn toàn bộ tài nguyên rồi tái khởi động vòng lặp.</p>`,
+                  en: `<p>An RPA architecture designed for continuous automation, bypassing Anti-Bot blocks and platform resource limits via 3 mechanisms:</p>
+          <p><strong>1. Queue Management & Simulation:</strong> Intelligent batch filtering from CSVs. Camouflages the environment using isolated Chrome Profiles and Human Typing simulation to bypass Anti-Bot layers.</p>
+          <p><strong>2. Download-Free Extraction:</strong> Injects JavaScript to manipulate the DOM and directly decode Base64 data from Canvas tags, avoiding destination blocks triggered by standard downloads.</p>
+          <p><strong>3. Rotation & Hibernation:</strong> Automatically rotates to backup Profiles upon hitting Rate Limits. Proactively hibernates for 3 hours when all resources are exhausted before restarting the execution loop.</p>`
+                }
+              }
+            ]
+          },
+          {id:"challenges",label:{vi:"Thách Thức",en:"Challenges"},challenges:[{title:{vi:"Lỗi do Nội Dung Nhạy Cảm",en:"Content Filter Exceptions"},problem:{vi:"Truyện tiên hiệp/kiếm hiệp kích hoạt bộ lọc LLM (PROHIBITED_CONTENT của Gemini), làm sập pipeline phân đoạn.",en:"Wuxia/Xianxia novels trigger LLM safety filters (PROHIBITED_CONTENT), crashing the character segmentation pipeline."},solution:{vi:"Correction Ledger: tự động bắt lỗi API, skip chương lỗi duy trì tiến trình, ghi log vào chay_tay.json. Thu thập 99% dữ liệu hợp lệ tự động.",en:"Correction Ledger: auto-catches API exceptions, skips blocked chapters, logs to chay_tay.json. Guarantees 99% valid data extraction automatically."}},{title:{vi:"Tối Ưu Chi Phí Sinh Ảnh",en:"Image Generation Cost"},problem:{vi:"API sinh ảnh (Midjourney, DALL-E) quá tốn kém khi xử lý hàng ngàn chương truyện.",en:"Premium image generation APIs are prohibitively expensive at scale (thousands of chapters)."},solution:{vi:"RPA Selenium tự động hóa Gemini Web miễn phí: đăng nhập, nạp prompt, chờ render, tải ảnh. Chuyển bài toán API cost thành browser automation — tiết kiệm 100%.",en:"Selenium RPA automates the free Gemini Web interface: login, input prompt, wait, download. Converts API cost problem into browser automation — 100% cost savings."}}]}
+        ]}
+      },
+      {
+        id:"p3",
+        tags_vi:["SQL","Tableau","Power BI","Django","D3.js"],
+        tags_en:["SQL","Tableau","Power BI","Django","D3.js"],
+        title:{vi:"End-to-End Analytics Ecosystem",en:"End-to-End Analytics Ecosystem"},
+        sub:{vi:"SQL · Tableau · Power BI · Looker Studio · Django · D3.js",en:"SQL · Tableau · Power BI · Looker Studio · Django · D3.js"},
+        summary:{
+          vi:"Dự án là một **hệ sinh thái phân tích dữ liệu toàn diện (End-to-End Analytics)** dành cho một cửa hàng kinh doanh trà. Dự án bao quát toàn bộ vòng đời của dữ liệu: từ khâu **tiền xử lý trên bảng tính**, **truy vấn mô hình hóa bằng SQL**, cho đến **trực quan hóa đa nền tảng và xây dựng WebApp**. Kết quả đầu ra là các **báo cáo chiến lược** cung cấp insight đa chiều về **hiệu suất sản phẩm và hành vi khách hàng**, hỗ trợ chủ doanh nghiệp **đưa ra quyết định dựa trên dữ liệu**.",
+          en:"This project is an **end-to-end analytics ecosystem** designed for a retail tea store. It covers the entire data lifecycle: from **data preprocessing via spreadsheets** and **data modeling using SQL queries**, to **cross-platform visualization** and **custom WebApp development**. The final outputs are **strategic reports** that provide multidimensional insights into **product performance and customer behavior**, empowering business owners to make **data-driven decisions**."
+        },
+        detail:{sections:[
+          {id:"overview",label:{vi:"Mô Tả",en:"Overview"},content:{vi:`<p>Dự án xây dựng như một tổ hợp quy trình liên kết chặt chẽ nhằm khai thác tối đa giá trị từ dữ liệu giao dịch của cửa hàng trà. Thay vì một công cụ duy nhất, hệ thống linh hoạt ứng dụng nhiều nền tảng để giải quyết từng bài toán cụ thể. Phân tích từ hai cương vị: <strong>sản phẩm</strong> (hiệu suất bán hàng, đánh giá dòng trà) và <strong>khách hàng</strong> (phân khúc, thói quen mua sắm).</p>`,en:`<p>Designed as a tightly integrated pipeline to maximize value from tea store transactional data. Rather than one tool, the system flexibly leverages multi-platform visualization for targeted use cases. Analyzes from dual perspective: <strong>product performance</strong> (sales trends, tea line evaluation) and <strong>customer insights</strong> (segmentation, purchasing behavior).</p>`}},
+          {id:"techstack",label:{vi:"Tech Stack",en:"Tech Stack"},techstack:[{group:"Processing & Backend",items:["Python","Django Framework"]},{group:"Database & Query",items:["SQL (Google Colab)","Google Sheets"]},{group:"Business Intelligence",items:["Tableau","Power BI","Looker Studio"]},{group:"Frontend & Custom Viz",items:["HTML/CSS/JS","D3.js"]}]},
+          {
+  id: "task",
+  label: { vi: "Nhiệm Vụ", en: "Main Tasks" },
+  content: {
+    vi: `<p><strong>Data Querying & Modeling:</strong> Xây dựng luồng truy vấn dữ liệu linh hoạt trên hai môi trường:</p>
+<ul>
+  <li><strong>Trên Google Sheets:</strong> Ứng dụng hàm QUERY để bóc tách, gom nhóm và xoay chiều dữ liệu trực tiếp, phục vụ theo dõi nhanh các chỉ số.
+  <a class="ext-link" href="https://docs.google.com/spreadsheets/d/1Q-XJbm8gEhQ6cDBBlUEB7lEfP4pDjw6F7ZfwhH7gxGM/edit?usp=sharing" target="_blank" rel="noopener">📊 Google Sheets</a>
+  <p style="margin: 12px 0 8px; font-weight: 500; color: #d97706;">❓ Câu hỏi kinh doanh: Năm qua, nhóm hàng nào bán chạy nhất? Nhóm hàng nào bán kém nhất?</p>
+  <img src="image/ggsheet.png" alt="Google Sheets" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block"></li>
+  
+  <li><strong>Trên Google Colab:</strong> Viết các truy vấn SQL chuyên sâu để tạo ra các Data Marts phức tạp, chuẩn bị dữ liệu đầu vào cho hệ thống Dashboard.
+  <a class="ext-link" href="https://colab.research.google.com/drive/1U9X8Gwijd_nLKG8764Irk9Te8skAzvK1?usp=sharing" target="_blank" rel="noopener">📓 Colab</a>
+  <p style="margin: 12px 0 8px; font-weight: 500; color: #d97706;">❓ Câu hỏi kinh doanh: Năm qua, đối với từng nhóm hàng thì mặt hàng nào thường dễ bán nhất (có xác suất bán trên mỗi đơn hàng cao nhất)? Mặt hàng nào khó bán nhất (có xác suất bán trên mỗi đơn hàng thấp nhất)?</p>
+  <div style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 10px 0;">
+<pre style="margin: 0;"><code>%%sql
+with t1 as (
+  select case
+          when strftime('%m',time_created) &lt; 10 then "T0" || strftime('%m',time_created)
+          else "T" || strftime('%m',time_created)
+        end as thang,
+        count(distinct(bill_id)) as tong_don
+  from bill
+  group by thang
+),
+t2 as (
+select  case
+          when strftime('%m',time_created) &lt; 10 then "T0" || strftime('%m',time_created)
+          else "T" || strftime('%m',time_created)
+        end as thang,
+        category_code ,
+        category_name ,
+        round(count(distinct(bill.bill_id)) *100.00  / t1.tong_don,1) || '%' as xac_suat
+from category
+    inner join product on category.category_id = product.category_id
+    inner join bill_line on product.product_id = bill_line.product_id
+    inner join bill on bill_line.bill_id = bill.bill_id
+    inner join t1 on t1.thang = case
+                                when strftime('%m',bill.time_created) &lt; 10 then "T0" || strftime('%m',bill.time_created)
+                                else "T" || strftime('%m',bill.time_created)
+                                end
+group by case
+          when strftime('%m',time_created) &lt; 10 then "T0" || strftime('%m',time_created)
+          else "T" || strftime('%m',time_created)
+        end,
+        category_code,
+        category_name
+order by thang
+)
+select thang,
+          max(case when category_code = 'BOT' then xac_suat end) as \`[BOT] Bột\`,
+          max(case when category_code = 'SET' then xac_suat end) as \`[SET] Set Trà\`,
+          max(case when category_code = 'THO' then xac_suat end) as \`[THO] Trà hoa\`,
+          max(case when category_code = 'TMX' then xac_suat end) as \`[TMX] Trà Mix\`,
+          max(case when category_code = 'TTC' then xac_suat end) as \`[TTC] Trà củ, quả sấy\`
+from t2
+group by thang
+order by thang</code></pre>
+  </div>
+  <img src="image/sql_results.png" alt="SQL Results" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block"></li>
+</ul>
+<p><strong>Backend & WebApp Development:</strong> Xây dựng máy chủ và phát triển ứng dụng web bằng Django. Tạo môi trường để người dùng tương tác với dữ liệu phân tích ngay trên web thay vì xem báo cáo tĩnh.
+<a class="ext-link" href="https://github.com/Thaovytran809" target="_blank" rel="noopener">🐙 GitHub</a></p>
+<img src="image/saleteaweb1.png" alt="Web App 1" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block">
+<img src="image/saleteaweb2.png" alt="Web App 2" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block">
+<img src="image/saleweb3.png" alt="Web App 3" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block">
+<p><strong>Trực quan hóa đa nền tảng:</strong> Thiết kế Dashboard động trên Tableau, Power BI và Looker Studio. Lập trình biểu đồ tùy biến bằng D3.js nhúng vào Django WebApp.
+<a class="ext-link" href="https://public.tableau.com/app/profile/tran.thi.thao.vy/vizzes" target="_blank" rel="noopener">📈 Tableau Public</a></p>
+
+<p style="font-weight:600;margin:20px 0 8px">Phân tích nhóm hàng:</p>
+<div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--rs); margin: 0 0 20px;">
+  <iframe src="https://public.tableau.com/views/teasale/Mthng?:embed=yes&:showVizHome=no&:display_count=yes&:toolbar=yes&:language=fr-FR" width="1400" height="850" style="border:none; display:block; max-width:none;" allowfullscreen></iframe>
+</div>
+
+<p style="font-weight:600;margin:20px 0 8px">Phân tích khách hàng:</p>
+<div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--rs); margin: 0 0 20px;">
+  <iframe src="https://public.tableau.com/views/w9_storytelling/Doanhthu?:embed=yes&:showVizHome=no&:display_count=yes&:toolbar=yes&:language=fr-FR" width="1400" height="850" style="border:none; display:block; max-width:none;" allowfullscreen></iframe>
+</div>
+
+<p><strong>Phân tích Insight kinh doanh:</strong> Khai thác dữ liệu để bóc tách insight cốt lõi (ví dụ: dòng trà dưỡng nhan nào đang dẫn đầu xu hướng, phân khúc khách hàng nào thường mua set trà quà tặng), đề xuất chiến lược tối ưu hóa doanh thu.</p>`,
+
+    en: `<p><strong>Data Querying & Modeling:</strong> Built a flexible data querying workflow across two environments:</p>
+<ul>
+  <li><strong>On Google Sheets:</strong> Applied the QUERY function to extract, aggregate (Group By), and pivot data directly, enabling rapid metric tracking.
+  <a class="ext-link" href="https://docs.google.com/spreadsheets/d/1Q-XJbm8gEhQ6cDBBlUEB7lEfP4pDjw6F7ZfwhH7gxGM/edit?usp=sharing" target="_blank" rel="noopener">📊 Google Sheets</a>
+  <p style="margin: 12px 0 8px; font-weight: 500; color: #d97706;">❓ Business Question: Over the past year, which product category was the best-selling? Which was the worst-selling?</p>
+  <img src="image/ggsheet.png" alt="Google Sheets" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block"></li>
+  
+  <li><strong>On Google Colab:</strong> Wrote complex SQL queries to construct advanced Data Marts, preparing structured input data for Dashboard systems.
+  <a class="ext-link" href="https://colab.research.google.com/drive/1U9X8Gwijd_nLKG8764Irk9Te8skAzvK1?usp=sharing" target="_blank" rel="noopener">📓 Colab</a>
+  <p style="margin: 12px 0 8px; font-weight: 500; color: #d97706;">❓ Business Question: Over the past year, within each category, which item was the easiest to sell (highest probability of being in an order)? Which was the hardest to sell (lowest probability)?</p>
+  <div style="background-color: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.5; margin: 10px 0;">
+<pre style="margin: 0;"><code>%%sql
+with t1 as (
+  select case
+          when strftime('%m',time_created) &lt; 10 then "T0" || strftime('%m',time_created)
+          else "T" || strftime('%m',time_created)
+        end as thang,
+        count(distinct(bill_id)) as tong_don
+  from bill
+  group by thang
+),
+t2 as (
+select  case
+          when strftime('%m',time_created) &lt; 10 then "T0" || strftime('%m',time_created)
+          else "T" || strftime('%m',time_created)
+        end as thang,
+        category_code ,
+        category_name ,
+        round(count(distinct(bill.bill_id)) *100.00  / t1.tong_don,1) || '%' as xac_suat
+from category
+    inner join product on category.category_id = product.category_id
+    inner join bill_line on product.product_id = bill_line.product_id
+    inner join bill on bill_line.bill_id = bill.bill_id
+    inner join t1 on t1.thang = case
+                                when strftime('%m',bill.time_created) &lt; 10 then "T0" || strftime('%m',bill.time_created)
+                                else "T" || strftime('%m',bill.time_created)
+                                end
+group by case
+          when strftime('%m',time_created) &lt; 10 then "T0" || strftime('%m',time_created)
+          else "T" || strftime('%m',time_created)
+        end,
+        category_code,
+        category_name
+order by thang
+)
+select thang,
+          max(case when category_code = 'BOT' then xac_suat end) as \`[BOT] Bột\`,
+          max(case when category_code = 'SET' then xac_suat end) as \`[SET] Set Trà\`,
+          max(case when category_code = 'THO' then xac_suat end) as \`[THO] Trà hoa\`,
+          max(case when category_code = 'TMX' then xac_suat end) as \`[TMX] Trà Mix\`,
+          max(case when category_code = 'TTC' then xac_suat end) as \`[TTC] Trà củ, quả sấy\`
+from t2
+group by thang
+order by thang</code></pre>
+  </div>
+  <img src="image/sql_results.png" alt="SQL Results" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block"></li>
+</ul>
+<p><strong>Backend & WebApp Development:</strong> Built server infrastructure and developed a web application using Django, creating an interactive environment for users to engage with analytical data on the web beyond static reports.
+<a class="ext-link" href="https://github.com/Thaovytran809" target="_blank" rel="noopener">🐙 GitHub</a></p>
+<img src="image/saleteaweb1.png" alt="Web App 1" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block">
+<img src="image/saleteaweb2.png" alt="Web App 2" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block">
+<img src="image/saleweb3.png" alt="Web App 3" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);margin:10px 0;display:block">
+<p><strong>Multi-platform Visualization:</strong> Designed dynamic Dashboards across Tableau, Power BI, and Looker Studio. Programmed custom charts using D3.js embedded in the Django WebApp.
+<a class="ext-link" href="https://public.tableau.com/app/profile/tran.thi.thao.vy/vizzes" target="_blank" rel="noopener">📈 Tableau Public</a></p>
+
+<p style="font-weight:600;margin:20px 0 8px">Product Category Analysis:</p>
+<div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--rs); margin: 0 0 20px;">
+  <iframe src="https://public.tableau.com/views/teasale/Mthng?:embed=yes&:showVizHome=no&:display_count=yes&:toolbar=yes&:language=fr-FR" width="1400" height="850" style="border:none; display:block; max-width:none;" allowfullscreen></iframe>
+</div>
+
+<p style="font-weight:600;margin:20px 0 8px">Customer Analysis:</p>
+<div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--rs); margin: 0 0 20px;">
+  <iframe src="https://public.tableau.com/views/w9_storytelling/Doanhthu?:embed=yes&:showVizHome=no&:display_count=yes&:toolbar=yes&:language=fr-FR" width="1400" height="850" style="border:none; display:block; max-width:none;" allowfullscreen></iframe>
+</div>
+
+<p><strong>Business Insights Generation:</strong> Mined raw data to extract core business insights (e.g., identifying trending beauty tea lines, analyzing customer segments purchasing gift tea sets), proposing data-driven revenue optimization strategies.</p>`
+  }
+}
+]}
+      },
+      {
+        id:"p4",
+        tags_vi:["Python","Selenium RPA","KLING AI","Symphony"],
+        tags_en:["Python","Selenium RPA","KLING AI","Symphony"],
+        title:{vi:"Automation AI Video Production",en:"Automation AI Video Production"},
+        sub:{vi:"RPA · KLING AI · Symphony · Selenium WebDriver · The ALAB Technology",en:"RPA · KLING AI · Symphony · Selenium WebDriver · The ALAB Technology"},
+        summary:{
+          vi:"Dự án (Từ T6/2025-T8/2025) là sự hợp tác chiến lược giữa công ty The ALAB Technology và một thương hiệu thời trang nam nhằm tạo quy trình sản xuất nội dung tiếp thị. Bằng việc xây dựng một **pipeline tự động hóa khép kín (RPA)**, dự án loại bỏ hoàn toàn các thao tác thủ công trong việc **chuyển đổi ảnh tĩnh thành video qua KLING AI**, đồng thời **tự động hóa khâu hậu kỳ** (cắt ghép, thêm phụ đề) trên **Symphony**. Hệ thống giúp doanh nghiệp giải quyết bài toán sản xuất video truyền thông đa nền tảng với **chi phí thấp, tốc độ nhanh và khối lượng lớn**.",
+          en:"This project is a strategic collaboration between The ALAB Technology and a men's fashion brand to build an automated marketing content production workflow. By developing an **end-to-end RPA pipeline**, the system completely eliminates manual effort in **converting static images into videos using KLING AI**. It also **fully automates the post-production process** (editing and subtitling) on **Symphony**. Ultimately, this solution empowers the business to produce **high-volume, multi-platform video content** with **rapid turnaround times and significantly reduced costs**."
+        },
+        detail:{sections:[
+          {id:"overview",label:{vi:"Mô Tả",en:"Overview"},content:{
+vi:`<p>Trong ngành thời trang, việc sản xuất video quảng cáo truyền thống đòi hỏi ngân sách rất lớn cho studio, người mẫu và đội ngũ hậu kỳ. Để giải quyết bài toán về chi phí, dự án này triển khai một <strong>dây chuyền sản xuất video AI hoàn toàn tự động</strong>.</p>
+<p>Hệ thống nhận đầu vào là ảnh sản phẩm cùng kịch bản (prompts), tự động hóa toàn bộ luồng giao tiếp với nền tảng tạo video KLING AI, lưu trữ thành phẩm thô, và luân chuyển tiếp sang Symphony để hoàn thiện công đoạn ghép cảnh và chèn phụ đề. Giải pháp này chuyển đổi quy trình sản xuất media phức tạp thành một <strong>hệ thống tự động vận hành xuyên suốt 24/7</strong>.</p>
+<div style="display:flex;align-items:center;gap:12px;margin:20px 0;flex-wrap:wrap">
+  <div style="flex:1;min-width:140px">
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px">Ảnh đầu vào</p>
+    <img src="image/Kling_image.png" alt="Input Image" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);display:block">
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent-tech);flex-shrink:0">
+    <span style="font-size:1.4rem">→</span>
+    <span style="font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)">KLING AI</span>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px">Video thô</p>
+    <img src="image/Kling_video.png" alt="KLING AI Output" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);display:block">
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent-tech);flex-shrink:0">
+    <span style="font-size:1.4rem">→</span>
+    <span style="font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)">Symphony</span>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px">Thành phẩm</p>
+    <video src="image/symphony.mp4" controls style="width:100%;border-radius:var(--rs);border:1px solid var(--border);display:block"></video>
+  </div>
+</div>`,
+en:`<p>In the fashion industry, traditional promotional video production demands massive budgets for studios, models, and post-production crews. To overcome this cost barrier, this project implements a <strong>fully automated AI video production pipeline</strong>.</p>
+<p>The system takes product images and text prompts as inputs, autonomously managing the entire execution flow with the KLING AI video generation platform. It automatically stores the raw video outputs and seamlessly routes them to Symphony to finalize post-production (scene merging and subtitle insertion). This solution transforms a complex media production workflow into a <strong>24/7 autonomous system</strong>.</p>
+<div style="display:flex;align-items:center;gap:12px;margin:20px 0;flex-wrap:wrap">
+  <div style="flex:1;min-width:140px">
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px">Input Image</p>
+    <img src="image/Kling_image.png" alt="Input Image" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);display:block">
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent-tech);flex-shrink:0">
+    <span style="font-size:1.4rem">→</span>
+    <span style="font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)">KLING AI</span>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px">Raw Video</p>
+    <img src="image/Kling_video.png" alt="KLING AI Output" style="width:100%;border:1px solid var(--border);border-radius:var(--rs);display:block">
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--accent-tech);flex-shrink:0">
+    <span style="font-size:1.4rem">→</span>
+    <span style="font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)">Symphony</span>
+  </div>
+  <div style="flex:1;min-width:140px">
+    <p style="font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px">Final Output</p>
+    <video src="image/symphony.mp4" controls style="width:100%;border-radius:var(--rs);border:1px solid var(--border);display:block"></video>
+  </div>
+</div>`}},
+          {id:"techstack",label:{vi:"Tech Stack",en:"Tech Stack"},techstack:[{group:"Automation & RPA",items:["Python","Selenium WebDriver"]},{group:"AI Video Generator",items:["KLING AI (Model 1.6 / 2.1)"]},{group:"Post-production",items:["Symphony"]},{group:"Data Handling",items:["Local Storage","File I/O"]}]},
+          {
+  id: "task",
+  label: { vi: "Nhiệm Vụ", en: "Main Tasks" },
+  content: {
+    vi: `<p>Trong dự án này, mình đảm nhận vai trò thiết kế và trực tiếp lập trình toàn bộ luồng RPA bằng code, biến các nền tảng rời rạc thành một pipeline thống nhất:</p>
+<p><strong>Tự động hóa trình sinh Video (KLING AI RPA):</strong> Lập trình kịch bản Selenium để điều khiển trình duyệt giả lập hành vi con người: tự động đăng nhập, tải ảnh sản phẩm, nạp các prompt từ kịch bản có sẵn, và kích hoạt tiến trình render video AI.</p>
+<p><strong>Quản trị trạng thái tiến trình (Status Tracking & Download):</strong> Xây dựng cơ chế theo dõi trạng thái render theo thời gian thực (real-time monitoring) để bắt được chính xác thời điểm video hoàn tất và tự động tải file thô về máy chủ.</p>
+<p><strong>Tự động hóa khâu hậu kỳ (Symphony Integration):</strong> Viết script luân chuyển các video thô vào nền tảng Symphony. Điều khiển tự động các thao tác phức tạp trên giao diện như: đưa video vào timeline (ghép nối), căn chỉnh, nạp dữ liệu text (phụ đề) và xuất (export) thành phẩm cuối cùng.</p>
+<p><strong>Kiểm soát ngoại lệ (Exception Handling):</strong> Triển khai các khối logic bắt lỗi để đảm bảo luồng không bị gãy khi mạng phản hồi chậm hoặc giao diện web có sự thay đổi đột ngột.</p>`,
+
+    en: `<p>In this project, I was responsible for designing and directly programming the entire RPA workflow, transforming fragmented platforms into a unified pipeline:</p>
+<p><strong>Automating Video Generation (KLING AI RPA):</strong> Programmed Selenium scripts to control the browser and simulate human behavior: automatically logging in, uploading product images, inputting pre-defined prompts, and triggering the AI video rendering process.</p>
+<p><strong>Process Status Tracking & Download:</strong> Built a real-time monitoring mechanism to precisely detect when the rendering is complete and automatically download the raw video files to the local server.</p>
+<p><strong>Post-Production Automation (Symphony Integration):</strong> Wrote scripts to seamlessly route the raw videos into the Symphony platform. Fully automated complex UI interactions, such as inserting videos into the timeline (merging), aligning clips, importing text data (subtitles), and exporting the final product.</p>
+<p><strong>Exception Handling:</strong> Implemented robust error-catching logic blocks to ensure the pipeline remains uninterrupted during slow network responses or sudden web UI changes.</p>`
+  }
+},
+          {
+  id: "arch",
+  label: { vi: "Kiến Trúc", en: "Architecture" },
+  arch_blocks: [
+    {
+      layout: "flex-col",
+      title: { vi: "Luồng Tự động hóa Sản xuất Video bằng AI (Kling RPA)", en: "Automated AI Video Production Workflow (Kling RPA)" },
+      image: "KlingVideo.svg",
+      desc: {
+        vi: `<p>Luồng kiến trúc này được thiết kế để tự động hóa hoàn toàn quy trình tạo video, tối ưu hóa cả thời gian xử lý lẫn tài nguyên nền tảng thông qua 3 cơ chế trọng tâm:</p>
+<p><strong>1. Điều phối Linh hoạt & Vượt rào Anti-Bot:</strong> Tác tử tự động nạp session/cookies để bỏ qua bước đăng nhập, đồng thời phân tích dữ liệu đầu vào để luân chuyển chính xác giữa các phiên bản mô hình AI (Model 1.6 cho tác vụ Pose, Model 2.1 cho tác vụ Move).</p>
+<p><strong>2. Giám sát Render thời gian thực (DOM Tracking):</strong> Thay vì đặt thời gian chờ cố định dễ gây lỗi, hệ thống liên tục rà soát sự thay đổi của cấu trúc HTML (DOM). Ngay khi nhận diện video render hoàn tất, tác tử sẽ tự động bóc tách và kích hoạt lệnh tải về.</p>
+<p><strong>3. Quản trị Tài nguyên & Checkpoint:</strong> Hệ thống chủ động đối chiếu chi phí với số dư Credit hiện tại. Nếu tài nguyên cạn kiệt, luồng sẽ tự động "ngủ đông" để chờ cấp phát thêm. Các file đã xử lý xong lập tức được đổi tên đánh dấu (Checkpoint) để ngăn chặn việc chạy trùng lặp và bảo vệ dữ liệu gốc.</p>`,
+
+        en: `<p>I designed this architecture to fully automate the video generation process, optimizing both processing time and platform resources through 3 core mechanisms:</p>
+<p><strong>1. Dynamic Orchestration & Anti-Bot Bypass:</strong> The agent automatically loads sessions/cookies to skip login steps and analyzes input data to accurately route tasks between AI model versions (Model 1.6 for Pose tasks, Model 2.1 for Move tasks).</p>
+<p><strong>2. Real-time Render Monitoring (DOM Tracking):</strong> Instead of using rigid, error-prone static wait times, the system continuously monitors HTML structure (DOM) changes. The moment it detects a completed render, the agent automatically extracts the URL and triggers the download command.</p>
+<p><strong>3. Resource Management & Checkpointing:</strong> The system proactively cross-checks execution costs against the current Credit balance. If resources are depleted, the workflow automatically enters "hibernation" to await replenishment. Successfully processed files are instantly renamed and flagged (Checkpoint) to prevent duplicate runs and protect the original data.</p>`
+      }
+    },
+    {
+      layout: "flex-col",
+      title: { vi: "Luồng Tự động hóa Hậu kỳ (Symphony RPA)", en: "Symphony Post-Production RPA Architecture" },
+      image: "synphony.svg",
+      desc: {
+        vi: `<p>Kiến trúc RPA này được thiết kế để tự động hóa toàn trình quy trình tạo video quảng cáo (Symphony), tập trung vào sự linh hoạt và tính ổn định qua 3 trọng tâm cốt lõi:</p>
+<p><strong>1. Đăng nhập Lai & Đồng bộ Dữ liệu động:</strong> Tác tử sử dụng cơ chế xác thực lai (Hybrid Auth) để vượt rào Anti-Bot một cách liền mạch. Sau đó, hệ thống tự động đối chiếu tệp cục bộ với Google Sheets để điền chính xác thông tin sản phẩm (Tên, Thương hiệu, Mô tả).</p>
+<p><strong>2. Tự phục hồi lỗi (Self-Healing):</strong> Trong quá trình cấu hình và render AI, nếu hệ thống phát hiện lỗi nền tảng, nó không dừng lại mà sẽ tự động kích hoạt vòng lặp "Click Generate lại" để duy trì tiến trình.</p>
+<p><strong>3. Giám sát DOM & Checkpoint:</strong> Thuật toán theo dõi cấu trúc web (DOM) liên tục để bắt chính xác thời điểm tải xuống. Tệp âm thanh/video sau đó được tự động xác thực, phân luồng thư mục và đổi tên chuẩn hóa để bảo vệ dữ liệu gốc.</p>`,
+
+        en: `<p>I designed this RPA architecture to automate the end-to-end promotional video creation process (Symphony), focusing on flexibility and system stability through 3 core pillars:</p>
+<p><strong>1. Hybrid Login & Dynamic Data Sync:</strong> The agent utilizes a Hybrid Auth mechanism to seamlessly bypass Anti-Bot systems. Subsequently, the system automatically cross-references local files with Google Sheets to accurately input product information (Name, Brand, Description).</p>
+<p><strong>2. Auto-Recovery (Self-Healing):</strong> During the configuration and AI rendering phases, if a platform error is detected, the system does not halt. Instead, it automatically triggers a "Retry Generate" loop to maintain execution continuity.</p>
+<p><strong>3. DOM Monitoring & Checkpointing:</strong> The algorithm continuously tracks the web structure (DOM) to pinpoint the exact moment of download availability. The exported audio/video files are then automatically validated, routed to specific directories, and standardized via renaming to protect the original source data.</p>`
+      }
+    }
+  ]
+},
+          {id:"challenges",label:{vi:"Thách Thức",en:"Challenges"},challenges:[{title:{vi:"Độ Trễ Không Đồng Bộ Khi Render",en:"Asynchronous Render Delays"},problem:{vi:"Thời gian tạo video KLING AI dao động lớn. Chờ cố định → lãng phí tài nguyên hoặc gián đoạn tiến trình.",en:"KLING AI render time varies greatly. Fixed waits → wasted resources or process interruptions."},solution:{vi:"Cơ chế chờ động: Bot liên tục poll trạng thái DOM để tải ngay khi hoàn tất — tối ưu tuyệt đối thời gian chạy.",en:"Dynamic waiting: Bot continuously polls DOM states to download immediately upon completion — absolutely optimized runtime."}},{title:{vi:"Tương Tác Giao Diện Hậu Kỳ Phức Tạp",en:"Complex Post-Production UI Interactions"},problem:{vi:"Symphony có canvas và timeline động rất khó định vị chính xác bằng XPath thông thường.",en:"Symphony's dynamic canvas and timeline are very difficult to locate precisely with standard XPath."},solution:{vi:"Kết hợp DOM + Keyboard shortcuts. Các bước nhạy cảm được đóng gói bằng error-catch + retry loop đảm bảo chạy ổn ngay cả khi trình duyệt chậm.",en:"Combined DOM interactions + Keyboard shortcuts. Sensitive steps wrapped in error-catch + retry loops ensuring smooth operation even with slow browsers."}},{title:{vi:"Ổn Định Đa Môi Trường",en:"Cross-Environment Stability"},problem:{vi:"Scripts tự động hóa nhạy cảm với thay đổi màn hình, phiên bản trình duyệt, hệ điều hành.",en:"Automation scripts sensitive to screen resolution, browser version, and OS changes."},solution:{vi:"Kiểm thử chéo nghiêm ngặt: chạy thử, tinh chỉnh tọa độ, tối ưu trên nhiều môi trường trước khi bàn giao — ổn định 100% trên hệ thống đối tác.",en:"Rigorous cross-testing: tested, coordinate-tuned, and optimized across multiple environments before delivery — 100% stable on partner's systems."}}]}
+        ]}
+      }
+    ]
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+//  PARSER & UTILS
+// ═══════════════════════════════════════════════════════════
+const L = () => document.documentElement.getAttribute('data-lang') || 'vi';
+const t = (obj) => typeof obj === 'object' && obj !== null ? (obj[L()] || obj.vi || '') : (obj || '');
+
+function parse(text){
+  if(!text) return '';
+  return String(text)
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\(([^)]+\.(png|jpg|jpeg|gif|webp|svg))\)/gi,(_,f)=>`<img src="image/${f}" alt="${f.replace(/\.[^.]+$/,'').replace(/_/g,' ')}" loading="lazy">`)
+    .replace(/\n/g,'<br>');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════════════
+function renderNav(){
+  const labels = D.nav[L()], anchors = D.nav.anchors;
+  document.getElementById('nls').innerHTML = labels.map((l,i)=>
+    `<li><a href="${anchors[i]}" onclick="closeMenu()">${l}</a></li>`
+  ).join('');
+}
+
+function renderHero(){
+  const h = D.hero[L()];
+  document.getElementById('h-greeting').textContent = h.greeting;
+  document.getElementById('h-name').textContent = L()==='vi' ? 'Trần Thị Thảo Vy' : 'Vivian Tran';
+  document.getElementById('h-desc').textContent = h.desc;
+  const cta1 = document.getElementById('h-cta1');
+  const cta2 = document.getElementById('h-cta2');
+  cta1.href = L() === 'vi' ? 'image/CV_VN.pdf' : 'image/CV_ENG.pdf';
+  cta1.download = L() === 'vi' ? 'CV_TranThiThaoVy_VI.pdf' : 'CV_TranThiThaoVy_EN.pdf';
+  cta1.textContent = L() === 'vi' ? '↓ Tải CV (Tiếng Việt)' : '↓ Download CV (Vietnamese)';
+  cta2.href = L() === 'en' ? 'image/CV_ENG.pdf' : 'image/CV_VN.pdf';
+  cta2.download = L() === 'en' ? 'CV_TranThiThaoVy_EN.pdf' : 'CV_TranThiThaoVy_VI.pdf';
+  cta2.textContent = L() === 'en' ? '↓ Download CV (English)' : '↓ Tải CV (Tiếng Anh)';
+  document.getElementById('sh-txt').textContent = h.scroll;
+}
+
+function renderAbout(){
+  document.getElementById('about-title').textContent = t(D.about.title);
+  document.getElementById('about-bio-text').innerHTML = `<p>${parse(t(D.about.bio))}</p>`;
+  const cat_key = L()==='vi' ? 'cat_vi' : 'cat_en';
+  document.getElementById('skills-table-el').innerHTML = D.about.skills.map(s=>
+    `<div class="skill-row">
+      <span class="skill-cat">${s[cat_key]}</span>
+      <div class="skill-vals">${s.items.map(i=>`<span class="sk-tag">${i}</span>`).join('')}</div>
+    </div>`
+  ).join('');
+}
+
+function renderProjects(){
+  document.getElementById('proj-title').textContent = t(D.projects.section_title);
+  document.getElementById('see-more-btn').textContent = t(D.projects.see_more);
+  const viewLabel = L()==='vi' ? 'Xem Chi Tiết' : 'View Details';
+  document.getElementById('proj-grid').innerHTML = D.projects.items.map((p,i)=>{
+    const tags = L()==='vi' ? p.tags_vi : p.tags_en;
+    return `<article class="proj-row reveal rd${(i%2)+1}" onclick="openModal('${p.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal('${p.id}')">
+      <span class="proj-row-num">0${i+1}</span>
+      <div class="proj-row-body">
+        <div class="proj-row-top">
+          <h3 class="pc-title">${t(p.title)}</h3>
+          <div class="pc-tags">${tags.map(tg=>`<span class="pc-tag">${tg}</span>`).join('')}</div>
+        </div>
+        <p class="pc-sub">${t(p.sub)}</p>
+        <p class="pc-sum">${parse(t(p.summary))}</p>
+      </div>
+      <button class="pc-cta-btn" onclick="event.stopPropagation();openModal('${p.id}')">${viewLabel} →</button>
+    </article>`;
+  }).join('');
+  observeReveal();
+}
+
+function renderContact(){
+  document.getElementById('contact-title').textContent = L()==='vi' ? 'Liên Hệ' : 'Contact';
+  document.getElementById('contact-sub').textContent = L()==='vi'
+    ? 'Có dự án muốn hợp tác hoặc chỉ muốn kết nối?'
+    : 'Have a project in mind or just want to connect?';
+  document.getElementById('contact-or').textContent = L()==='vi' ? 'hoặc tìm mình trên' : 'or find me on';
+  document.getElementById('phone-label').textContent = L()==='vi' ? 'SĐT:' : 'Phone:';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MODAL
+// ═══════════════════════════════════════════════════════════
+let activeId = null;
+let spyObserver = null;
+
+function openModal(id){
+  const proj = D.projects.items.find(p=>p.id===id);
+  if(!proj) return;
+  activeId = id;
+
+  document.getElementById('m-title').textContent = t(proj.title);
+  document.getElementById('m-sub').textContent = t(proj.sub);
+  document.getElementById('m-back-txt').textContent = t(D.projects.back);
+  document.getElementById('m-close').textContent = t(D.projects.close);
+
+  // Section nav — add data-sec for scroll-spy
+  document.getElementById('m-sec-nav').innerHTML = proj.detail.sections.map((s,i)=>
+    `<li class="m-sec-btn ${i===0?'on':''}" data-sec="${s.id}" onclick="scrollModalSection('${s.id}',this)">${t(s.label)}</li>`
+  ).join('');
+
+  // Sections
+  document.getElementById('m-sections').innerHTML = proj.detail.sections.map(s=>renderSection(s)).join('');
+
+  const modal = document.getElementById('modal');
+  modal.classList.add('open');
+  modal.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+
+  // Setup scroll spy
+  setTimeout(()=> setupScrollSpy(modal), 100);
+}
+
+function setupScrollSpy(modal){
+  if(spyObserver) spyObserver.disconnect();
+  spyObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.id;
+        document.querySelectorAll('.m-sec-btn').forEach(b=>{
+          b.classList.toggle('on', b.getAttribute('data-sec')===id);
+        });
+      }
+    });
+  },{root: modal, threshold: 0.35, rootMargin:'-10% 0px -55% 0px'});
+  document.querySelectorAll('.m-section').forEach(el=>spyObserver.observe(el));
+}
+
+function renderSection(s){
+  let inner = '';
+  if(s.techstack){
+    inner = `<div>${s.techstack.map(g=>
+      `<div class="ts-group"><div class="ts-group-name">${g.group}</div><div class="ts-grid">${g.items.map(i=>`<span class="ts-tag">${i}</span>`).join('')}</div></div>`
+    ).join('')}</div>`;
+  } else if(s.arch_blocks){
+    inner = s.arch_blocks.map(b=>`
+      <div class="arch-block">
+        <div class="arch-block-title">${t(b.title)}</div>
+        <div class="arch-${b.layout}">
+          <div class="arch-diagram">
+            <img src="image/${b.image}" alt="${t(b.title)}" onerror="this.parentElement.innerHTML='<div class=arch-diagram-placeholder>${b.image}</div>'">
+          </div>
+          <div class="arch-desc m-text">${t(b.desc)}</div>
+        </div>
+      </div>`).join('');
+  } else if(s.challenges){
+    inner = s.challenges.map(c=>`
+      <div class="challenge-item">
+        <div style="font-family:var(--font-d);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em">${t(c.title)}</div>
+        <div class="ch-prob">${L()==='vi'?'▪ VẤN ĐỀ':'▪ PROBLEM'}</div>
+        <div class="m-text" style="margin-bottom:6px">${t(c.problem)}</div>
+        <div class="ch-sol">${L()==='vi'?'▸ GIẢI PHÁP':'▸ SOLUTION'}</div>
+        <div class="m-text">${t(c.solution)}</div>
+      </div>`).join('');
+  } else if(s.content){
+    inner = `<div class="m-text">${t(s.content)}</div>`;
+    if(s.images?.length){
+      inner += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:16px">`;
+      inner += s.images.map(img=>`<img src="image/${img.file}" alt="${img.alt}" loading="lazy" style="border:1px solid var(--border)">`).join('');
+      inner += `</div>`;
+    }
+    if(s.links?.length){
+      inner += `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">`;
+      inner += s.links.map(lk=>`<a class="ext-link" href="${lk.url}" target="_blank" rel="noopener">🔗 ${lk.label}</a>`).join('');
+      inner += `</div>`;
+    }
+  }
+  return `<div class="m-section" id="${s.id}"><h3 class="m-sec-title">${t(s.label)}</h3>${inner}</div>`;
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+  activeId = null;
+  if(spyObserver){ spyObserver.disconnect(); spyObserver=null; }
+}
+
+function scrollModalSection(id, btn){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.m-sec-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LANGUAGE
+// ═══════════════════════════════════════════════════════════
+function setLang(lang){
+  document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on', b.getAttribute('data-l')===lang));
+  renderAll();
+  if(activeId) openModal(activeId);
+}
+document.getElementById('lt').addEventListener('click', e=>{
+  const b = e.target.closest('.lb');
+  if(b) setLang(b.getAttribute('data-l'));
+});
+
+function renderAll(){
+  renderNav(); renderHero(); renderAbout(); renderProjects(); renderContact();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NAV / SCROLL / MISC
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('scroll', ()=>{
+  document.getElementById('nb').classList.toggle('sc', window.scrollY > 20);
+});
+document.getElementById('burg').addEventListener('click', ()=>document.getElementById('nls').classList.toggle('open'));
+function closeMenu(){ document.getElementById('nls').classList.remove('open'); }
+function scrollTo(anchor){ document.querySelector(anchor)?.scrollIntoView({behavior:'smooth'}); }
+
+document.getElementById('m-back').addEventListener('click', closeModal);
+document.getElementById('m-close').addEventListener('click', closeModal);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+function observeReveal(){
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),
+    {threshold:0.08, rootMargin:'0px 0px -32px 0px'}
+  );
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>io.observe(el));
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+document.getElementById('yr').textContent = `© ${new Date().getFullYear()} Trần Thị Thảo Vy`;
+document.querySelector('.lb[data-l="vi"]').classList.add('on');
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  renderAll();
+  observeReveal();
+});
+</script>
+</body>
+</html>
