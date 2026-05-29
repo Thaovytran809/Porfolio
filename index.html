@@ -1032,12 +1032,18 @@ function renderHero(){
   document.getElementById('h-desc').textContent = h.desc;
   const cta1 = document.getElementById('h-cta1');
   const cta2 = document.getElementById('h-cta2');
-  cta1.href = L() === 'vi' ? 'image/CV_VN.pdf' : 'image/CV_ENG.pdf';
-  cta1.download = L() === 'vi' ? 'CV_TranThiThaoVy_VI.pdf' : 'CV_TranThiThaoVy_EN.pdf';
+  // --- NÚT 1: LUÔN TẢI CV TIẾNG VIỆT ---
+  cta1.href = 'image/CV_VN.pdf'; 
+  cta1.download = 'CV_TranThiThaoVy_VI.pdf';
+  // Chỉ đổi text hiển thị theo ngôn ngữ giao diện
   cta1.textContent = L() === 'vi' ? '↓ Tải CV (Tiếng Việt)' : '↓ Download CV (Vietnamese)';
-  cta2.href = L() === 'en' ? 'image/CV_ENG.pdf' : 'image/CV_VN.pdf';
-  cta2.download = L() === 'en' ? 'CV_TranThiThaoVy_EN.pdf' : 'CV_TranThiThaoVy_VI.pdf';
-  cta2.textContent = L() === 'en' ? '↓ Download CV (English)' : '↓ Tải CV (Tiếng Anh)';
+
+  // --- NÚT 2: LUÔN TẢI CV TIẾNG ANH ---
+  cta2.href = 'image/CV_ENG.pdf';
+  cta2.download = 'CV_TranThiThaoVy_EN.pdf';
+  // Chỉ đổi text hiển thị theo ngôn ngữ giao diện
+  cta2.textContent = L() === 'vi' ? '↓ Tải CV (Tiếng Anh)' : '↓ Download CV (English)';
+
   document.getElementById('sh-txt').textContent = h.scroll;
 }
 
