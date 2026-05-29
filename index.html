@@ -105,12 +105,93 @@ video{max-width:100%;border-radius:var(--rs)}
 @media(max-width:760px){.about-grid{grid-template-columns:1fr}}
 .about-bio{order:-1}
 .avatar-col{order:1}
-.avatar-wrap{position:relative;max-width:300px;margin-left:auto}
-.avatar-wrap::before{content:'';position:absolute;inset:-12px 12px 12px -12px;border:1px solid var(--accent-light);z-index:0}
+/* .avatar-wrap{position:relative;max-width:300px;margin-left:auto}
+.avatar-wrap::before{content:'';position:absolute;inset:-12px 12px 12px -12px;border:1px solid var(--accent-light);z-index:0; background-color: #1256a0 !important;}
 .avatar-placeholder{width:100%;aspect-ratio:3/4;background:linear-gradient(145deg,var(--accent-light),var(--accent-xlight));display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--accent-tech);position:relative;z-index:1;font-family:var(--font-d);font-weight:500}
 .avatar-placeholder img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:0;z-index:2}
 .avatar-badges{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3;white-space:nowrap}
-.av-badge{padding:4px 12px;background:rgba(13,17,23,.88);backdrop-filter:blur(8px);border:1px solid rgba(145,194,235,.3);border-radius:3px;font-size:.72rem;font-weight:700;color:#e2eaf5;letter-spacing:.06em;font-family:var(--font-d)}
+.av-badge{padding:4px 12px;background:rgba(13,17,23,.88);backdrop-filter:blur(8px);border:1px solid rgba(145,194,235,.3);border-radius:3px;font-size:.72rem;font-weight:700;color:#e2eaf5;letter-spacing:.06em;font-family:var(--font-d)} */
+/* ══ BẮT ĐẦU PHẦN CSS AVATAR MỚI (TECH MINIMALIST) ══ */
+
+.avatar-wrap {
+  position: relative;
+  max-width: 300px; /* Giữ nguyên kích thước ban đầu để không hỏng layout */
+  margin-left: auto;
+  display: block;
+}
+
+/* Ẩn khối ::before cũ */
+.avatar-wrap::before {
+  display: none !important;
+}
+
+/* Khung bọc ảnh: Viền sắc nét và Bóng đổ cứng (Hard Shadow) */
+.avatar-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4; /* Giữ nguyên tỷ lệ khung hình cũ */
+  position: relative;
+  z-index: 1;
+  border: 2px solid #1256a0; /* Viền xanh chủ đạo */
+  border-radius: 4px; /* Chỉ bo góc cực nhỏ */
+  box-shadow: 12px 12px 0px rgba(18, 86, 160, 0.2); /* Bóng khối cứng màu xanh */
+  background-color: var(--off-white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng nổi ảnh lên khi di chuột vào */
+.avatar-wrap:hover .avatar-placeholder {
+  transform: translate(-4px, -4px);
+  box-shadow: 16px 16px 0px rgba(18, 86, 160, 0.3);
+}
+
+/* Bức ảnh chân dung */
+.avatar-placeholder img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Bố cục Badges: Xếp dọc, đẩy ra mép phải */
+.avatar-badges {
+  position: absolute;
+  bottom: 20px;
+  right: -25px; /* Tràn ra khỏi mép ảnh */
+  display: flex;
+  flex-direction: column; /* Đổi từ xếp ngang sang dọc */
+  gap: 12px;
+  z-index: 3;
+}
+
+/* Thiết kế thẻ phong cách Terminal */
+.av-badge {
+  padding: 8px 16px;
+  background-color: #1a1a1a; /* Nền xám đen */
+  border: none;
+  border-left: 4px solid #1256a0; /* Vạch nhấn dọc bên trái */
+  border-radius: 0; /* Vuông vức hoàn toàn */
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace; /* Font chữ lập trình */
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15); /* Bóng đổ cho từng thẻ */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Màu xanh cho dấu > */
+.av-badge span {
+  color: #1256a0;
+  font-weight: 900;
+}
+
+/* ══ KẾT THÚC PHẦN CSS AVATAR MỚI ══ */
 .about-bio p{font-size:.96rem;color:var(--ink-mid);margin-bottom:16px;line-height:1.85}
 .skills-table{margin-top:28px;padding:0;border-top:2px solid #1e293b;border-bottom:1px solid var(--border)}
 .skill-row{display:flex;align-items:baseline;gap:20px;padding:12px 0;border-bottom:1px solid var(--border)}
@@ -266,12 +347,11 @@ footer{padding:24px clamp(24px,5vw,72px);border-top:1px solid var(--border);disp
       <div class="avatar-col reveal rd2">
         <div class="avatar-wrap">
           <div class="avatar-placeholder">
-            <img src="image/avata.jpg" alt="Trần Thị Thảo Vy" onerror="this.style.display='none'">
-            Photo
+            <img src="image/avata.jpg" alt="Trần Thị Thảo Vy">
           </div>
           <div class="avatar-badges">
-            <span class="av-badge">GPA 3.83</span>
-            <span class="av-badge">TOEIC 650</span>
+            <span class="av-badge"><span>></span> GPA: 3.83</span>
+            <span class="av-badge"><span>></span> TOEIC: 650</span>
           </div>
         </div>
       </div>
@@ -375,7 +455,7 @@ const D = {
     },
     skills:[
       {cat_vi:"Ngôn Ngữ",cat_en:"Languages",items:["Python","SQL"]},
-      {cat_vi:"Cơ Sở Dữ Liệu",cat_en:"Databases",items:["PostgreSQL","SQL Server"]},
+      {cat_vi:"Cơ Sở Dữ Liệu",cat_en:"Databases",items:["PostgreSQL","SQL Server", "BigQuery"]},
       {cat_vi:"Frameworks",cat_en:"Frameworks",items:["Django","Selenium","Git","Docker"]},
       {cat_vi:"AI / LLMs",cat_en:"AI / LLMs",items:["LangChain","RAG Systems"]}
     ]
