@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Details: GenAI Integration - Trần Thị Thảo Vy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { accent: '#083573', 'accent-light': '#e6ecf1' },
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Open Sans"', 'sans-serif'],
+            slab: ['"Roboto Slab"', 'serif'],
+            code: ['"Fira Code"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1a1a2e; }
+
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
+    .nav-link { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; color: #083573; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .nav-link:hover { color: #3b82f6; transform: translateX(-4px); }
+    .lang-switcher { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+    .lang-btn { text-decoration: none; color: #9ca3af; transition: color 0.2s; font-weight: 500; cursor: pointer; }
+    .lang-btn:hover { color: #4b5563; }
+    .lang-btn.active { color: #083573; font-weight: 800; }
+
+    .header-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px; }
+    .header-tag::after { content: ''; display: block; width: 40px; height: 1px; background: #083573; opacity: 0.4; }
+    .page-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 2.4rem; color: #083573; margin-top: 16px; margin-bottom: 16px; line-height: 1.2; }
+
+    .project-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 48px; margin-bottom: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    @media (max-width: 768px) { .project-card { padding: 24px; } .page-title { font-size: 1.8rem; } }
+
+    .project-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: #1a1a2e; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+    .section-subtitle { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 1.2rem; color: #083573; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .subsection-title { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: #1a1a2e; padding-bottom: 10px; border-bottom: 2px solid #083573; margin-bottom: 16px; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tech-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; background: #f0f4f8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 4px; }
+    .mini-tag { font-family: 'Fira Code', monospace; font-size: 0.75rem; background: #e2e8f0; color: #334155; padding: 4px 8px; border-radius: 4px; border: 1px solid #cbd5e1;}
+
+    .content-text { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #475569; line-height: 1.75; }
+    .content-text strong { color: #1a1a2e; font-weight: 700; }
+
+    /* IMAGES & VIDEO */
+    .img-wrapper { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 16px; display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 16px; margin-bottom: 24px;}
+    .img-wrapper img { max-width: 100%; max-height: 700px; width: auto; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    
+    .img-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; margin-bottom: 24px; }
+    @media (max-width: 768px) { .img-grid { grid-template-columns: 1fr; } }
+    .img-grid-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; justify-content: center; align-items: center;}
+    .img-grid-item img { max-width: 100%; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+    .video-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 16px; margin-bottom: 24px;}
+    .video-wrapper video { max-width: 100%; max-height: 600px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+
+    /* LAYOUTS */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 850px) { .two-col { grid-template-columns: 1fr; } }
+    .col-block { display: flex; flex-direction: column; gap: 14px; }
+
+    /* AGENT BOXES */
+    .agent-box { padding: 18px 20px; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif; line-height: 1.6; margin-bottom: 16px; border: 1px solid; }
+    .agent-box strong { color: #1a1a2e; }
+    .agent-box ul { margin-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; list-style-type: disc;}
+    .agent-box-blue { background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #3b82f6; }
+    .agent-box-green { background: #f0fdf4; border-color: #bbf7d0; border-left: 4px solid #22c55e; }
+    .agent-box-purple { background: #f5f3ff; border-color: #ddd6fe; border-left: 4px solid #8b5cf6; }
+    
+    .perf-box { background: #fdfae8; border-left: 4px solid #eab308; padding: 16px 20px; border-radius: 6px; font-weight: 500; color: #854d0e; font-size: 0.9rem; font-family: 'Inter', sans-serif; margin-top: 24px;}
+    
+    /* DATA PACKAGING BOX */
+    .data-flow-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+
+    /* CHALLENGE (CHIỀU DỌC) */
+    .challenge-box { background: #fff1f2; border: 1px solid #ffe4e6; border-left: 4px solid #e11d48; border-radius: 6px; padding: 24px; margin-top: 48px; }
+    .challenge-title { font-family: 'Open Sans', sans-serif; font-weight: 700; color: #be123c; margin-bottom: 20px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .challenge-grid { display: flex; flex-direction: column; gap: 16px; }
+    .c-item { background: #fff5f6; border-radius: 6px; padding: 18px; border: 1px solid #fecdd3; }
+    .c-prob { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #9f1239; font-weight: 700; margin-bottom: 8px; }
+    .c-sol { font-family: 'Inter', sans-serif; font-size: 0.91rem; color: #4c0519; line-height: 1.65; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="max-w-[1280px] mx-auto px-[24px] lg:px-[80px] h-[70px] flex items-center justify-between">
+    <a href="index.html" class="nav-link lang-text"
+       data-vi='<i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ'
+       data-en='<i class="fa-solid fa-arrow-left"></i> Back to Home'>
+      <i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ
+    </a>
+    <div class="lang-switcher">
+      <span class="lang-btn active" onclick="switchLang('vi')">VI</span>
+      <span style="color:#d1d5db;">/</span>
+      <span class="lang-btn" onclick="switchLang('en')">EN</span>
+    </div>
+  </div>
+</nav>
+
+<header class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pt-16 pb-8">
+  <div class="header-tag lang-text" data-vi="Kỹ năng 05" data-en="Skill 05">Kỹ năng 05</div>
+  <h1 class="page-title lang-text"
+      data-vi="Xây dựng ứng dụng tích hợp GenAI"
+      data-en="Building GenAI Integrated Applications">
+    Xây dựng ứng dụng tích hợp GenAI
+  </h1>
+</header>
+
+<main class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pb-24">
+
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án: Xây dựng ứng dụng GenAI hỗ trợ lập kế hoạch du lịch tích hợp Multi-Agent"
+        data-en="Project: Building a Multi-Agent GenAI Travel Planning Application">
+      Dự án: Xây dựng ứng dụng GenAI hỗ trợ lập kế hoạch du lịch tích hợp Multi-Agent
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Django</span>
+      <span class="tech-tag">LangChain</span>
+      <span class="tech-tag">Gemini API</span>
+      <span class="tech-tag">PostgreSQL</span>
+      <span class="tech-tag">Google OR-Tools</span>
+      <span class="tech-tag">HereMap API</span>
+      <span class="tech-tag">OpenWeatherAPI</span>
+      <span class="tech-tag">Selenium</span>
+    </div>
+
+    <!-- TỔNG QUAN -->
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-circle-info'></i> Tổng quan dự án"
+          data-en="<i class='fa-solid fa-circle-info'></i> Project Overview">
+        <i class="fa-solid fa-circle-info"></i> Tổng quan dự án
+      </h3>
+      
+      <!-- Giới thiệu + Hình 1 -->
+      <p class="content-text lang-text"
+         data-vi="Hệ thống là 1 ứng dụng website dùng để quản lý hồ sơ kế hoạch du lịch của người dùng có tích hợp AI Travel Chatbot là một trợ lý du lịch tự động, được thiết kế để biến những yêu cầu thô của người dùng thành một lịch trình chi tiết, logic và tối ưu thời gian di chuyển.<br><br>Hệ thống cung cấp giao diện để người dùng thống kê về số lượng kế hoạch du lịch, trạng thái kế hoạch và danh sách các kế hoạch gần đây, giúp người dùng dễ dàng theo dõi và quản lý lịch trình của mình."
+         data-en="The system is a web application used to manage users' travel itineraries, integrated with an AI Travel Chatbot. This automated travel assistant is designed to transform raw user requests into a detailed, logical, and time-optimized travel schedule.<br><br>The system provides a dashboard interface for users to view statistics on the total number of travel plans, plan statuses, and a list of recent itineraries, helping users easily track and manage their schedules.">
+        Hệ thống là 1 ứng dụng website dùng để quản lý hồ sơ kế hoạch du lịch của người dùng có tích hợp AI Travel Chatbot là một trợ lý du lịch tự động, được thiết kế để biến những yêu cầu thô của người dùng thành một lịch trình chi tiết, logic và tối ưu thời gian di chuyển.<br><br>Hệ thống cung cấp giao diện để người dùng thống kê về số lượng kế hoạch du lịch, trạng thái kế hoạch và danh sách các kế hoạch gần đây, giúp người dùng dễ dàng theo dõi và quản lý lịch trình của mình.
+      </p>
+      <div class="img-wrapper"><img src="image/travel_db.png" alt="Travel Dashboard"></div>
+
+      <!-- Thêm mới thủ công + Grid 3 hình -->
+      <p class="content-text lang-text"
+         data-vi="Hệ thống còn có giao diện thêm mới kế hoạch du lịch thủ công cho phép người dùng tạo kế hoạch mới bằng cách nhập các thông tin cơ bản như tên kế hoạch, mô tả, thời gian, trạng thái và địa điểm."
+         data-en="The system also includes a manual plan creation interface, allowing users to create new plans by inputting basic information such as plan name, description, timeline, status, and destinations.">
+        Hệ thống còn có giao diện thêm mới kế hoạch du lịch thủ công cho phép người dùng tạo kế hoạch mới bằng cách nhập các thông tin cơ bản như tên kế hoạch, mô tả, thời gian, trạng thái và địa điểm.
+      </p>
+      <div class="img-grid">
+        <div class="img-grid-item"><img src="image/travel_new_1.png" alt="Travel New Step 1" onerror="this.src='https://placehold.co/400x300?text=travel_new_1.png'"></div>
+        <div class="img-grid-item"><img src="image/travel_new_2.png" alt="Travel New Step 2" onerror="this.src='https://placehold.co/400x300?text=travel_new_2.png'"></div>
+        <div class="img-grid-item"><img src="image/travel_new_3.png" alt="Travel New Step 3" onerror="this.src='https://placehold.co/400x300?text=travel_new_3.png'"></div>
+      </div>
+
+      <!-- Trợ lý AI + Video -->
+      <p class="content-text lang-text"
+         data-vi="Hệ thống cũng xây dựng giao diện Trợ lý AI cho phép người dùng tương tác với hệ thống bằng ngôn ngữ tự nhiên để xây dựng lịch trình du lịch. Người dùng có thể nhập yêu cầu về địa điểm, thời gian, số lượng người hoặc lựa chọn các gợi ý nhanh để hệ thống tự động đề xuất lịch trình phù hợp."
+         data-en="Additionally, the system features an AI Assistant interface that allows users to interact with the system using natural language to build travel schedules. Users can input requirements regarding locations, timeframe, and group size, or select quick prompts for the system to automatically suggest a suitable itinerary.">
+        Hệ thống cũng xây dựng giao diện Trợ lý AI cho phép người dùng tương tác với hệ thống bằng ngôn ngữ tự nhiên để xây dựng lịch trình du lịch. Người dùng có thể nhập yêu cầu về địa điểm, thời gian, số lượng người hoặc lựa chọn các gợi ý nhanh để hệ thống tự động đề xuất lịch trình phù hợp.
+      </p>
+      <div class="video-wrapper">
+        <video src="image/demochatbot.mp4" controls loop muted onerror="this.outerHTML='<div style=\'padding: 40px; background: #f1f5f9; text-align:center; border-radius: 8px; width:100%; border: 1px solid #e2e8f0;\'><i class=\'fa-solid fa-video text-gray-400 text-4xl\'></i><p class=\'mt-2 text-gray-500\'>demochatbot.mp4</p></div>'"></video>
+      </div>
+    </section>
+
+    <!-- 1. KIẾN TRÚC MULTI-AGENT -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-network-wired'></i> 1. Kiến Trúc Hệ Thống Đa Tác Tử — LLM & RAG"
+          data-en="<i class='fa-solid fa-network-wired'></i> 1. Multi-Agent System Architecture — LLM & RAG">
+        <i class="fa-solid fa-network-wired"></i> 1. Kiến Trúc Hệ Thống Đa Tác Tử — LLM & RAG
+      </h3>
+      
+      <div class="img-wrapper mb-6"><img src="image/multi_agent.svg" alt="Multi Agent Architecture"></div>
+
+      <p class="content-text mb-6 font-semibold lang-text"
+         data-vi="Hệ thống vận hành bởi 3 tác tử chuyên biệt, kết nối qua Gemini và RAG:"
+         data-en="The system operates through three specialized agents connected via Gemini and RAG:">
+        Hệ thống vận hành bởi 3 tác tử chuyên biệt, kết nối qua Gemini và RAG:
+      </p>
+
+      <!-- Chat Agent -->
+      <div class="agent-box agent-box-blue lang-text"
+           data-vi="<strong>🤖 1. Chat Agent — Thu thập thông tin &amp; cá nhân hoá</strong>
+           <ul>
+             <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering có cấu trúc, dẫn dắt hội thoại thu thập thông tin từng bước.</li>
+             <li><strong>Reasoning:</strong> SAW tính điểm khách quan (thời tiết, rating, độ phổ biến) → RAG + Cosine Similarity cá nhân hoá danh sách gợi ý.</li>
+             <li><strong>Memory:</strong> Lưu trạng thái hội thoại và hồ sơ chuyến đi dạng JSON qua API.</li>
+             <li><strong>Environment:</strong> Django BE, React FE, pgvecto.rs.</li>
+           </ul>"
+           data-en="<strong>🤖 1. Chat Agent — Information Collection &amp; Personalization</strong>
+           <ul>
+             <li><strong>Core:</strong> Gemini 1.5 Flash + Structured Prompt Engineering to guide conversations and collect user information step by step.</li>
+             <li><strong>Reasoning:</strong> SAW calculates objective scores (weather, ratings, popularity) → RAG + Cosine Similarity personalize recommendation lists.</li>
+             <li><strong>Memory:</strong> Stores conversation states and trip profiles as JSON through APIs.</li>
+             <li><strong>Environment:</strong> Django BE, React FE, pgvecto.rs.</li>
+           </ul>">
+        <strong>🤖 1. Chat Agent — Thu thập thông tin &amp; cá nhân hoá</strong>
+        <ul>
+          <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering có cấu trúc, dẫn dắt hội thoại thu thập thông tin từng bước.</li>
+          <li><strong>Reasoning:</strong> SAW tính điểm khách quan (thời tiết, rating, độ phổ biến) → RAG + Cosine Similarity cá nhân hoá danh sách gợi ý.</li>
+          <li><strong>Memory:</strong> Lưu trạng thái hội thoại và hồ sơ chuyến đi dạng JSON qua API.</li>
+          <li><strong>Environment:</strong> Django BE, React FE, pgvecto.rs.</li>
+        </ul>
+      </div>
+
+      <!-- Strategy Agent -->
+      <div class="agent-box agent-box-green lang-text"
+           data-vi="<strong>🗺️ 2. Strategy Agent — Tối ưu hoá lộ trình</strong>
+           <ul>
+             <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering có cấu trúc, phân cụm địa điểm và làm giàu dữ liệu (giờ mở cửa, thời gian tham quan).</li>
+             <li><strong>Reasoning:</strong> Phân cụm → xây ma trận thời gian → VRPTW + OR-Tools (Path Cheapest Arc + Guided Local Search) → lên lịch chi tiết.</li>
+             <li><strong>Memory:</strong> Lưu trạng thái hội thoại và hồ sơ chuyến đi dạng JSON qua API.</li>
+             <li><strong>Environment:</strong> Django BE, React FE, OR-Tools, Distance Matrix API.</li>
+           </ul>"
+           data-en="<strong>🗺️ 2. Strategy Agent — Route Optimization</strong>
+           <ul>
+             <li><strong>Core:</strong> Gemini 1.5 Flash + Structured Prompt Engineering for location clustering and data enrichment (opening hours, visit duration).</li>
+             <li><strong>Reasoning:</strong> Clustering → Time Matrix Construction → VRPTW + OR-Tools (Path Cheapest Arc + Guided Local Search) → Detailed itinerary scheduling.</li>
+             <li><strong>Memory:</strong> Stores conversation states and trip profiles as JSON through APIs.</li>
+             <li><strong>Environment:</strong> Django BE, React FE, OR-Tools, Distance Matrix API.</li>
+           </ul>">
+        <strong>🗺️ 2. Strategy Agent — Tối ưu hoá lộ trình</strong>
+        <ul>
+          <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering có cấu trúc, phân cụm địa điểm và làm giàu dữ liệu (giờ mở cửa, thời gian tham quan).</li>
+          <li><strong>Reasoning:</strong> Phân cụm → xây ma trận thời gian → VRPTW + OR-Tools (Path Cheapest Arc + Guided Local Search) → lên lịch chi tiết.</li>
+          <li><strong>Memory:</strong> Lưu trạng thái hội thoại và hồ sơ chuyến đi dạng JSON qua API.</li>
+          <li><strong>Environment:</strong> Django BE, React FE, OR-Tools, Distance Matrix API.</li>
+        </ul>
+      </div>
+
+      <!-- Advice Agent -->
+      <div class="agent-box agent-box-purple lang-text"
+           data-vi="<strong>💡 3. Advice Agent — Dự toán chi phí &amp; tư vấn</strong>
+           <ul>
+             <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering, ước lượng chi phí ăn uống và sinh lời khuyên hành động.</li>
+             <li><strong>Reasoning:</strong> Truy vấn DB lấy vé &amp; khách sạn → tính cước Grab Car thực tế → LLM ước lượng ăn uống theo bối cảnh → sinh lời khuyên.</li>
+             <li><strong>Memory:</strong> Lưu trạng thái hội thoại và hồ sơ chuyến đi dạng JSON qua API.</li>
+             <li><strong>Environment:</strong> Django BE, React FE, Internal DB.</li>
+           </ul>"
+           data-en="<strong>💡 3. Advice Agent — Cost Estimation &amp; Travel Recommendations</strong>
+           <ul>
+             <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering for meal cost estimation and actionable travel advice generation.</li>
+             <li><strong>Reasoning:</strong> Query the Database for ticket and hotel information → Calculate real-world Grab Car transportation costs → Use the LLM to estimate meal expenses based on context → Generate recommendations.</li>
+             <li><strong>Memory:</strong> Stores conversation states and trip profiles as JSON through APIs.</li>
+             <li><strong>Environment:</strong> Django BE, React FE, Internal DB.</li>
+           </ul>">
+        <strong>💡 3. Advice Agent — Dự toán chi phí &amp; tư vấn</strong>
+        <ul>
+          <li><strong>Core:</strong> Gemini 1.5 Flash + Prompt Engineering, ước lượng chi phí ăn uống và sinh lời khuyên hành động.</li>
+          <li><strong>Reasoning:</strong> Truy vấn DB lấy vé &amp; khách sạn → tính cước Grab Car thực tế → LLM ước lượng ăn uống theo bối cảnh → sinh lời khuyên.</li>
+          <li><strong>Memory:</strong> Lưu trạng thái hội thoại và hồ sơ chuyến đi dạng JSON qua API.</li>
+          <li><strong>Environment:</strong> Django BE, React FE, Internal DB.</li>
+        </ul>
+      </div>
+
+      <div class="perf-box lang-text"
+           data-vi="🎯 <strong>Kết quả:</strong> Sự phối hợp nhịp nhàng giữa 3 tác tử mang đến cho người dùng một bản kế hoạch trọn vẹn, bao gồm dòng thời gian (timeline) chi tiết, bản đồ lộ trình trực quan hóa (polyline) và bảng dự toán chi phí minh bạch. (itinerary)"
+           data-en="🎯 <strong>Result:</strong> The seamless collaboration of the three agents delivers a complete travel planning experience, including a detailed timeline, a visualized route map (polyline), and a transparent cost estimation table. (itinerary)">
+        🎯 <strong>Kết quả:</strong> Sự phối hợp nhịp nhàng giữa 3 tác tử mang đến cho người dùng một bản kế hoạch trọn vẹn, bao gồm dòng thời gian (timeline) chi tiết, bản đồ lộ trình trực quan hóa (polyline) và bảng dự toán chi phí minh bạch. (itinerary)
+      </div>
+    </section>
+
+    <!-- 2. LUỒNG ĐÓNG GÓI DỮ LIỆU -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-box-open'></i> 2. Luồng Đóng Gói Dữ Liệu Trả Về Frontend"
+          data-en="<i class='fa-solid fa-box-open'></i> 2. Frontend Data Packaging Workflow">
+        <i class="fa-solid fa-box-open"></i> 2. Luồng Đóng Gói Dữ Liệu Trả Về Frontend
+      </h3>
+
+      <div class="img-wrapper mb-6"><img src="image/BetoFe.svg" alt="Frontend Data Packaging Workflow"></div>
+
+      <div class="data-flow-box lang-text"
+           data-vi="<p class='content-text'><strong>Backend (Django):</strong> Đóng vai trò trạm kiểm soát, tổng hợp dữ liệu từ 3 tác tử (nhu cầu, tọa độ lộ trình, dự toán chi phí) và đóng gói thành một JSON payload thống nhất.</p>
+           <p class='content-text'><strong>Frontend:</strong> Tiếp nhận JSON để bóc tách và render tức thời lên giao diện: bản đồ lộ trình polyline, timeline từng ngày và bảng chi phí minh bạch. Thiết kế tách bạch giúp hệ thống phản hồi siêu tốc.</p>"
+           data-en="<p class='content-text'><strong>Backend (Django):</strong> Acts as the control hub, aggregating data from the three agents (user requirements, route coordinates, and cost estimates) and packaging everything into a unified JSON payload.</p>
+           <p class='content-text'><strong>Frontend:</strong> Receives the JSON payload, extracts the data, and instantly renders it on the interface, including route polylines, day-by-day timelines, and transparent cost tables. This separation of responsibilities enables extremely fast system response times.</p>">
+        <p class="content-text"><strong>Backend (Django):</strong> Đóng vai trò trạm kiểm soát, tổng hợp dữ liệu từ 3 tác tử (nhu cầu, tọa độ lộ trình, dự toán chi phí) và đóng gói thành một JSON payload thống nhất.</p>
+        <p class="content-text"><strong>Frontend:</strong> Tiếp nhận JSON để bóc tách và render tức thời lên giao diện: bản đồ lộ trình polyline, timeline từng ngày và bảng chi phí minh bạch. Thiết kế tách bạch giúp hệ thống phản hồi siêu tốc.</p>
+      </div>
+    </section>
+
+    <!-- THÁCH THỨC VÀ GIẢI PHÁP (DỌC) -->
+    <div class="challenge-box">
+      <h4 class="challenge-title lang-text"
+          data-vi="<i class='fa-solid fa-triangle-exclamation'></i> Những Thách Thức Trong Triển Khai"
+          data-en="<i class='fa-solid fa-triangle-exclamation'></i> Implementation Challenges">
+        <i class="fa-solid fa-triangle-exclamation"></i> Những Thách Thức Trong Triển Khai
+      </h4>
+      <div class="challenge-grid">
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ VẤN ĐỀ: Điều hướng Multi-Agent (Prompt Engineering)"
+               data-en="▪ PROBLEM: Multi-Agent Orchestration (Prompt Engineering)">▪ VẤN ĐỀ: Điều hướng Multi-Agent (Prompt Engineering)</div>
+          <div class="c-sol lang-text"
+               data-vi="Agents bị mất ngữ cảnh, sinh hallucination hoặc phá vỡ định dạng JSON khi xử lý thông tin phức tạp.<br><br><strong>▸ GIẢI PHÁP:</strong> Áp dụng Few-shot + Chain-of-Thought, phân định ranh giới nhiệm vụ khắt khe cho từng agent. Xây dựng Python Validation Layer tự động kiểm tra output; nếu sai định dạng hoặc logic → bắt lỗi và kích hoạt sinh lại kết quả."
+               data-en="Agents may lose context, generate hallucinations, or break the required JSON format when handling complex information.<br><br><strong>▸ SOLUTION:</strong> Apply Few-Shot Prompting and Chain-of-Thought reasoning with strict task boundaries for each agent. A Python Validation Layer automatically verifies outputs; if validation fails (format or logic), the error is detected and the response is regenerated.">
+            Agents bị mất ngữ cảnh, sinh hallucination hoặc phá vỡ định dạng JSON khi xử lý thông tin phức tạp.<br><br><strong>▸ GIẢI PHÁP:</strong> Áp dụng Few-shot + Chain-of-Thought, phân định ranh giới nhiệm vụ khắt khe cho từng agent. Xây dựng Python Validation Layer tự động kiểm tra output; nếu sai định dạng hoặc logic → bắt lỗi và kích hoạt sinh lại kết quả.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let lang = localStorage.getItem('portfolio_lang') || 'vi';
+    switchLang(lang);
+  });
+
+  function switchLang(lang) {
+    localStorage.setItem('portfolio_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll(`.lang-btn[onclick="switchLang('${lang}')"]`).forEach(btn => btn.classList.add('active'));
+    document.querySelectorAll('.lang-text').forEach(el => {
+      if (el.hasAttribute(`data-${lang}`)) el.innerHTML = el.getAttribute(`data-${lang}`);
+    });
+  }
+</script>
+</body>
+</html>

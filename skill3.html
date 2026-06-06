@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Details: Task Automation - Trần Thị Thảo Vy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { accent: '#083573', 'accent-light': '#e6ecf1' },
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Open Sans"', 'sans-serif'],
+            slab: ['"Roboto Slab"', 'serif'],
+            code: ['"Fira Code"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1a1a2e; }
+
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
+    .nav-link { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; color: #083573; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .nav-link:hover { color: #3b82f6; transform: translateX(-4px); }
+    .lang-switcher { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+    .lang-btn { text-decoration: none; color: #9ca3af; transition: color 0.2s; font-weight: 500; cursor: pointer; }
+    .lang-btn:hover { color: #4b5563; }
+    .lang-btn.active { color: #083573; font-weight: 800; }
+
+    .header-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px; }
+    .header-tag::after { content: ''; display: block; width: 40px; height: 1px; background: #083573; opacity: 0.4; }
+    .page-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 2.4rem; color: #083573; margin-top: 16px; margin-bottom: 16px; line-height: 1.2; }
+
+    .project-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 48px; margin-bottom: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    @media (max-width: 768px) { .project-card { padding: 24px; } .page-title { font-size: 1.8rem; } }
+
+    .project-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: #1a1a2e; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+    .section-subtitle { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 1.2rem; color: #083573; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .subsection-title { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: #1a1a2e; padding-bottom: 10px; border-bottom: 2px solid #083573; margin-bottom: 16px; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tech-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; background: #f0f4f8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 4px; }
+
+    .content-text { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #475569; line-height: 1.75; }
+    .content-text strong { color: #1a1a2e; font-weight: 700; }
+
+    /* IMAGES */
+    .img-wrapper { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 16px; display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 24px;}
+    .img-wrapper img { max-width: 100%; max-height: 800px; width: auto; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+    /* PIPELINE VISUAL */
+    .pipeline-container { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px; background: #f8fafc; padding: 24px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 24px; }
+    @media (max-width: 768px) { .pipeline-container { flex-direction: column; } }
+    .pipeline-step { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+    .pipeline-img-small { height: 110px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #fff; }
+    .pipeline-video-large { height: 350px; object-fit: cover; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #fff; max-width: 100%;}
+    .pipeline-label { font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: #475569; }
+    .pipeline-arrow { font-size: 1.5rem; color: #3b82f6; }
+    @media (max-width: 768px) { .pipeline-arrow { transform: rotate(90deg); } }
+
+    /* LAYOUTS */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .col-block { display: flex; flex-direction: column; gap: 14px; }
+
+    /* BOXES */
+    .result-box { background: #eff6ff; border: 1px solid #bfdbfe; padding: 20px 24px; border-radius: 8px; margin-bottom: 24px;}
+    .perf-box { background: #fdfae8; border-left: 4px solid #eab308; padding: 16px 20px; border-radius: 6px; font-weight: 500; color: #854d0e; font-size: 0.9rem; font-family: 'Inter', sans-serif; margin-top: 20px;}
+    
+    /* WORKFLOW TIMELINE (FLOW) */
+    .workflow-container { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 16px; }
+    .workflow-title { font-family: 'Open Sans', sans-serif; font-weight: 700; color: #0f172a; margin-bottom: 20px; font-size: 0.95rem; }
+    .workflow-timeline { position: relative; padding-left: 28px; }
+    .workflow-timeline::before { content: ''; position: absolute; top: 8px; bottom: 8px; left: 9px; width: 2px; background: #cbd5e1; }
+    .workflow-step { position: relative; margin-bottom: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #334155; line-height: 1.6; }
+    .workflow-step:last-child { margin-bottom: 0; }
+    .workflow-step::before { content: ''; position: absolute; left: -25px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: #fff; border: 2px solid; z-index: 1; }
+    .workflow-step strong { color: #0f172a; display: block; margin-bottom: 4px; }
+    
+    /* Flow Colors */
+    .flow-blue .workflow-step::before { border-color: #3b82f6; }
+    .flow-blue .workflow-timeline::before { background: #bfdbfe; }
+    .flow-purple .workflow-step::before { border-color: #8b5cf6; }
+    .flow-purple .workflow-timeline::before { background: #ddd6fe; }
+    .flow-green .workflow-step::before { border-color: #10b981; }
+    .flow-green .workflow-timeline::before { background: #a7f3d0; }
+
+    /* CHALLENGE (DỌC) */
+    .challenge-box { background: #fff1f2; border: 1px solid #ffe4e6; border-left: 4px solid #e11d48; border-radius: 6px; padding: 24px; margin-top: 48px; }
+    .challenge-title { font-family: 'Open Sans', sans-serif; font-weight: 700; color: #be123c; margin-bottom: 20px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .challenge-grid { display: flex; flex-direction: column; gap: 16px; }
+    .c-item { background: #fff5f6; border-radius: 6px; padding: 18px; border: 1px solid #fecdd3; }
+    .c-prob { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #9f1239; font-weight: 700; margin-bottom: 8px; }
+    .c-sol { font-family: 'Inter', sans-serif; font-size: 0.91rem; color: #4c0519; line-height: 1.65; }
+
+    /* CODE BLOCK */
+    .code-block { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: hidden; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.5; border-left: 4px solid #3b82f6; max-height: 400px; white-space: pre-wrap; word-break: break-word; margin-bottom: 16px;}
+    .code-block::-webkit-scrollbar { width: 6px; height: 6px; }
+    .code-block::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="max-w-[1280px] mx-auto px-[24px] lg:px-[80px] h-[70px] flex items-center justify-between">
+    <a href="index.html" class="nav-link lang-text"
+       data-vi='<i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ'
+       data-en='<i class="fa-solid fa-arrow-left"></i> Back to Home'>
+      <i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ
+    </a>
+    <div class="lang-switcher">
+      <span class="lang-btn active" onclick="switchLang('vi')">VI</span>
+      <span style="color:#d1d5db;">/</span>
+      <span class="lang-btn" onclick="switchLang('en')">EN</span>
+    </div>
+  </div>
+</nav>
+
+<header class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pt-16 pb-8">
+  <div class="header-tag lang-text" data-vi="Kỹ năng 03" data-en="Skill 03">Kỹ năng 03</div>
+  <h1 class="page-title lang-text"
+      data-vi="Tự động hóa tác vụ (Task Automation)"
+      data-en="Task Automation">
+    Tự động hóa tác vụ (Task Automation)
+  </h1>
+</header>
+
+<main class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pb-24">
+
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án 1: Automation AI Video Production"
+        data-en="Project 1: Automation AI Video Production">
+      Dự án 1: Automation AI Video Production
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Selenium WebDriver</span>
+      <span class="tech-tag">KLING AI</span>
+      <span class="tech-tag">Symphony</span>
+      <span class="tech-tag">Local Storage</span>
+      <span class="tech-tag">File I/O</span>
+    </div>
+
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-circle-info'></i> Tổng quan dự án"
+          data-en="<i class='fa-solid fa-circle-info'></i> Project Overview">
+        <i class="fa-solid fa-circle-info"></i> Tổng quan dự án
+      </h3>
+      <p class="content-text lang-text"
+         data-vi="Trong ngành thời trang, việc sản xuất video quảng cáo truyền thống đòi hỏi ngân sách rất lớn cho studio, người mẫu và đội ngũ hậu kỳ. Để giải quyết bài toán về chi phí, dự án này triển khai một dây chuyền sản xuất video AI hoàn toàn tự động. Hệ thống nhận đầu vào là ảnh sản phẩm cùng kịch bản (prompts), tự động hóa toàn bộ luồng giao tiếp với nền tảng tạo video KLING AI, lưu trữ thành phẩm thô, và luân chuyển tiếp sang công cụ Symphony để hoàn thiện công đoạn ghép cảnh và chèn phụ đề. Giải pháp này chuyển đổi quy trình sản xuất media phức tạp thành một hệ thống tự động vận hành xuyên suốt 24/7."
+         data-en="In the fashion industry, traditional promotional video production demands massive budgets for studios, models, and post-production crews. To overcome this cost barrier, this project implements a fully automated AI video production pipeline. The system takes product images and text prompts as inputs, autonomously managing the entire execution flow with the KLING AI video generation platform. It automatically stores the raw video outputs and seamlessly routes them to Symphony to finalize the post-production phase (scene merging and subtitle insertion). Ultimately, this solution transforms a complex media production workflow into a 24/7 autonomous system.">
+        Trong ngành thời trang, việc sản xuất video quảng cáo truyền thống đòi hỏi ngân sách rất lớn cho studio, người mẫu và đội ngũ hậu kỳ. Để giải quyết bài toán về chi phí, dự án này triển khai một dây chuyền sản xuất video AI hoàn toàn tự động. Hệ thống nhận đầu vào là ảnh sản phẩm cùng kịch bản (prompts), tự động hóa toàn bộ luồng giao tiếp với nền tảng tạo video KLING AI, lưu trữ thành phẩm thô, và luân chuyển tiếp sang công cụ Symphony để hoàn thiện công đoạn ghép cảnh và chèn phụ đề. Giải pháp này chuyển đổi quy trình sản xuất media phức tạp thành một hệ thống tự động vận hành xuyên suốt 24/7.
+      </p>
+
+      <div class="pipeline-container">
+        <div class="pipeline-step">
+          <img src="image/Kling_image.png" alt="Kling Input Image" class="pipeline-img-small" onerror="this.src='https://placehold.co/150x200?text=Kling_image'">
+          <span class="pipeline-label lang-text" data-vi="Ảnh đầu vào" data-en="Input Image">Ảnh đầu vào</span>
+        </div>
+        <i class="fa-solid fa-arrow-right pipeline-arrow"></i>
+        <div class="pipeline-step">
+          <img src="image/Kling_video.png" alt="Kling Generated Video" class="pipeline-img-small" onerror="this.src='https://placehold.co/150x200?text=Kling_video'">
+          <span class="pipeline-label lang-text" data-vi="Video thô (KLING AI)" data-en="Raw Video (KLING AI)">Video thô (KLING AI)</span>
+        </div>
+        <i class="fa-solid fa-arrow-right pipeline-arrow"></i>
+        <div class="pipeline-step">
+          <video src="image/symphony.mp4" class="pipeline-video-large" controls loop muted onerror="this.outerHTML='<img src=\'https://placehold.co/250x350?text=symphony.mp4\' alt=\'Symphony Video\' class=\'pipeline-video-large\'>'"></video>
+          <span class="pipeline-label lang-text" data-vi="Thành phẩm (Symphony)" data-en="Final Output (Symphony)">Thành phẩm (Symphony)</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-wand-magic-sparkles'></i> 1. Xây dựng Luồng Tự động hóa Sản xuất Video bằng AI (Kling RPA)"
+          data-en="<i class='fa-solid fa-wand-magic-sparkles'></i> 1. Building AI Video Production Automation Workflow (Kling RPA)">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> 1. Xây dựng Luồng Tự động hóa Sản xuất Video bằng AI (Kling RPA)
+      </h3>
+
+      <div class="img-wrapper"><img src="image/KlingVideo.svg" alt="Kling Video RPA Workflow"></div>
+
+      <div class="workflow-container bg-blue-50/50">
+        <div class="workflow-title text-blue-800 lang-text" data-vi="Cơ chế hoạt động và xử lý:" data-en="Workflow and Processing Mechanics:">Cơ chế hoạt động và xử lý:</div>
+        <div class="workflow-timeline flow-blue">
+          <div class="workflow-step lang-text"
+               data-vi="Tự động hóa giao diện web bằng Selenium Stealth (giải quyết rào cản thiếu API)"
+               data-en="Web automation via Selenium Stealth (bypassing API limitations)">
+            Tự động hóa giao diện web bằng Selenium Stealth (giải quyết rào cản thiếu API)
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Phân loại và định tuyến tác vụ (Kling Model 1.6 cho Pose, 2.1 cho Move)"
+               data-en="Task classification and routing (Kling Model 1.6 for Pose, 2.1 for Move)">
+            Phân loại và định tuyến tác vụ (Kling Model 1.6 cho Pose, 2.1 cho Move)
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Giám sát Credit: chủ động &quot;ngủ đông&quot; khi cạn và tự khôi phục luồng"
+               data-en="Credit monitoring: actively entering &quot;sleep mode&quot; when depleted and auto-recovering the workflow">
+            Giám sát Credit: chủ động "ngủ đông" khi cạn và tự khôi phục luồng
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Loại bỏ thời gian chờ cố định (10-40s), chuyển sang giám sát trực tiếp cây DOM"
+               data-en="Eliminating fixed wait times (10-40s) in favor of direct DOM monitoring">
+            Loại bỏ thời gian chờ cố định (10-40s), chuyển sang giám sát trực tiếp cây DOM
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Bắt tín hiệu và tải video ngay khi render hoàn tất"
+               data-en="Catching signals and downloading videos immediately upon render completion">
+            Bắt tín hiệu và tải video ngay khi render hoàn tất
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Đánh dấu Checkpoint tức thì"
+               data-en="Marking Checkpoint instantly">
+            Đánh dấu Checkpoint tức thì
+          </div>
+          <div class="workflow-step font-semibold text-blue-900 lang-text"
+               data-vi="Bảo toàn tiến trình, chống trùng lặp dữ liệu và chuyển tiếp tác vụ."
+               data-en="Preserving process integrity, preventing data duplication, and transitioning tasks.">
+            Bảo toàn tiến trình, chống trùng lặp dữ liệu và chuyển tiếp tác vụ.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-8 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-photo-film'></i> 2. Xây dựng Luồng Tự động hóa Hậu kỳ (Symphony RPA)"
+          data-en="<i class='fa-solid fa-photo-film'></i> 2. Building Post-Production Automation Workflow (Symphony RPA)">
+        <i class="fa-solid fa-photo-film"></i> 2. Xây dựng Luồng Tự động hóa Hậu kỳ (Symphony RPA)
+      </h3>
+
+      <div class="img-wrapper"><img src="image/synphony.svg" alt="Symphony RPA Workflow" style="max-height: 900px;"></div>
+
+      <div class="workflow-container bg-purple-50/50" style="border-color: #e9d5ff;">
+        <div class="workflow-title text-purple-800 lang-text" data-vi="Cơ chế hoạt động và xử lý:" data-en="Workflow and Processing Mechanics:">Cơ chế hoạt động và xử lý:</div>
+        <div class="workflow-timeline flow-purple">
+          <div class="workflow-step lang-text"
+               data-vi="Tự động hóa giao diện qua Selenium Stealth (khắc phục rào cản thiếu API)"
+               data-en="UI automation via Selenium Stealth (bypassing API limitations)">
+            Tự động hóa giao diện qua Selenium Stealth (khắc phục rào cản thiếu API)
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Triển khai Hybrid Auth (vượt Anti-Bot bằng cơ chế ưu tiên tái sử dụng cookies)"
+               data-en="Implementing Hybrid Auth (bypassing Anti-Bot by prioritizing cookie reuse)">
+            Triển khai Hybrid Auth (vượt Anti-Bot bằng cơ chế ưu tiên tái sử dụng cookies)
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Đồng bộ dữ liệu động từ Google Sheets (tự động hóa đầu vào render)"
+               data-en="Syncing dynamic data from Google Sheets (automating render inputs)">
+            Đồng bộ dữ liệu động từ Google Sheets (tự động hóa đầu vào render)
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Thiết lập cơ chế tự phục hồi (chủ động bắt lỗi nền tảng Symphony và tái kích hoạt Generate)"
+               data-en="Establishing an auto-recovery mechanism (proactively catching Symphony platform errors and re-triggering Generate)">
+            Thiết lập cơ chế tự phục hồi (chủ động bắt lỗi nền tảng Symphony và tái kích hoạt Generate)
+          </div>
+          <div class="workflow-step lang-text"
+               data-vi="Giám sát trực tiếp cây DOM (tối ưu tốc độ, loại bỏ thời gian chờ thụ động)"
+               data-en="Direct DOM monitoring (optimizing speed, eliminating passive wait times)">
+            Giám sát trực tiếp cây DOM (tối ưu tốc độ, loại bỏ thời gian chờ thụ động)
+          </div>
+          <div class="workflow-step font-semibold text-purple-900 lang-text"
+               data-vi="Xác thực file .mp4, phân luồng lưu trữ và đánh dấu Checkpoint (bảo toàn tiến trình, chống xử lý trùng lặp)."
+               data-en="Validating .mp4 files, routing storage, and marking Checkpoint (preserving process integrity and preventing duplicate processing).">
+            Xác thực file .mp4, phân luồng lưu trữ và đánh dấu Checkpoint (bảo toàn tiến trình, chống xử lý trùng lặp).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="challenge-box">
+      <h4 class="challenge-title lang-text"
+          data-vi="<i class='fa-solid fa-triangle-exclamation'></i> Thách thức lớn nhất"
+          data-en="<i class='fa-solid fa-triangle-exclamation'></i> Core Challenges">
+        <i class="fa-solid fa-triangle-exclamation"></i> Thách thức lớn nhất
+      </h4>
+      <div class="challenge-grid">
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ VẤN ĐỀ: Tối ưu thời gian Render"
+               data-en="▪ PROBLEM: Render Optimization">▪ VẤN ĐỀ: Tối ưu thời gian Render</div>
+          <div class="c-sol lang-text"
+               data-vi="Thời gian xuất video KLING AI thất thường gây lãng phí.<br><strong>▸ GIẢI PHÁP:</strong> Dùng cơ chế chờ động (DOM Polling) tự động tải video ngay khi hoàn tất."
+               data-en="Unpredictable KLING AI render times waste resources.<br><strong>▸ SOLUTION:</strong> Implement DOM Polling to instantly download output upon completion.">
+            Thời gian xuất video KLING AI thất thường gây lãng phí.<br><strong>▸ GIẢI PHÁP:</strong> Dùng cơ chế chờ động (DOM Polling) tự động tải video ngay khi hoàn tất.
+          </div>
+        </div>
+        
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ VẤN ĐỀ: Xử lý giao diện động"
+               data-en="▪ PROBLEM: Dynamic UI Handling">▪ VẤN ĐỀ: Xử lý giao diện động</div>
+          <div class="c-sol lang-text"
+               data-vi="Giao diện Symphony biến động liên tục gây lỗi khi dùng XPath.<br><strong>▸ GIẢI PHÁP:</strong> Kết hợp Phím tắt (Shortcuts) và cơ chế Retry-catch, đảm bảo thao tác chuẩn xác dù trình duyệt giật lag."
+               data-en="Dynamic Symphony UI causes standard XPath failures.<br><strong>▸ SOLUTION:</strong> Combine Shortcuts with Retry-catch loops for stable execution even under lag.">
+            Giao diện Symphony biến động liên tục gây lỗi khi dùng XPath.<br><strong>▸ GIẢI PHÁP:</strong> Kết hợp Phím tắt (Shortcuts) và cơ chế Retry-catch, đảm bảo thao tác chuẩn xác dù trình duyệt giật lag.
+          </div>
+        </div>
+
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ VẤN ĐỀ: Tương thích đa môi trường"
+               data-en="▪ PROBLEM: Cross-Environment Stability">▪ VẤN ĐỀ: Tương thích đa môi trường</div>
+          <div class="c-sol lang-text"
+               data-vi="Script dễ lỗi khi đổi độ phân giải hoặc hệ điều hành.<br><strong>▸ GIẢI PHÁP:</strong> Chuẩn hóa tọa độ và kiểm thử chéo, đảm bảo ổn định 100% trên mọi cấu hình máy đối tác."
+               data-en="Scripts break across different screen resolutions or OS.<br><strong>▸ SOLUTION:</strong> Standardize coordinates and cross-test to ensure 100% stability on all partner setups.">
+            Script dễ lỗi khi đổi độ phân giải hoặc hệ điều hành.<br><strong>▸ GIẢI PHÁP:</strong> Chuẩn hóa tọa độ và kiểm thử chéo, đảm bảo ổn định 100% trên mọi cấu hình máy đối tác.
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án 2: Quy trình tạo ảnh tự động cho dự án Audiobook"
+        data-en="Project 2: Automated Image Generation Pipeline for Audiobook">
+      Dự án 2: Quy trình tạo ảnh tự động cho dự án Audiobook
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Selenium WebDriver</span>
+      <span class="tech-tag">Gemini API</span>
+      <span class="tech-tag">Local Storage</span>
+      <span class="tech-tag">File I/O</span>
+    </div>
+
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-circle-info'></i> Tổng quan dự án"
+          data-en="<i class='fa-solid fa-circle-info'></i> Project Overview">
+        <i class="fa-solid fa-circle-info"></i> Tổng quan dự án
+      </h3>
+      <p class="content-text lang-text"
+         data-vi="Dùng API phân cảnh truyện thành các prompt hình ảnh. Ứng dụng Selenium giả lập thao tác người dùng trên nền tảng Gemini Web (nhập prompt, chờ kết quả, tải ảnh) để tối ưu hóa chi phí sản xuất thay vì gọi API trả phí."
+         data-en="Use an API to segment story content into image-generation prompts. Apply Selenium to simulate user interactions on the Gemini Web platform (entering prompts, waiting for results, and downloading images) to optimize production costs instead of using paid API calls.">
+        Dùng API phân cảnh truyện thành các prompt hình ảnh. Ứng dụng Selenium giả lập thao tác người dùng trên nền tảng Gemini Web (nhập prompt, chờ kết quả, tải ảnh) để tối ưu hóa chi phí sản xuất thay vì gọi API trả phí.
+      </p>
+
+      <div class="pipeline-container">
+        <div class="pipeline-step" style="max-width: 400px; text-align: left; background: #fff; padding: 16px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.9rem; line-height: 1.6; color: #334155;">
+          <span class="lang-text font-bold mb-2 block" data-vi="Phân đoạn truyện:" data-en="Story segment:">Phân đoạn truyện:</span>
+          <span class="lang-text" data-vi="[Một nam trẻ tuổi, Thiên Vũ, đang chạy điên cuồng khi mặt đất rung chuyển dữ dội và liên tục; bị một nhóm lớn U Ma Lang (Lang Quỷ) truy đuổi ráo riết ngay phía sau, đồng thời gọi lớn Sư Phụ của mình.]" data-en="[A young man, Thien Vu, running frantically as the ground shakes violently and continuously; hotly pursued by a large pack of U Ma Lang (Demon Wolves) right behind him, while shouting out for his Master.]">
+            [Một nam trẻ tuổi, Thiên Vũ, đang chạy điên cuồng khi mặt đất rung chuyển dữ dội và liên tục; bị một nhóm lớn U Ma Lang (Lang Quỷ) truy đuổi ráo riết ngay phía sau, đồng thời gọi lớn Sư Phụ của mình.]
+          </span>
+        </div>
+        <i class="fa-solid fa-arrow-right pipeline-arrow"></i>
+        <div class="pipeline-step">
+          <img src="image/img_ba44627e.jpg" alt="Generated Story Image" class="pipeline-img-small" style="height: 180px; width: auto;" onerror="this.src='https://placehold.co/250x180?text=img_ba44627e.jpg'">
+          <span class="pipeline-label lang-text" data-vi="Ảnh đầu ra" data-en="Output Image">Ảnh đầu ra</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-gears'></i> 1. Nhiệm vụ và kết quả"
+          data-en="<i class='fa-solid fa-gears'></i> 1. Tasks and Results">
+        <i class="fa-solid fa-gears"></i> 1. Nhiệm vụ và kết quả
+      </h3>
+
+      <div class="mb-10">
+        <h4 class="subsection-title lang-text"
+            data-vi="Tạo prompt cho Gemini"
+            data-en="Creating Prompts for Gemini">Tạo prompt cho Gemini</h4>
+        <p class="content-text lang-text mb-4"
+           data-vi="Prompt được thiết kế theo cấu trúc cố định để đảm bảo tính nhất quán phong cách xuyên suốt toàn bộ audiobook."
+           data-en="The prompts are designed with a fixed structure to ensure a consistent visual style throughout the entire audiobook.">
+          Prompt được thiết kế theo cấu trúc cố định để đảm bảo tính nhất quán phong cách xuyên suốt toàn bộ audiobook.
+        </p>
+        
+        <pre class="code-block"><code>prompt = f"""Bạn là một chuyên gia thiết kế prompt cho AI tạo ảnh (như Stable Diffusion, Midjourney). 
+Nhiệm vụ của bạn là chia chương truyện dưới đây thành đúng 20 phân đoạn theo thứ tự thời gian và trích xuất các miêu tả mang tính THỊ GIÁC (visual) chi tiết nhất để phục vụ cho việc render ảnh.
+
+Với mỗi phân đoạn, hãy trả về kết quả dưới dạng một danh sách (array) chứa các object JSON nghiêm ngặt.
+
+Yêu cầu trích xuất chi tiết hình ảnh:
+1. "en_block2" (Nhân vật): Trích xuất bằng TIẾNG ANH. Liệt kê rõ [Số lượng, Giới tính], [Độ tuổi], [Vai trò/Nghề nghiệp], [Đặc điểm khuôn mặt, Biểu cảm], [Kiểu/màu tóc], [Chi tiết trang phục, màu sắc], [Vũ khí/Phụ kiện]. Sử dụng cụm từ hoặc từ khóa miêu tả rõ ràng.
+2. "en_block3" (Hành động &amp; Bối cảnh): Trích xuất bằng TIẾNG ANH. Miêu tả [Hành động đang diễn ra, Tư thế], [Môi trường/Bối cảnh xung quanh], [Ánh sáng, Thời tiết], [Đối tượng hoặc hiệu ứng tương tác]. 
+3. "vn_description" (Mô tả tiếng Việt): Bắt buộc là bản dịch tiếng Việt trôi chảy, sát nghĩa của khung cảnh được ghép từ (en_block2 + en_block3). TUYỆT ĐỐI KHÔNG tóm tắt diễn biến cốt truyện, không dịch lời thoại hay miêu tả tâm lý vô hình. Chỉ miêu tả những gì mắt có thể NHÌN THẤY trong một bức ảnh tĩnh.
+
+Cấu trúc JSON yêu cầu:
+[
+    {{
+        "segment_id": 1,
+        "en_block2": "1 young man, handsome, angry expression, long silver hair tied in a high ponytail, wearing black and gold martial arts robes, holding a glowing jade sword",
+        "en_block3": "swinging sword downwards, standing on a shattered stone arena, dark stormy sky, heavy rain, dramatic lightning, fighting invisible enemies",
+        "vn_description": "Một nam thanh niên trẻ, khuôn mặt tuấn tú với biểu cảm tức giận, mái tóc dài màu bạc buộc cao. Anh ta mặc võ phục màu đen điểm vàng, tay cầm một thanh ngọc kiếm phát sáng. Anh ta đang vung kiếm chém xuống, đứng trên một lôi đài bằng đá vỡ nát. Bầu trời tối tăm giông bão, mưa lớn, sấm sét dữ dội, đang chiến đấu với những kẻ thù vô hình."
+    }}
+]
+
+Lưu ý:
+- Chỉ trả về duy nhất mảng JSON hợp lệ chứa đúng 20 phần tử.
+- Không thêm bất kỳ văn bản nào trước hoặc sau khối JSON.
+- Đảm bảo các chuỗi tiếng Anh trong block 2 và 3 được tối ưu hóa cho AI vẽ ảnh (dùng từ khóa, dấu phẩy ngăn cách).
+
+Chương truyện:
+{chapter_text}
+"""</code></pre>
+        <div class="content-text lang-text mt-4"
+             data-vi="💡 Mỗi phân đoạn truyện được trích xuất tự động và chèn vào khung mô tả → giữ nguyên phong cách hình ảnh nhưng nội dung luôn bám sát tình tiết của chương sách."
+             data-en="💡 Each story segment is automatically extracted and integrated into the visual description framework → maintaining the art style while ensuring the content perfectly aligns with the chapter's plot.">
+          💡 Mỗi phân đoạn truyện được trích xuất tự động và chèn vào khung mô tả → giữ nguyên phong cách hình ảnh nhưng nội dung luôn bám sát tình tiết của chương sách.
+        </div>
+      </div>
+
+      <div>
+        <h4 class="subsection-title lang-text"
+            data-vi="Luồng Tạo Hình Ảnh Bằng RPA"
+            data-en="Image Generation RPA Workflow">Luồng Tạo Hình Ảnh Bằng RPA</h4>
+        
+        <div class="img-wrapper"><img src="image/image_tts.svg" alt="Image Generation Workflow RPA"></div>
+        
+        <div class="workflow-container bg-green-50/50" style="border-color: #bbf7d0;">
+          <div class="workflow-title text-green-800 lang-text" data-vi="Cơ chế hoạt động và xử lý:" data-en="Workflow and Processing Mechanics:">Cơ chế hoạt động và xử lý:</div>
+          <div class="workflow-timeline flow-green">
+            <div class="workflow-step lang-text"
+                 data-vi="Tối ưu chi phí sinh ảnh (tận dụng free tier) qua tự động hóa Gemini Web"
+                 data-en="Optimizing image generation costs (leveraging the free tier) via Gemini Web automation">
+              Tối ưu chi phí sinh ảnh (tận dụng free tier) qua tự động hóa Gemini Web
+            </div>
+            <div class="workflow-step lang-text"
+                 data-vi="Vượt rào cản bảo mật Anti-Bot bằng Chrome Profile kết hợp mô phỏng Human Typing"
+                 data-en="Bypassing Anti-Bot security barriers using Chrome Profiles combined with Human Typing simulation">
+              Vượt rào cản bảo mật Anti-Bot bằng Chrome Profile kết hợp mô phỏng Human Typing
+            </div>
+            <div class="workflow-step lang-text"
+                 data-vi="Khắc phục giới hạn chặn tải file bằng cách trích xuất dữ liệu ảnh trực tiếp (inject JavaScript vào DOM để giải mã chuỗi Base64 từ thẻ Canvas)"
+                 data-en="Overcoming file download restrictions by extracting image data directly (injecting JavaScript into the DOM to decode Base64 strings from Canvas tags)">
+              Khắc phục giới hạn chặn tải file bằng cách trích xuất dữ liệu ảnh trực tiếp (inject JavaScript vào DOM để giải mã chuỗi Base64 từ thẻ Canvas)
+            </div>
+            <div class="workflow-step lang-text"
+                 data-vi="Xử lý Rate Limit bằng chiến lược xoay vòng Profile và tự động &quot;ngủ đông&quot; 3 tiếng chờ reset Quota"
+                 data-en="Handling Rate Limits through a Profile rotation strategy and automatically entering a 3-hour &quot;sleep mode&quot; waiting for Quota reset">
+              Xử lý Rate Limit bằng chiến lược xoay vòng Profile và tự động "ngủ đông" 3 tiếng chờ reset Quota
+            </div>
+            <div class="workflow-step lang-text"
+                 data-vi="Lưu vết trạng thái tác vụ theo thời gian thực vào CSV (Thành công, Vi phạm Content Policy, Lỗi)"
+                 data-en="Logging real-time task statuses into CSV (Success, Content Policy Violation, Error)">
+              Lưu vết trạng thái tác vụ theo thời gian thực vào CSV (Thành công, Vi phạm Content Policy, Lỗi)
+            </div>
+            <div class="workflow-step font-semibold text-green-900 lang-text"
+                 data-vi="Bảo toàn toàn vẹn dữ liệu, tự động khôi phục và tiếp nối chính xác tiến trình đang dang dở."
+                 data-en="Ensuring data integrity, auto-recovering, and accurately resuming interrupted processes.">
+              Bảo toàn toàn vẹn dữ liệu, tự động khôi phục và tiếp nối chính xác tiến trình đang dang dở.
+            </div>
+          </div>
+        </div>
+
+        <div class="perf-box lang-text"
+             data-vi="🚀 <strong>Hiệu suất:</strong> 125 ảnh/ngày qua 4 Chrome profiles (TB 11 phút/ảnh đã tính thời gian render và nghỉ giãn cách tránh quét IP, khoảng 31 ảnh/profile trước khi hết limit)."
+             data-en="🚀 <strong>Performance:</strong> 125 images/day across 4 Chrome profiles (Avg. 11 mins/image, accounting for render time and cooling-off periods to avoid IP bans, yielding approx. 31 images/profile before hitting the limit).">
+          🚀 <strong>Hiệu suất:</strong> 125 ảnh/ngày qua 4 Chrome profiles (TB 11 phút/ảnh đã tính thời gian render và nghỉ giãn cách tránh quét IP, khoảng 31 ảnh/profile trước khi hết limit).
+        </div>
+      </div>
+    </section>
+
+    <div class="challenge-box">
+      <h4 class="challenge-title lang-text"
+          data-vi="<i class='fa-solid fa-triangle-exclamation'></i> Thách thức lớn nhất"
+          data-en="<i class='fa-solid fa-triangle-exclamation'></i> Core Challenge">
+        <i class="fa-solid fa-triangle-exclamation"></i> Thách thức lớn nhất
+      </h4>
+      <div class="challenge-grid">
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ VẤN ĐỀ: Tối Ưu Chi Phí Sinh Ảnh"
+               data-en="▪ PROBLEM: Image Generation Cost Optimization">▪ VẤN ĐỀ: Tối Ưu Chi Phí Sinh Ảnh</div>
+          <div class="c-sol lang-text"
+               data-vi="API sinh ảnh (Midjourney, DALL-E) quá tốn kém khi xử lý hàng ngàn chương truyện.<br><br><strong>▸ GIẢI PHÁP:</strong> RPA Selenium tự động hóa Gemini Web miễn phí: đăng nhập, nạp prompt, chờ render, tải ảnh. Chuyển bài toán API cost thành browser automation — tiết kiệm 100%."
+               data-en="Image generation APIs (Midjourney, DALL-E) are too expensive when processing thousands of story chapters.<br><br><strong>▸ SOLUTION:</strong> Use Selenium RPA to automate the free Gemini Web platform: log in, submit prompts, wait for rendering, and download images. Transform the API cost problem into a browser automation solution, reducing image generation costs by 100%.">
+            API sinh ảnh (Midjourney, DALL-E) quá tốn kém khi xử lý hàng ngàn chương truyện.<br><br><strong>▸ GIẢI PHÁP:</strong> RPA Selenium tự động hóa Gemini Web miễn phí: đăng nhập, nạp prompt, chờ render, tải ảnh. Chuyển bài toán API cost thành browser automation — tiết kiệm 100%.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let lang = localStorage.getItem('portfolio_lang') || 'vi';
+    switchLang(lang);
+  });
+
+  function switchLang(lang) {
+    localStorage.setItem('portfolio_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll(`.lang-btn[onclick="switchLang('${lang}')"]`).forEach(btn => btn.classList.add('active'));
+    document.querySelectorAll('.lang-text').forEach(el => {
+      if (el.hasAttribute(`data-${lang}`)) el.innerHTML = el.getAttribute(`data-${lang}`);
+    });
+  }
+</script>
+</body>
+</html>

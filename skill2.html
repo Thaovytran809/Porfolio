@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Details: Data Analysis & BI - Trần Thị Thảo Vy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { accent: '#083573', 'accent-light': '#e6ecf1' },
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Open Sans"', 'sans-serif'],
+            slab: ['"Roboto Slab"', 'serif'],
+            code: ['"Fira Code"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1a1a2e; }
+
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
+    .nav-link { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; color: #083573; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .nav-link:hover { color: #3b82f6; transform: translateX(-4px); }
+    .lang-switcher { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+    .lang-btn { text-decoration: none; color: #9ca3af; transition: color 0.2s; font-weight: 500; cursor: pointer; }
+    .lang-btn:hover { color: #4b5563; }
+    .lang-btn.active { color: #083573; font-weight: 800; }
+
+    .header-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px; }
+    .header-tag::after { content: ''; display: block; width: 40px; height: 1px; background: #083573; opacity: 0.4; }
+    .page-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 2.4rem; color: #083573; margin-top: 16px; margin-bottom: 16px; line-height: 1.2; }
+
+    .project-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 48px; margin-bottom: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    @media (max-width: 768px) { .project-card { padding: 24px; } .page-title { font-size: 1.8rem; } }
+
+    .project-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: #1a1a2e; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+    .section-subtitle { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 1.2rem; color: #083573; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .subsection-title { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: #1a1a2e; padding-bottom: 10px; border-bottom: 2px solid #083573; margin-bottom: 16px; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tech-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; background: #f0f4f8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 4px; }
+
+    .content-text { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #475569; line-height: 1.75;}
+    .content-text strong { color: #1a1a2e; font-weight: 700; }
+
+    /* IMAGES */
+    .img-wrapper { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 16px; display: flex; justify-content: center; align-items: center; width: 100%; }
+    .img-wrapper img { max-width: 100%; max-height: 700px; width: auto; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+    /* LAYOUTS */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .col-block { display: flex; flex-direction: column; gap: 14px; }
+
+    /* LISTS & BOXES */
+    .step-list { display: flex; flex-direction: column; gap: 10px; }
+    .step-item { display: flex; align-items: flex-start; gap: 12px; }
+    .step-num { flex-shrink: 0; width: 24px; height: 24px; background: #083573; color: #fff; font-size: 0.78rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+
+    .result-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 11px 15px; border-radius: 4px; font-weight: 500; color: #1e3a8a; font-size: 0.88rem; font-family: 'Inter', sans-serif; margin-top: 12px; }
+    .perf-box { background: #fdfae8; border-left: 4px solid #eab308; padding: 11px 15px; border-radius: 4px; font-weight: 500; color: #854d0e; font-size: 0.88rem; font-family: 'Inter', sans-serif; margin-top: 12px;}
+    .insight-box { background: #f0fdf4; border-left: 4px solid #22c55e; padding: 16px 20px; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif; margin-bottom: 12px; }
+    .action-box { background: #fef2f2; border-left: 4px solid #ef4444; padding: 16px 20px; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif; margin-bottom: 24px; }
+
+    /* DATA CLEANING GRID */
+    .cleaning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 640px) { .cleaning-grid { grid-template-columns: 1fr; } }
+    .clean-item { background: #fff; border-radius: 6px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .clean-title { font-family: 'Open Sans', sans-serif; font-size: 1rem; color: #083573; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;}
+    .clean-sub { font-weight: 600; color: #334155; margin-bottom: 4px; font-size: 0.9rem; }
+    .clean-desc { color: #475569; font-size: 0.85rem; line-height: 1.6; margin-bottom: 12px; }
+    .clean-desc:last-child { margin-bottom: 0; }
+
+    /* CODE BLOCK */
+    .code-block { background: #1e293b; color: #f8fafc; padding: 16px; border-radius: 8px; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; margin: 16px 0; }
+    
+    /* LINK BUTTON */
+    .btn-link { display: inline-flex; align-items: center; gap: 8px; background: #f1f5f9; color: #083573; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: all 0.2s; border: 1px solid #cbd5e1; margin-bottom: 16px;}
+    .btn-link:hover { background: #e2e8f0; color: #1d4ed8; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="max-w-[1280px] mx-auto px-[24px] lg:px-[80px] h-[70px] flex items-center justify-between">
+    <a href="index.html" class="nav-link lang-text"
+       data-vi='<i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ'
+       data-en='<i class="fa-solid fa-arrow-left"></i> Back to Home'>
+      <i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ
+    </a>
+    <div class="lang-switcher">
+      <span class="lang-btn active" onclick="switchLang('vi')">VI</span>
+      <span style="color:#d1d5db;">/</span>
+      <span class="lang-btn" onclick="switchLang('en')">EN</span>
+    </div>
+  </div>
+</nav>
+
+<header class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pt-16 pb-8">
+  <div class="header-tag lang-text" data-vi="Kỹ năng 02" data-en="Skill 02">Kỹ năng 02</div>
+  <h1 class="page-title lang-text"
+      data-vi="Truy vấn SQL, Xử lý dữ liệu, Trực quan hóa và Phân tích chuyên sâu"
+      data-en="SQL Querying, Data Processing, Visualization &amp; In-depth Analysis">
+    Truy vấn SQL, Xử lý dữ liệu, Trực quan hóa và Phân tích chuyên sâu
+  </h1>
+  <p class="content-text text-lg mt-4 lang-text"
+     data-vi="Tập trung vào năng lực làm sạch, mô hình hóa dữ liệu và vận hành trên các hệ quản trị CSDL (PostgreSQL, SQL Server). Biến dữ liệu phức tạp thành các insight kinh doanh thực tiễn, đóng góp trực tiếp vào mục tiêu tối ưu vận hành và tăng trưởng của doanh nghiệp."
+     data-en="Focused on data cleaning, data modeling, and working with database management systems (PostgreSQL, SQL Server). Transform complex data into practical business insights, directly contributing to operational optimization and business growth objectives.">
+    Tập trung vào năng lực làm sạch, mô hình hóa dữ liệu và vận hành trên các hệ quản trị CSDL (PostgreSQL, SQL Server). Biến dữ liệu phức tạp thành các insight kinh doanh thực tiễn, đóng góp trực tiếp vào mục tiêu tối ưu vận hành và tăng trưởng của doanh nghiệp.
+  </p>
+</header>
+
+<main class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pb-24">
+
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án: Phân tích tình hình kinh doanh của cửa hàng trà"
+        data-en="Project: Tea Shop Business Analysis">
+      Dự án: Phân tích tình hình kinh doanh của cửa hàng trà
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">SQL Server</span>
+      <span class="tech-tag">Google Cloud Platform</span>
+      <span class="tech-tag">Google BigQuery</span>
+      <span class="tech-tag">Tableau</span>
+      <span class="tech-tag">Power BI</span>
+      <span class="tech-tag">Looker Studio</span>
+      <span class="tech-tag">Streamlit</span>
+    </div>
+
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-sitemap'></i> 1. Data Modeling"
+          data-en="<i class='fa-solid fa-sitemap'></i> 1. Data Modeling">
+        <i class="fa-solid fa-sitemap"></i> 1. Data Modeling
+      </h3>
+      <div class="img-wrapper mb-6"><img src="image/datamodeling_saletea.svg" alt="Data Modeling Sale Tea"></div>
+      
+      <div class="mb-4"> <div class="col-block">
+    <ul class="step-list lang-text"
+        data-vi="<li class='content-text mb-2'>👤 <strong>Khách hàng (Customer &amp; Segment):</strong> Quản lý định danh và phân khúc người mua.</li><li class='content-text mb-2'>📦 <strong>Sản phẩm (Product &amp; Category):</strong> Tổ chức danh mục và chi tiết hàng hóa.</li><li class='content-text mb-2'>🛒 <strong>Giao dịch (Bill &amp; Bill_Line):</strong> Lưu vết dòng chảy đơn hàng và chi tiết từng mặt hàng.</li>"
+        data-en="<li class='content-text mb-2'>👤 <strong>Customer (Customer &amp; Segment):</strong> Manage customer identities and customer segmentation.</li><li class='content-text mb-2'>📦 <strong>Product (Product &amp; Category):</strong> Organize product categories and item details.</li><li class='content-text mb-2'>🛒 <strong>Transactions (Bill &amp; Bill_Line):</strong> Track order flows and detailed line items.</li>">
+      <li class="content-text mb-2">👤 <strong>Khách hàng (Customer &amp; Segment):</strong> Quản lý định danh và phân khúc người mua.</li>
+      <li class="content-text mb-2">📦 <strong>Sản phẩm (Product &amp; Category):</strong> Tổ chức danh mục và chi tiết hàng hóa.</li>
+      <li class="content-text mb-2">🛒 <strong>Giao dịch (Bill &amp; Bill_Line):</strong> Lưu vết dòng chảy đơn hàng và chi tiết từng mặt hàng.</li>
+    </ul>
+  </div>
+</div>
+      
+      <div class="perf-box lang-text"
+           data-vi="⚡ Hiệu suất: Mô hình cơ sở dữ liệu quan hệ (Relational Database) được thiết kế cho hệ thống quản lý đơn hàng. Cấu trúc chuẩn hóa cao, đảm bảo tính toàn vẹn dữ liệu và tạo nền tảng vững chắc cho các bài toán phân tích kinh doanh (Business Analytics)."
+           data-en="⚡ Performance: A Relational Database model designed for an order management system. The highly normalized structure ensures data integrity and provides a strong foundation for Business Analytics.">
+        ⚡ Hiệu suất: Mô hình cơ sở dữ liệu quan hệ (Relational Database) được thiết kế cho hệ thống quản lý đơn hàng. Cấu trúc chuẩn hóa cao, đảm bảo tính toàn vẹn dữ liệu và tạo nền tảng vững chắc cho các bài toán phân tích kinh doanh (Business Analytics).
+      </div>
+    </section>
+
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-database'></i> 2. Data Querying"
+          data-en="<i class='fa-solid fa-database'></i> 2. Data Querying">
+        <i class="fa-solid fa-database"></i> 2. Data Querying
+      </h3>
+
+      <div class="mb-12">
+        <h4 class="subsection-title lang-text"
+            data-vi="Phân tích chuyên sâu trên Google Colab"
+            data-en="Advanced Analysis on Google Colab">Phân tích chuyên sâu trên Google Colab</h4>
+        <p class="content-text mb-4 lang-text"
+           data-vi="Viết các truy vấn SQL chuyên sâu để tạo ra các Data Marts phức tạp, chuẩn bị dữ liệu đầu vào cho hệ thống Dashboard."
+           data-en="Develop advanced SQL queries to create complex Data Marts, preparing input data for the Dashboard system.">
+          Viết các truy vấn SQL chuyên sâu để tạo ra các Data Marts phức tạp, chuẩn bị dữ liệu đầu vào cho hệ thống Dashboard.
+        </p>
+        
+        <a href="https://colab.research.google.com/drive/1U9X8Gwijd_nLKG8764Irk9Te8skAzvK1?usp=sharing#scrollTo=n82QrsjG_I8v" target="_blank" rel="noopener" class="btn-link">
+          <i class="fa-brands fa-google"></i> <span class="lang-text" data-vi="Xem chi tiết trên Google Colab" data-en="View on Google Colab">Xem chi tiết trên Google Colab</span>
+        </a>
+
+        <div class="result-box mb-4 lang-text" style="border-left-color: #8b5cf6; background: #f5f3ff; color: #4c1d95;"
+             data-vi="<strong>❓ Câu hỏi kinh doanh:</strong> Năm qua, đối với từng nhóm hàng thì mặt hàng nào thường dễ bán nhất (có xác suất bán trên mỗi đơn hàng cao nhất)? Mặt hàng nào khó bán nhất (có xác suất bán trên mỗi đơn hàng thấp nhất)?"
+             data-en="<strong>❓ Business Question:</strong> Over the past year, which product in each category was the easiest to sell (highest probability of being purchased per order)? Which product was the hardest to sell (lowest probability of being purchased per order)?">
+          <strong>❓ Câu hỏi kinh doanh:</strong> Năm qua, đối với từng nhóm hàng thì mặt hàng nào thường dễ bán nhất (có xác suất bán trên mỗi đơn hàng cao nhất)? Mặt hàng nào khó bán nhất (có xác suất bán trên mỗi đơn hàng thấp nhất)?
+        </div>
+
+        <div class="code-block">
+<pre><code>%%sql
+with t1 as (
+  select case
+    when strftime('%m',time_created) < 10 then "T0" || strftime('%m',time_created)
+    else "T" || strftime('%m',time_created)
+  end as thang,
+  count(distinct(bill_id)) as tong_don
+  from bill
+  group by thang
+),
+t2 as (
+  select case
+    when strftime('%m',time_created) < 10 then "T0" || strftime('%m',time_created)
+    else "T" || strftime('%m',time_created)
+  end as thang,
+  category_code ,
+  category_name ,
+  round(count(distinct(bill.bill_id)) *100.00 / t1.tong_don,1) || '%' as xac_suat
+  from category
+  inner join product on category.category_id = product.category_id
+  inner join bill_line on product.product_id = bill_line.product_id
+  inner join bill on bill_line.bill_id = bill.bill_id
+  inner join t1 on t1.thang = case
+    when strftime('%m',bill.time_created) < 10 then "T0" || strftime('%m',bill.time_created)
+    else "T" || strftime('%m',bill.time_created)
+  end
+  group by case
+    when strftime('%m',time_created) < 10 then "T0" || strftime('%m',time_created)
+    else "T" || strftime('%m',time_created)
+  end,
+  category_code,
+  category_name
+  order by thang
+)
+select thang,
+  max(case when category_code = 'BOT' then xac_suat end) as `[BOT] Bột`,
+  max(case when category_code = 'SET' then xac_suat end) as `[SET] Set Trà`,
+  max(case when category_code = 'THO' then xac_suat end) as `[THO] Trà hoa`,
+  max(case when category_code = 'TMX' then xac_suat end) as `[TMX] Trà Mix`,
+  max(case when category_code = 'TTC' then xac_suat end) as `[TTC] Trà củ, quả sấy`
+from t2
+group by thang
+order by thang</code></pre>
+        </div>
+        
+        <div class="img-wrapper mb-6"><img src="image/sql_results.png" alt="SQL Query Results"></div>
+
+        <div class="insight-box lang-text"
+             data-vi="<strong>💡 Business Insight: Sức khỏe thiết thực thắng thế sự mới lạ</strong><br>Khách hàng ra quyết định mua chủ yếu dựa trên công năng sức khỏe tức thì (giảm cân, làm đẹp, giải cảm) và hương vị an toàn, quen thuộc (gừng, cúc trắng). Ngược lại, họ có xu hướng từ chối rủi ro với các sản phẩm có hương vị quá nồng (sả, quế) hoặc định vị cao cấp."
+             data-en="<strong>💡 Business Insight: Practical Health Benefits Outperform Novelty</strong><br>Customers mainly make purchasing decisions based on immediate health benefits (weight loss, beauty improvement, cold relief) and safe, familiar flavors (ginger, white chrysanthemum). In contrast, they tend to avoid products with overly strong flavors (lemongrass, cinnamon) or premium positioning.">
+          <strong>💡 Business Insight: Sức khỏe thiết thực thắng thế sự mới lạ</strong><br>Khách hàng ra quyết định mua chủ yếu dựa trên công năng sức khỏe tức thì (giảm cân, làm đẹp, giải cảm) và hương vị an toàn, quen thuộc (gừng, cúc trắng). Ngược lại, họ có xu hướng từ chối rủi ro với các sản phẩm có hương vị quá nồng (sả, quế) hoặc định vị cao cấp.
+        </div>
+        <div class="action-box lang-text"
+             data-vi="<strong>🎯 Đề xuất hành động (Actionable Recommendation):</strong><br>• <strong>Tối ưu tồn kho &amp; Marketing:</strong> Đẩy mạnh ngân sách vào nhóm sản phẩm chức năng (Health-driven: Trà gừng, Dưỡng nhan, Bột cần tây).<br>• <strong>Chiến lược xả hàng (Cross-sell):</strong> Chuyển các mặt hàng khó bán lẻ (Cam lát, nụ hoa hồng Tây Tạng) thành hàng tặng kèm (bundle) trong các set trà bán chạy để tăng giá trị đơn hàng (AOV) và giải phóng tồn kho."
+             data-en="<strong>🎯 Actionable Recommendation:</strong><br>• <strong>Inventory &amp; Marketing Optimization:</strong> Increase investment in functional product groups (Health-driven products such as Ginger Tea, Beauty Tea, and Celery Powder).<br>• <strong>Inventory Clearance Strategy (Cross-sell):</strong> Convert slow-selling products (Dried Orange Slices, Tibetan Rose Buds) into bundled gifts within best-selling tea sets to increase Average Order Value (AOV) and reduce inventory.">
+          <strong>🎯 Đề xuất hành động (Actionable Recommendation):</strong><br>• <strong>Tối ưu tồn kho &amp; Marketing:</strong> Đẩy mạnh ngân sách vào nhóm sản phẩm chức năng (Health-driven: Trà gừng, Dưỡng nhan, Bột cần tây).<br>• <strong>Chiến lược xả hàng (Cross-sell):</strong> Chuyển các mặt hàng khó bán lẻ (Cam lát, nụ hoa hồng Tây Tạng) thành hàng tặng kèm (bundle) trong các set trà bán chạy để tăng giá trị đơn hàng (AOV) và giải phóng tồn kho.
+        </div>
+      </div>
+
+      <div>
+        <h4 class="subsection-title lang-text"
+            data-vi="Theo dõi chỉ số nhanh trên Google Sheets"
+            data-en="Quick KPI Monitoring on Google Sheets">Theo dõi chỉ số nhanh trên Google Sheets</h4>
+        <p class="content-text mb-4 lang-text"
+           data-vi="Ứng dụng hàm QUERY để bóc tách, gom nhóm và xoay chiều dữ liệu trực tiếp, phục vụ theo dõi nhanh các chỉ số."
+           data-en="Apply QUERY functions to extract, group, and pivot data directly for quick KPI monitoring.">
+          Ứng dụng hàm QUERY để bóc tách, gom nhóm và xoay chiều dữ liệu trực tiếp, phục vụ theo dõi nhanh các chỉ số.
+        </p>
+
+        <a href="https://docs.google.com/spreadsheets/d/1Q-XJbm8gEhQ6cDBBlUEB7lEfP4pDjw6F7ZfwhH7gxGM/edit?gid=776855449#gid=776855449" target="_blank" rel="noopener" class="btn-link">
+          <i class="fa-solid fa-file-excel text-green-600"></i> <span class="lang-text" data-vi="Xem File Google Sheets" data-en="View Google Sheets File">Xem File Google Sheets</span>
+        </a>
+
+        <div class="result-box mb-4 lang-text" style="border-left-color: #8b5cf6; background: #f5f3ff; color: #4c1d95;"
+             data-vi="<strong>❓ Câu hỏi kinh doanh:</strong> Năm qua, nhóm hàng nào thường dễ bán nhất?"
+             data-en="<strong>❓ Business Question:</strong> Over the past year, which product category was the easiest to sell?">
+          <strong>❓ Câu hỏi kinh doanh:</strong> Năm qua, nhóm hàng nào thường dễ bán nhất?
+        </div>
+
+        <div class="img-wrapper mb-6"><img src="image/ggsheet.png" alt="Google Sheets Analysis"></div>
+
+        <div class="insight-box lang-text"
+             data-vi="<strong>💡 Business Insight: Xu hướng tiện lợi và cá nhân hóa lên ngôi, 'Set trà' gặp khó</strong><br><strong>Thực trạng dữ liệu:</strong> Ba nhóm hàng Trà mix (54.5%), Trà hoa (54.4%), và Trà củ, quả sấy (53.2%) dẫn đầu xác suất bán và bám sát nhau ở mức cao (có mặt trong hơn một nửa số đơn hàng). Ngược lại, Set trà chạm đáy với xác suất bán thấp nhất (chỉ 23.8%).<br><strong>Phân tích hành vi:</strong> Khách hàng thể hiện sự ưu tiên rõ rệt cho tính tiện lợi (các loại trà mix sẵn) và sự linh hoạt khi mua lẻ các vị nguyên bản (hoa, củ sấy) để tự do thưởng thức. Các 'Set trà' đóng gói sẵn khó bán hơn, rào cản lớn nhất có thể đến từ việc khách hàng không thích một số vị bị cố định trong set, hoặc giá trị trung bình (ticket size) của set cao hơn mua lẻ, tạo tâm lý e ngại."
+             data-en="<strong>💡 Business Insight: Convenience and Personalization Are Rising, While Tea Sets Struggle</strong><br><strong>Data Overview:</strong> Three product categories—Mixed Tea (54.5%), Flower Tea (54.4%), and Dried Roots & Fruits Tea (53.2%)—lead in sales probability and remain close at a high level, appearing in more than half of all orders. Meanwhile, Tea Sets rank lowest, with a sales probability of only 23.8%.<br><strong>Behavior Analysis:</strong> Customers show a clear preference for convenience (ready-made mixed teas) and flexibility when purchasing individual ingredients (flower teas and dried roots/fruits). Pre-packaged Tea Sets are harder to sell because customers may dislike some fixed flavors included in the set, or because the higher average ticket size creates purchase hesitation.">
+          <strong>💡 Business Insight: Xu hướng tiện lợi và cá nhân hóa lên ngôi, "Set trà" gặp khó</strong><br><strong>Thực trạng dữ liệu:</strong> Ba nhóm hàng Trà mix (54.5%), Trà hoa (54.4%), và Trà củ, quả sấy (53.2%) dẫn đầu xác suất bán và bám sát nhau ở mức cao (có mặt trong hơn một nửa số đơn hàng). Ngược lại, Set trà chạm đáy với xác suất bán thấp nhất (chỉ 23.8%).<br><strong>Phân tích hành vi:</strong> Khách hàng thể hiện sự ưu tiên rõ rệt cho tính tiện lợi (các loại trà mix sẵn) và sự linh hoạt khi mua lẻ các vị nguyên bản (hoa, củ sấy) để tự do thưởng thức. Các "Set trà" đóng gói sẵn khó bán hơn, rào cản lớn nhất có thể đến từ việc khách hàng không thích một số vị bị cố định trong set, hoặc giá trị trung bình (ticket size) của set cao hơn mua lẻ, tạo tâm lý e ngại.
+        </div>
+        <div class="action-box lang-text"
+             data-vi="<strong>🎯 Đề xuất chiến lược (Strategic Recommendations):</strong><br>• <strong>Tập trung Hero Products:</strong> Đẩy mạnh truyền thông cho 'Trà mix' và 'Trà hoa' làm sản phẩm phễu (thu hút khách hàng mới).<br>• <strong>Tái cấu trúc nhóm 'Set trà':</strong> Thay vì bán các set cố định, nên cho phép khách hàng tự 'custom' (tự chọn vị mix vào set) hoặc tái định vị 'Set trà' thành dòng sản phẩm chuyên biệt cho quà tặng lễ, Tết."
+             data-en="<strong>🎯 Strategic Recommendations:</strong><br>• <strong>Focus on Hero Products:</strong> Strengthen marketing efforts for Mixed Tea and Flower Tea as acquisition products for attracting new customers.<br>• <strong>Restructure the Tea Set Category:</strong> Instead of fixed combinations, allow customers to customize their own tea sets or reposition Tea Sets as premium gift products for holidays and special occasions.">
+          <strong>🎯 Đề xuất chiến lược (Strategic Recommendations):</strong><br>• <strong>Tập trung Hero Products:</strong> Đẩy mạnh truyền thông cho "Trà mix" và "Trà hoa" làm sản phẩm phễu (thu hút khách hàng mới).<br>• <strong>Tái cấu trúc nhóm "Set trà":</strong> Thay vì bán các set cố định, nên cho phép khách hàng tự "custom" (tự chọn vị mix vào set) hoặc tái định vị "Set trà" thành dòng sản phẩm chuyên biệt cho quà tặng lễ, Tết.
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-broom'></i> 3. Data Cleaning Pipeline"
+          data-en="<i class='fa-solid fa-broom'></i> 3. Data Cleaning Pipeline">
+        <i class="fa-solid fa-broom"></i> 3. Data Cleaning Pipeline
+      </h3>
+      
+      <div class="cleaning-grid">
+        <div class="clean-item">
+          <div class="clean-title"><i class="fa-solid fa-eraser text-blue-500"></i> <span class="lang-text" data-vi="1. Missing Values Handling" data-en="1. Missing Values Handling">1. Missing Values Handling</span></div>
+          <div class="clean-sub lang-text" data-vi="Imputation Methods" data-en="Imputation Methods">Imputation Methods</div>
+          <div class="clean-desc lang-text"
+               data-vi="Bổ sung giá trị bằng thống kê (mean, median, mode), điền tiến/lùi, nội suy và kỹ thuật nâng cao như KNN imputation."
+               data-en="Apply statistical imputation methods (mean, median, mode), forward/backward filling, interpolation, and advanced techniques such as KNN imputation.">
+            Bổ sung giá trị bằng thống kê (mean, median, mode), điền tiến/lùi, nội suy và kỹ thuật nâng cao như KNN imputation.
+          </div>
+          <div class="clean-sub lang-text" data-vi="Deletion Strategies" data-en="Deletion Strategies">Deletion Strategies</div>
+          <div class="clean-desc lang-text"
+               data-vi="Loại bỏ theo hàng (listwise deletion), theo cặp (pairwise deletion), và loại bỏ dựa trên ngưỡng (threshold-based) theo mẫu dữ liệu thiếu."
+               data-en="Remove missing data using listwise deletion, pairwise deletion, and threshold-based deletion depending on the missing-data pattern.">
+            Loại bỏ theo hàng (listwise deletion), theo cặp (pairwise deletion), và loại bỏ dựa trên ngưỡng (threshold-based) theo mẫu dữ liệu thiếu.
+          </div>
+        </div>
+
+        <div class="clean-item">
+          <div class="clean-title"><i class="fa-solid fa-chart-line text-red-500"></i> <span class="lang-text" data-vi="2. Outlier Detection &amp; Treatment" data-en="2. Outlier Detection &amp; Treatment">2. Outlier Detection &amp; Treatment</span></div>
+          <div class="clean-sub lang-text" data-vi="Statistical Methods" data-en="Statistical Methods">Statistical Methods</div>
+          <div class="clean-desc lang-text"
+               data-vi="Áp dụng IQR, Z-score, Modified Z-score và Grubbs' test để phát hiện các điểm dữ liệu bất thường."
+               data-en="Apply IQR, Z-score, Modified Z-score, and Grubbs' Test to identify abnormal data points.">
+            Áp dụng IQR, Z-score, Modified Z-score và Grubbs' test để phát hiện các điểm dữ liệu bất thường.
+          </div>
+          <div class="clean-sub lang-text" data-vi="Visual Detection" data-en="Visual Detection">Visual Detection</div>
+          <div class="clean-desc lang-text"
+               data-vi="Sử dụng box plot, scatter plot và phân tích phân phối để xác định giá trị ngoại lai thông qua trực quan dữ liệu."
+               data-en="Use box plots, scatter plots, and distribution analysis to visually identify outliers.">
+            Sử dụng box plot, scatter plot và phân tích phân phối để xác định giá trị ngoại lai thông qua trực quan dữ liệu.
+          </div>
+        </div>
+
+        <div class="clean-item">
+          <div class="clean-title"><i class="fa-solid fa-shuffle text-purple-500"></i> <span class="lang-text" data-vi="3. Data Transformation" data-en="3. Data Transformation">3. Data Transformation</span></div>
+          <div class="clean-sub lang-text" data-vi="Normalization &amp; Scaling" data-en="Normalization &amp; Scaling">Normalization &amp; Scaling</div>
+          <div class="clean-desc lang-text"
+               data-vi="Sử dụng Min-Max scaling, Z-score standardization, Robust scaling và Unit vector scaling để đưa dữ liệu về cùng thang đo."
+               data-en="Apply Min-Max Scaling, Z-score Standardization, Robust Scaling, and Unit Vector Scaling to bring data into a common scale.">
+            Sử dụng Min-Max scaling, Z-score standardization, Robust scaling và Unit vector scaling để đưa dữ liệu về cùng thang đo.
+          </div>
+          <div class="clean-sub lang-text" data-vi="Categorical Encoding" data-en="Categorical Encoding">Categorical Encoding</div>
+          <div class="clean-desc lang-text"
+               data-vi="Áp dụng các kỹ thuật như one-hot encoding, label encoding, target encoding và binary encoding cho các biến phân loại."
+               data-en="Apply techniques such as One-Hot Encoding, Label Encoding, Target Encoding, and Binary Encoding for categorical variables.">
+            Áp dụng các kỹ thuật như one-hot encoding, label encoding, target encoding và binary encoding cho các biến phân loại.
+          </div>
+        </div>
+
+        <div class="clean-item">
+          <div class="clean-title"><i class="fa-solid fa-shield-halved text-green-500"></i> <span class="lang-text" data-vi="4. Data Quality Validation" data-en="4. Data Quality Validation">4. Data Quality Validation</span></div>
+          <div class="clean-sub lang-text" data-vi="Consistency Checks" data-en="Consistency Checks">Consistency Checks</div>
+          <div class="clean-desc lang-text"
+               data-vi="Xác thực kiểu dữ liệu, định dạng, kiểm tra khoảng giá trị (range checks), và xác minh quy tắc nghiệp vụ (business rule validation)."
+               data-en="Validate data types, formats, value ranges, and business rules.">
+            Xác thực kiểu dữ liệu, định dạng, kiểm tra khoảng giá trị (range checks), và xác minh quy tắc nghiệp vụ (business rule validation).
+          </div>
+          <div class="clean-sub lang-text" data-vi="Duplicate Handling" data-en="Duplicate Handling">Duplicate Handling</div>
+          <div class="clean-desc lang-text"
+               data-vi="Loại bỏ trùng lặp chính xác, dùng fuzzy matching cho dữ liệu gần giống, và áp dụng các chiến lược loại bỏ trùng lặp (deduplication strategies)."
+               data-en="Remove exact duplicates, apply fuzzy matching for similar records, and use deduplication strategies to improve data quality.">
+            Loại bỏ trùng lặp chính xác, dùng fuzzy matching cho dữ liệu gần giống, và áp dụng các chiến lược loại bỏ trùng lặp (deduplication strategies).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW SECTION ADDED: DATA PIPELINE & GCP -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-cloud'></i> 4. Data Pipeline &amp; Cloud Architecture (GCP)"
+          data-en="<i class='fa-solid fa-cloud'></i> 4. Data Pipeline &amp; Cloud Architecture (GCP)">
+        <i class="fa-solid fa-cloud"></i> 4. Data Pipeline &amp; Cloud Architecture (GCP)
+      </h3>
+      
+      <div class="result-box lang-text" style="border-left-color: #3b82f6; background: #eff6ff; color: #1e3a8a;"
+           data-vi="<strong>Thiết lập luồng xử lý dữ liệu tự động:</strong><br>Google Cloud Storage (Lưu trữ dữ liệu thô) ➔ Google Cloud Run (Lập lịch &amp; Xử lý tự động) ➔ BigQuery (Data Warehouse) ➔ Looker Studio (Trực quan hóa báo cáo)."
+           data-en="<strong>Automated data processing pipeline setup:</strong><br>Google Cloud Storage (Raw data storage) ➔ Google Cloud Run (Scheduling &amp; Automated processing) ➔ BigQuery (Data Warehouse) ➔ Looker Studio (Report visualization).">
+        <strong>Thiết lập luồng xử lý dữ liệu tự động:</strong><br>Google Cloud Storage (Lưu trữ dữ liệu thô) ➔ Google Cloud Run (Lập lịch &amp; Xử lý tự động) ➔ BigQuery (Data Warehouse) ➔ Looker Studio (Trực quan hóa báo cáo).
+      </div>
+      
+      <div class="mt-4">
+        <a href="https://datastudio.google.com/reporting/a8d0ea73-9b70-4d83-862e-9e988a504619" target="_blank" rel="noopener" class="btn-link">
+          <i class="fa-solid fa-chart-line text-blue-600"></i> <span class="lang-text" data-vi="Xem Looker Studio Dashboard" data-en="View Looker Studio Dashboard">Xem Looker Studio Dashboard</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="mb-4 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-chart-pie'></i> 5. Data Visualization &amp; Analysis"
+          data-en="<i class='fa-solid fa-chart-pie'></i> 5. Data Visualization &amp; Analysis">
+        <i class="fa-solid fa-chart-pie"></i> 4. Data Visualization &amp; Analysis
+      </h3>
+
+      <p class="content-text mb-6 lang-text"
+         data-vi="<strong>Trực quan hóa đa nền tảng:</strong> Thiết kế Dashboard động trên Tableau, Power BI và Looker Studio."
+         data-en="<strong>Multi-platform Visualization:</strong> Design dynamic dashboards using Tableau, Power BI, and Looker Studio.">
+        <strong>Trực quan hóa đa nền tảng:</strong> Thiết kế Dashboard động trên Tableau, Power BI và Looker Studio.
+      </p>
+
+      <a href="https://public.tableau.com/app/profile/tran.thi.thao.vy/vizzes" target="_blank" rel="noopener" class="btn-link mb-6">
+        <i class="fa-solid fa-chart-column"></i> <span class="lang-text" data-vi="Xem Hồ sơ Tableau Public" data-en="View Tableau Public Profile">Xem Hồ sơ Tableau Public</span>
+      </a>
+      
+
+      <!-- NEW FEATURE ADDED: STREAMLIT APP -->
+      <div class="mb-8">
+        <p class="content-text mb-4 lang-text"
+           data-vi="<strong>Streamlit Interactive Dashboard:</strong> Ứng dụng Python Streamlit tạo Dashboard và deploy lên cloud. Hệ thống kết nối và đọc dữ liệu real-time từ Google Sheets để hiển thị biểu đồ trực quan. Tích hợp tính năng tương tác hai chiều đặc biệt: cho phép người dùng trực tiếp ghi chú (insight) ngay tại mỗi biểu đồ trên giao diện web và lưu dữ liệu ghi chú đó ngược lại vào Google Sheets."
+           data-en="<strong>Streamlit Interactive Dashboard:</strong> Built and cloud-deployed a Dashboard using Python Streamlit. The system connects and reads real-time data from Google Sheets to display visual charts. Integrates a special two-way interaction feature: allows users to directly add notes (insights) to each chart on the web interface and saves those notes back to Google Sheets.">
+          <strong>Streamlit Interactive Dashboard:</strong> Ứng dụng Python Streamlit tạo Dashboard và deploy lên cloud. Hệ thống kết nối và đọc dữ liệu real-time từ Google Sheets để hiển thị biểu đồ trực quan. Tích hợp tính năng tương tác hai chiều đặc biệt: cho phép người dùng trực tiếp ghi chú (insight) ngay tại mỗi biểu đồ trên giao diện web và lưu dữ liệu ghi chú đó ngược lại vào Google Sheets.
+        </p>
+        
+        <a href="https://saleteadashboard.streamlit.app/" target="_blank" rel="noopener" class="btn-link">
+          <i class="fa-solid fa-laptop-code text-red-500"></i> <span class="lang-text" data-vi="Xem Streamlit App" data-en="View Streamlit App">Xem Streamlit App</span>
+        </a>
+      </div>
+
+      <p style="font-weight:700; margin: 20px 0 8px; color: #1a1a2e;" class="lang-text" data-vi="Báo cáo phân tích danh mục sản phẩm (Tableau):" data-en="Product Category Analysis (Tableau):">Báo cáo phân tích danh mục sản phẩm (Tableau):</p>
+      <div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #e2e8f0; border-radius: 8px; margin: 0 0 32px; background: #fff;">
+        <iframe src="https://public.tableau.com/views/teasale/Mthng?:embed=yes&:showVizHome=no&:display_count=yes&:toolbar=yes&:language=en-US" width="100%" height="850" style="border:none; display:block; max-width:none;" allowfullscreen></iframe>
+      </div>
+
+      <h4 class="subsection-title lang-text"
+          data-vi="Hệ thống Dashboard tương tác đa luồng, phục vụ 3 cấp độ quản trị"
+          data-en="Multi-level interactive dashboard system supporting three management levels">
+        Hệ thống Dashboard tương tác đa luồng, phục vụ 3 cấp độ quản trị (Cửa hàng - Nhóm hàng - Mặt hàng).
+      </h4>
+
+      <div class="step-list mt-6">
+        <div class="result-box lang-text" style="border-left-color: #083573; background: #f0f4f8; margin-top: 0; color: #1a1a2e;"
+             data-vi="<strong>🏪 Cấp 1: Trưởng cửa hàng (Store Manager Level)</strong><br><br>
+             • <strong>Toàn cảnh 2022:</strong> Doanh thu 4.77 tỷ VNĐ | 31.438 Đơn hàng.<br>
+             • <strong>Insight (Hành vi):</strong> Khách hàng mua sắm nhiều nhất vào giờ nghỉ (12h-13h) và buổi tối (18h-22h). Lượng đơn hàng đạt đỉnh vào Thứ 6, Thứ 7.<br>
+             • <strong>Action (Vận hành &amp; Quảng cáo):</strong> Dịch chuyển lịch sản xuất và nhập hàng vào Tháng 7 để chuẩn bị cho mùa cao điểm cuối năm. Tung các chương trình khuyến mãi sớm vào Thứ 4, Thứ 5 để thu hút sự chú ý, sau đó tập trung ngân sách quảng cáo vào cuối tuần để tối đa hóa số lượng đơn hàng."
+             data-en="<strong>🏪 Level 1: Store Manager Level</strong><br><br>
+             • <strong>2022 Overview:</strong> Revenue of 4.77 Billion VND | 31,438 Orders.<br>
+             • <strong>Insight (Customer Behavior):</strong> Customers purchase most frequently during lunch hours (12 PM–1 PM) and evenings (6 PM–10 PM). Order volume peaks on Fridays and Saturdays.<br>
+             • <strong>Action (Operations &amp; Advertising):</strong> Shift production and inventory planning to July in preparation for the year-end peak season. Launch promotional campaigns on Wednesdays and Thursdays to attract attention, then focus advertising budgets on weekends to maximize order volume.">
+          <strong>🏪 Cấp 1: Trưởng cửa hàng (Store Manager Level)</strong><br><br>
+          • <strong>Toàn cảnh 2022:</strong> Doanh thu 4.77 tỷ VNĐ | 31.438 Đơn hàng.<br>
+          • <strong>Insight (Hành vi):</strong> Khách hàng mua sắm nhiều nhất vào giờ nghỉ (12h-13h) và buổi tối (18h-22h). Lượng đơn hàng đạt đỉnh vào Thứ 6, Thứ 7.<br>
+          • <strong>Action (Vận hành &amp; Quảng cáo):</strong> Dịch chuyển lịch sản xuất và nhập hàng vào Tháng 7 để chuẩn bị cho mùa cao điểm cuối năm. Tung các chương trình khuyến mãi sớm vào Thứ 4, Thứ 5 để thu hút sự chú ý, sau đó tập trung ngân sách quảng cáo vào cuối tuần để tối đa hóa số lượng đơn hàng.
+        </div>
+
+        <div class="result-box lang-text" style="border-left-color: #083573; background: #f0f4f8; margin-top: 0; color: #1a1a2e;"
+             data-vi="<strong>📦 Cấp 2: Quản lý Nhóm hàng (Category Manager Level - Tiêu điểm: Trà Hoa)</strong><br><br>
+             • <strong>Hiệu suất:</strong> Nhóm hàng chủ lực chiếm 40% doanh thu (1.87 tỷ VNĐ). Tỷ lệ khách hàng quay lại mua tiếp (Retention Rate) rất tốt: 38.6%.<br>
+             • <strong>Insight (Thời vụ):</strong> Ngoại trừ dịp Trung Thu, nhóm hàng đang bỏ lỡ sức mua lớn từ các dịp Lễ/Tết (Vu Lan, Quốc khánh, Tết Nguyên Đán). Doanh thu trong các giai đoạn này không có sự tăng trưởng.<br>
+             • <strong>Action (Chiến lược):</strong> Tái cấu trúc nhóm 'Set trà' khó bán. Thay vì bán các vị cố định, hãy thiết kế các Bộ Quà Tặng Lễ/Tết (Customized Box) cao cấp để kích thích nhu cầu mua biếu tặng và tăng giá trị trung bình trên mỗi đơn hàng."
+             data-en="<strong>📦 Level 2: Category Manager Level (Focus: Flower Tea)</strong><br><br>
+             • <strong>Performance:</strong> The core category contributes 40% of total revenue (1.87 Billion VND). Customer retention is strong, with a retention rate of 38.6%.<br>
+             • <strong>Insight (Seasonality):</strong> Except during the Mid-Autumn Festival, the category is missing significant sales opportunities during major holidays and festivals (Vu Lan Festival, National Day, Lunar New Year). Revenue does not show noticeable growth during these periods.<br>
+             • <strong>Action (Strategy):</strong> Restructure the underperforming Tea Set category. Instead of fixed combinations, create premium customized holiday gift boxes to stimulate gift purchases and increase average order value.">
+          <strong>📦 Cấp 2: Quản lý Nhóm hàng (Category Manager Level - Tiêu điểm: Trà Hoa)</strong><br><br>
+          • <strong>Hiệu suất:</strong> Nhóm hàng chủ lực chiếm 40% doanh thu (1.87 tỷ VNĐ). Tỷ lệ khách hàng quay lại mua tiếp (Retention Rate) rất tốt: 38.6%.<br>
+          • <strong>Insight (Thời vụ):</strong> Ngoại trừ dịp Trung Thu, nhóm hàng đang bỏ lỡ sức mua lớn từ các dịp Lễ/Tết (Vu Lan, Quốc khánh, Tết Nguyên Đán). Doanh thu trong các giai đoạn này không có sự tăng trưởng.<br>
+          • <strong>Action (Chiến lược):</strong> Tái cấu trúc nhóm "Set trà" khó bán. Thay vì bán các vị cố định, hãy thiết kế các Bộ Quà Tặng Lễ/Tết (Customized Box) cao cấp để kích thích nhu cầu mua biếu tặng và tăng giá trị trung bình trên mỗi đơn hàng.
+        </div>
+
+        <div class="result-box lang-text" style="border-left-color: #083573; background: #f0f4f8; margin-top: 0; color: #1a1a2e;"
+             data-vi="<strong>🍵 Cấp 3: Quản lý Mặt hàng (Product Manager Level - Tiêu điểm: Trà Hoa Cúc Trắng)</strong><br><br>
+             • <strong>Hiệu suất:</strong> Là mặt hàng dễ bán và tiếp cận được nhiều khách hàng nhất (421 Triệu VNĐ), nhưng tỷ lệ khách mua lại cực kỳ thấp (13%).<br>
+             • <strong>Insight (Phân cực):</strong> Bột cần tây thành công nhờ đáp ứng đúng nhu cầu thanh lọc cơ thể, tiện lợi của khách hàng nữ. Ngược lại, Trà gạo lứt 8 vị ế ẩm do hương vị thực dưỡng kén người dùng và quy cách đóng gói quá lớn (10 gói/set).<br>
+             • <strong>Action (Sản phẩm):</strong> Tách lẻ các mặt hàng khó bán (trà gạo lứt, cam lát) để làm quà tặng kèm khi mua các sản phẩm bán chạy (như trà hoa cúc). Tăng cường tiếp thị qua các chuyên gia/KOLs để tăng độ tin cậy, tương tự như chiến lược đã thành công với Bột cần tây."
+             data-en="<strong>🍵 Level 3: Product Manager Level (Focus: White Chrysanthemum Tea)</strong><br><br>
+             • <strong>Performance:</strong> The easiest-selling product with the broadest customer reach (421 Million VND in revenue), but with a very low repurchase rate of only 13%.<br>
+             • <strong>Insight (Polarization):</strong> Celery Powder succeeds because it directly addresses customer needs for detoxification and convenience, especially among female customers. In contrast, 8-Flavor Brown Rice Tea performs poorly due to its niche taste profile and oversized packaging format (10 bags per set).<br>
+             • <strong>Action (Product Strategy):</strong> Separate slow-selling products (Brown Rice Tea, Dried Orange Slices) and offer them as complimentary gifts with top-selling products (such as White Chrysanthemum Tea). Increase promotion through experts and KOLs to build trust, following the successful strategy used for Celery Powder.">
+          <strong>🍵 Cấp 3: Quản lý Mặt hàng (Product Manager Level - Tiêu điểm: Trà Hoa Cúc Trắng)</strong><br><br>
+          • <strong>Hiệu suất:</strong> Là mặt hàng dễ bán và tiếp cận được nhiều khách hàng nhất (421 Triệu VNĐ), nhưng tỷ lệ khách mua lại cực kỳ thấp (13%).<br>
+          • <strong>Insight (Phân cực):</strong> Bột cần tây thành công nhờ đáp ứng đúng nhu cầu thanh lọc cơ thể, tiện lợi của khách hàng nữ. Ngược lại, Trà gạo lứt 8 vị ế ẩm do hương vị thực dưỡng kén người dùng và quy cách đóng gói quá lớn (10 gói/set).<br>
+          • <strong>Action (Sản phẩm):</strong> Tách lẻ các mặt hàng khó bán (trà gạo lứt, cam lát) để làm quà tặng kèm khi mua các sản phẩm bán chạy (như trà hoa cúc). Tăng cường tiếp thị qua các chuyên gia/KOLs để tăng độ tin cậy, tương tự như chiến lược đã thành công với Bột cần tây.
+        </div>
+      </div>
+    </section>
+
+  </article>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let lang = localStorage.getItem('portfolio_lang') || 'vi';
+    switchLang(lang);
+  });
+
+  function switchLang(lang) {
+    localStorage.setItem('portfolio_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll(`.lang-btn[onclick="switchLang('${lang}')"]`).forEach(btn => btn.classList.add('active'));
+    document.querySelectorAll('.lang-text').forEach(el => {
+      if (el.hasAttribute(`data-${lang}`)) el.innerHTML = el.getAttribute(`data-${lang}`);
+    });
+  }
+</script>
+</body>
+</html>

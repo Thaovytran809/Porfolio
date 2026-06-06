@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Details: ETL Pipelines - Trần Thị Thảo Vy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { accent: '#083573', 'accent-light': '#e6ecf1' },
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Open Sans"', 'sans-serif'],
+            slab: ['"Roboto Slab"', 'serif'],
+            code: ['"Fira Code"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1a1a2e; }
+
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
+    .nav-link { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; color: #083573; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .nav-link:hover { color: #3b82f6; transform: translateX(-4px); }
+    .lang-switcher { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+    .lang-btn { text-decoration: none; color: #9ca3af; transition: color 0.2s; font-weight: 500; cursor: pointer; }
+    .lang-btn:hover { color: #4b5563; }
+    .lang-btn.active { color: #083573; font-weight: 800; }
+
+    .header-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px; }
+    .header-tag::after { content: ''; display: block; width: 40px; height: 1px; background: #083573; opacity: 0.4; }
+    .page-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 2.4rem; color: #083573; margin-top: 16px; margin-bottom: 16px; line-height: 1.2; }
+
+    .project-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 48px; margin-bottom: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    @media (max-width: 768px) { .project-card { padding: 24px; } .page-title { font-size: 1.8rem; } }
+
+    .project-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: #1a1a2e; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+    .section-subtitle { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 1.2rem; color: #083573; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .subsection-title { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: #1a1a2e; padding-bottom: 10px; border-bottom: 2px solid #083573; margin-bottom: 16px; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tech-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; background: #f0f4f8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 4px; }
+
+    .content-text { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #475569; line-height: 1.75; }
+    .content-text strong { color: #1a1a2e; font-weight: 700; }
+
+    /* IMAGES */
+    .img-wrapper { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 16px; display: flex; justify-content: center; align-items: center; width: 100%; }
+    .img-wrapper img { max-width: 100%; max-height: 700px; width: auto; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+    /* 2-COL LAYOUT */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .col-block { display: flex; flex-direction: column; gap: 14px; }
+
+    /* STEP LIST */
+    .step-list { display: flex; flex-direction: column; gap: 10px; }
+    .step-item { display: flex; align-items: flex-start; gap: 12px; }
+    .step-num { flex-shrink: 0; width: 24px; height: 24px; background: #083573; color: #fff; font-size: 0.78rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+
+    .result-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 11px 15px; border-radius: 4px; font-weight: 500; color: #1e3a8a; font-size: 0.88rem; font-family: 'Inter', sans-serif; }
+    .perf-box { background: #fdfae8; border-left: 4px solid #eab308; padding: 11px 15px; border-radius: 4px; font-weight: 500; color: #854d0e; font-size: 0.88rem; font-family: 'Inter', sans-serif; }
+
+    /* FLOW BOX */
+    .flow-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .flow-box p { font-family: 'Inter', sans-serif; font-size: 0.92rem; color: #475569; line-height: 1.7; }
+    .flow-box p strong { color: #083573; }
+
+    /* CHALLENGE */
+    .challenge-box { background: #fff1f2; border: 1px solid #ffe4e6; border-left: 4px solid #e11d48; border-radius: 6px; padding: 24px; margin-top: 48px; }
+    .challenge-title { font-family: 'Open Sans', sans-serif; font-weight: 700; color: #be123c; margin-bottom: 16px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .challenge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 640px) { .challenge-grid { grid-template-columns: 1fr; } }
+    .c-item { background: #fff5f6; border-radius: 6px; padding: 16px 18px; border: 1px solid #fecdd3; }
+    .c-prob { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #9f1239; font-weight: 700; margin-bottom: 8px; }
+    .c-sol { font-family: 'Inter', sans-serif; font-size: 0.91rem; color: #4c0519; line-height: 1.65; }
+
+    /* YOUTUBE */
+    .yt-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .yt-card img { width: 100%; height: auto; display: block; }
+    .yt-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg,#1a1a2e,#16213e); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+    .yt-placeholder i { font-size: 3rem; color: #ff0000; }
+    .yt-placeholder span { font-family: 'Inter', sans-serif; font-size: 0.85rem; color: #9ca3af; }
+    .yt-info { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .yt-link { font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600; color: #083573; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s; white-space: nowrap; }
+    .yt-link:hover { color: #ff0000; }
+
+    .sys-desc-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 24px; }
+    .sys-desc-label { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 1rem; color: #083573; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="max-w-[1280px] mx-auto px-[24px] lg:px-[80px] h-[70px] flex items-center justify-between">
+    <a href="index.html" class="nav-link lang-text"
+       data-vi='<i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ'
+       data-en='<i class="fa-solid fa-arrow-left"></i> Back to Home'>
+      <i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ
+    </a>
+    <div class="lang-switcher">
+      <span class="lang-btn active" onclick="switchLang('vi')">VI</span>
+      <span style="color:#d1d5db;">/</span>
+      <span class="lang-btn" onclick="switchLang('en')">EN</span>
+    </div>
+  </div>
+</nav>
+
+<header class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pt-16 pb-8">
+  <div class="header-tag lang-text" data-vi="Kỹ năng 01" data-en="Skill 01">Kỹ năng 01</div>
+  <h1 class="page-title lang-text"
+      data-vi="Web Crawling, Xây dựng Database và ETL Pipelines"
+      data-en="Web Crawling, Database Building &amp; ETL Pipelines">
+    Web Crawling, Xây dựng Database và ETL Pipelines
+  </h1>
+</header>
+
+<main class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pb-24">
+
+  <!-- ═══════════════════════════════════════════════════
+       DỰ ÁN 1: ETL CHO AI TRAVEL CHATBOT
+  ═══════════════════════════════════════════════════ -->
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án 1: Hệ thống ETL cho AI Travel Chatbot"
+        data-en="Project 1: ETL System for AI Travel Chatbot">
+      Dự án 1: Hệ thống ETL cho AI Travel Chatbot
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Pandas, NumPy</span>
+      <span class="tech-tag">Gemini API (Embedding Model)</span>
+      <span class="tech-tag">Selenium</span>
+      <span class="tech-tag">PostgreSQL</span>
+    </div>
+
+    <!-- MÔ TẢ HỆ THỐNG: text → ảnh etl_aichatbot.svg -->
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-network-wired'></i> Kiến trúc Hệ thống"
+          data-en="<i class='fa-solid fa-network-wired'></i> System Architecture">
+        <i class="fa-solid fa-network-wired"></i> Kiến trúc Hệ thống
+      </h3>
+      <p class="content-text mb-6 lang-text"
+         data-vi="Hệ thống ETL bắt đầu với khối <strong>Extract</strong> nhằm thu thập dữ liệu qua API (HereMap Platform &amp; OpenWeather API) và web scraping (từ Traveloka, Klook, VnExpress), sau đó phân loại và lưu trữ thành các tệp JSON/CSV theo từng thành phố. Khối <strong>Transform</strong> tiếp nhận dữ liệu thô để tiến hành làm sạch, chuẩn hóa, mã hóa, đồng thời áp dụng Fuzzy Matching để đồng nhất và tạo Vector Embedding. Tại khối <strong>Load</strong>, toàn bộ dữ liệu đã hoàn thiện được nạp vào cơ sở dữ liệu để tối ưu hóa khả năng truy vấn và hiển thị trực tiếp lên giao diện web."
+         data-en="The ETL system starts with the <strong>Extract</strong> block to collect data through APIs (HereMap Platform &amp; OpenWeather API) and web scraping (from Traveloka, Klook, VnExpress), then classifies and stores it into JSON/CSV files for each city. The <strong>Transform</strong> block receives the raw data to clean, standardize, and encode, while applying Fuzzy Matching to unify and create Vector Embeddings. In the <strong>Load</strong> block, all completed data is loaded into the database to optimize query capability and display directly on the web interface.">
+        Hệ thống ETL bắt đầu với khối <strong>Extract</strong> nhằm thu thập dữ liệu qua API (HereMap Platform &amp; OpenWeather API) và web scraping (từ Traveloka, Klook, VnExpress), sau đó phân loại và lưu trữ thành các tệp JSON/CSV theo từng thành phố. Khối <strong>Transform</strong> tiếp nhận dữ liệu thô để tiến hành làm sạch, chuẩn hóa, mã hóa, đồng thời áp dụng Fuzzy Matching để đồng nhất và tạo Vector Embedding. Tại khối <strong>Load</strong>, toàn bộ dữ liệu đã hoàn thiện được nạp vào cơ sở dữ liệu để tối ưu hóa khả năng truy vấn và hiển thị trực tiếp lên giao diện web.
+      </p>
+      <div class="img-wrapper"><img src="image/etl_aichatbot.svg" alt="ETL Architecture"></div>
+    </section>
+
+    <!-- SECTION 1: Thu thập — 2 cột: Traveloka (trái) | Klook (phải) -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-spider'></i> 1. Xây dựng quy trình thu thập dữ liệu"
+          data-en="<i class='fa-solid fa-spider'></i> 1. Building the Data Collection Process">
+        <i class="fa-solid fa-spider"></i> 1. Xây dựng quy trình thu thập dữ liệu
+      </h3>
+
+      <div class="two-col">
+        <!-- TRÁI: Traveloka — ảnh trên, mô tả dưới -->
+        <div class="col-block">
+          <div class="subsection-title lang-text"
+               data-vi="Luồng Thu Thập Dữ Liệu Traveloka"
+               data-en="Traveloka Data Collection Flow">Luồng Thu Thập Dữ Liệu Traveloka</div>
+          <div class="img-wrapper"><img src="image/traveloka_crawl.svg" alt="Traveloka Crawl"></div>
+          <div class="step-list lang-text"
+               data-vi="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Khởi tạo &amp; Xác thực:</strong> Dùng undetected_chromedriver và nạp Cookie cục bộ để tự động vượt tường đăng nhập.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Định tuyến:</strong> Phân tích URL đầu vào để tự động phân loại khu vực địa lý.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>Thu thập:</strong> Bot tự động hóa bộ lọc hạng sao, cuộn trang vô cực (infinite scroll). Tích hợp Unique Key Hash để loại bỏ dữ liệu trùng lặp realtime.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Kết xuất:</strong> Làm sạch dữ liệu thô ngay trong luồng và xuất ra file CSV.</div></div>"
+               data-en="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Initialization &amp; Auth:</strong> Use undetected_chromedriver and load local Cookies to automatically bypass login walls.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Routing:</strong> Analyze the input URL to automatically classify the geographic area.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>Collection:</strong> Bot automates star-rating filters and infinite scrolling. Integrates Unique Key Hash to remove duplicate data in real time.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Export:</strong> Clean raw data directly within the pipeline and export it to a CSV file.</div></div>">
+            <div class="step-item"><div class="step-num">1</div><div class="content-text"><strong>Khởi tạo &amp; Xác thực:</strong> Dùng undetected_chromedriver và nạp Cookie cục bộ để tự động vượt tường đăng nhập.</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="content-text"><strong>Định tuyến:</strong> Phân tích URL đầu vào để tự động phân loại khu vực địa lý.</div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="content-text"><strong>Thu thập:</strong> Bot tự động hóa bộ lọc hạng sao, cuộn trang vô cực (infinite scroll). Tích hợp Unique Key Hash để loại bỏ dữ liệu trùng lặp realtime.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="content-text"><strong>Kết xuất:</strong> Làm sạch dữ liệu thô ngay trong luồng và xuất ra file CSV.</div></div>
+          </div>
+          <div class="result-box lang-text"
+               data-vi="🎯 Kết quả: Hoàn tất cào dữ liệu trên phạm vi 9 thành phố trọng điểm, thu về tổng cộng 3.448 bản ghi thông tin khách sạn thô."
+               data-en="🎯 Result: Completed data crawling across 9 key cities, collecting a total of 3,448 raw hotel information records.">
+            🎯 Kết quả: Hoàn tất cào dữ liệu trên phạm vi 9 thành phố trọng điểm, thu về tổng cộng 3.448 bản ghi thông tin khách sạn thô.
+          </div>
+        </div>
+
+        <!-- PHẢI: Klook — ảnh trên, mô tả dưới -->
+        <div class="col-block">
+          <div class="subsection-title lang-text"
+               data-vi="Luồng Thu Thập Dữ Liệu Klook"
+               data-en="Klook Data Collection Flow">Luồng Thu Thập Dữ Liệu Klook</div>
+          <div class="img-wrapper"><img src="image/klook_crawl.svg" alt="Klook Crawl"></div>
+          <div class="step-list lang-text"
+               data-vi="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Khởi tạo &amp; Xác thực:</strong> Khôi phục phiên đăng nhập bằng Cookie để vượt qua bước xác thực mượt mà.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Lọc thời gian thực:</strong> Quét thẻ dịch vụ và tự động loại trừ các kết quả chứa từ khóa 'tour' để triệt tiêu nhiễu dữ liệu.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>Phân trang:</strong> Script tự động nhận diện và click nút 'Show more' cho đến khi tải cạn kiệt dữ liệu.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Kết xuất:</strong> Lưu trực tiếp dưới định dạng JSONL nhằm tối ưu hóa bộ nhớ khi xử lý dữ liệu lớn.</div></div>"
+               data-en="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Initialization &amp; Auth:</strong> Restore the login session using Cookies to smoothly bypass the authentication step.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Real-time Filtering:</strong> Scan service cards and automatically exclude results containing the keyword 'tour' to eliminate data noise.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>Pagination:</strong> The script automatically detects and clicks the 'Show more' button until all available data is loaded.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Export:</strong> Save directly in JSONL format to optimize memory usage when processing large datasets.</div></div>">
+            <div class="step-item"><div class="step-num">1</div><div class="content-text"><strong>Khởi tạo &amp; Xác thực:</strong> Khôi phục phiên đăng nhập bằng Cookie để vượt qua bước xác thực mượt mà.</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="content-text"><strong>Lọc thời gian thực:</strong> Quét thẻ dịch vụ và tự động loại trừ các kết quả chứa từ khóa "tour" để triệt tiêu nhiễu dữ liệu.</div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="content-text"><strong>Phân trang:</strong> Script tự động nhận diện và click nút "Show more" cho đến khi tải cạn kiệt dữ liệu.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="content-text"><strong>Kết xuất:</strong> Lưu trực tiếp dưới định dạng JSONL nhằm tối ưu hóa bộ nhớ khi xử lý dữ liệu lớn.</div></div>
+          </div>
+          <div class="result-box lang-text"
+               data-vi="🎯 Kết quả: Thu thập thành công 772 bản ghi dữ liệu điểm đến (bao gồm 88 cụm điểm nổi bật và 684 điểm tham quan/dịch vụ chi tiết)."
+               data-en="🎯 Result: Successfully collected 772 destination data records (including 88 featured destination groups and 684 detailed attractions/services).">
+            🎯 Kết quả: Thu thập thành công 772 bản ghi dữ liệu điểm đến (bao gồm 88 cụm điểm nổi bật và 684 điểm tham quan/dịch vụ chi tiết).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Tiền xử lý — 2 cột: Hotel (trái) | Embedding (phải) -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-filter'></i> 2. Xây dựng quy trình tiền xử lý dữ liệu"
+          data-en="<i class='fa-solid fa-filter'></i> 2. Building the Data Preprocessing Process">
+        <i class="fa-solid fa-filter"></i> 2. Xây dựng quy trình tiền xử lý dữ liệu
+      </h3>
+
+      <div class="two-col">
+        <!-- TRÁI: Khách sạn — ảnh trên, mô tả dưới -->
+        <div class="col-block">
+          <div class="subsection-title lang-text"
+               data-vi="Luồng Tiền Xử Lý Dữ Liệu Khách Sạn"
+               data-en="Hotel Data Preprocessing Flow">Luồng Tiền Xử Lý Dữ Liệu Khách Sạn</div>
+          <div class="img-wrapper"><img src="image/traveloka_clean.svg" alt="Hotel Cleaning"></div>
+          <div class="step-list lang-text"
+               data-vi="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Tổng hợp &amp; Làm sạch:</strong> Gộp các file CSV phân mảnh. Ứng dụng Regex để bóc tách và ép kiểu các trường giá trị tài chính.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Kiểm soát chất lượng:</strong> Quét và xóa triệt để các bản ghi thiếu trường thông tin trọng yếu (như address) để bảo toàn tính toàn vẹn.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>Chuẩn hóa cấu trúc:</strong> Ánh xạ chính xác 100% cột dữ liệu với Schema của Database PostgreSQL mục tiêu.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Điền khuyết:</strong> Khởi tạo khóa chính (hotel_id) và xử lý giá trị thiếu bằng zero-imputation trước khi kết xuất.</div></div>"
+               data-en="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Aggregation &amp; Cleaning:</strong> Merge fragmented CSV files. Apply Regex to extract and convert financial value fields.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Quality Control:</strong> Scan and completely drop records missing critical information fields (such as address) to maintain data integrity.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>Structure Standardization:</strong> Accurately map 100% of data columns to the target PostgreSQL Database Schema.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Missing Value Handling:</strong> Generate the primary key (hotel_id) and handle missing values using zero-imputation before export.</div></div>">
+            <div class="step-item"><div class="step-num">1</div><div class="content-text"><strong>Tổng hợp &amp; Làm sạch:</strong> Gộp các file CSV phân mảnh. Ứng dụng Regex để bóc tách và ép kiểu các trường giá trị tài chính.</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="content-text"><strong>Kiểm soát chất lượng:</strong> Quét và xóa triệt để các bản ghi thiếu trường thông tin trọng yếu (như address) để bảo toàn tính toàn vẹn.</div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="content-text"><strong>Chuẩn hóa cấu trúc:</strong> Ánh xạ chính xác 100% cột dữ liệu với Schema của Database PostgreSQL mục tiêu.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="content-text"><strong>Điền khuyết:</strong> Khởi tạo khóa chính (hotel_id) và xử lý giá trị thiếu bằng zero-imputation trước khi kết xuất.</div></div>
+          </div>
+          <div class="result-box lang-text"
+               data-vi="🎯 Kết quả: Từ 3.448 bản ghi thô, hệ thống đã tinh lọc thành công giữ lại 3.426 bản ghi khách sạn đạt chuẩn, đảm bảo tính toàn vẹn để nạp vào Database."
+               data-en="🎯 Result: From 3,448 raw records, the system successfully refined and retained 3,426 qualified hotel records, ensuring complete integrity before loading into the Database.">
+            🎯 Kết quả: Từ 3.448 bản ghi thô, hệ thống đã tinh lọc thành công giữ lại 3.426 bản ghi khách sạn đạt chuẩn, đảm bảo tính toàn vẹn để nạp vào Database.
+          </div>
+        </div>
+
+        <!-- PHẢI: Vector Embedding — ảnh trên, mô tả dưới -->
+        <div class="col-block">
+          <div class="subsection-title lang-text"
+               data-vi="Luồng Tiền Xử Lý &amp; Tạo Sinh Vector Nhúng"
+               data-en="Data Preprocessing &amp; Embedding Generation Flow">Luồng Tiền Xử Lý &amp; Tạo Sinh Vector Nhúng</div>
+          <div class="img-wrapper"><img src="image/point_clean.svg" alt="Embedding Flow"></div>
+          <div class="step-list lang-text"
+               data-vi="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Tối ưu:</strong> Nạp file JSONL và lược bỏ tức thời các trường thừa ngay khi đọc để tiết kiệm RAM.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Chuẩn hóa:</strong> Đồng nhất tên khu vực, tinh gọn tags và dùng Regex để bóc tách dữ liệu số.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>AI Embedding:</strong> Gộp các trường đặc trưng thành ngữ cảnh. Sử dụng Gemini API mã hóa văn bản thành Vector. Tích hợp Auto-Retry chống lỗi mạng, đảm bảo tỷ lệ thành công 100%.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Kết xuất:</strong> Kiểm tra tính hợp lệ và xuất file CSV sẵn sàng nạp vào Vector Database.</div></div>"
+               data-en="<div class='step-item'><div class='step-num'>1</div><div class='content-text'><strong>Optimization:</strong> Load the JSONL file and immediately remove unnecessary fields while reading to save RAM.</div></div><div class='step-item'><div class='step-num'>2</div><div class='content-text'><strong>Standardization:</strong> Standardize area names, simplify tags, and use Regex to extract numerical data.</div></div><div class='step-item'><div class='step-num'>3</div><div class='content-text'><strong>AI Embedding:</strong> Combine key fields into context. Use the Gemini API to encode text into Vectors. Integrate Auto-Retry for network failures, ensuring a 100% success rate.</div></div><div class='step-item'><div class='step-num'>4</div><div class='content-text'><strong>Export:</strong> Validate the data and export a CSV file ready for loading into the Vector Database.</div></div>">
+            <div class="step-item"><div class="step-num">1</div><div class="content-text"><strong>Tối ưu:</strong> Nạp file JSONL và lược bỏ tức thời các trường thừa ngay khi đọc để tiết kiệm RAM.</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="content-text"><strong>Chuẩn hóa:</strong> Đồng nhất tên khu vực, tinh gọn tags và dùng Regex để bóc tách dữ liệu số.</div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="content-text"><strong>AI Embedding:</strong> Gộp các trường đặc trưng thành ngữ cảnh. Sử dụng Gemini API mã hóa văn bản thành Vector. Tích hợp Auto-Retry chống lỗi mạng, đảm bảo tỷ lệ thành công 100%.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="content-text"><strong>Kết xuất:</strong> Kiểm tra tính hợp lệ và xuất file CSV sẵn sàng nạp vào Vector Database.</div></div>
+          </div>
+          <div class="result-box lang-text"
+               data-vi='🎯 Kết quả: Việc mã hóa dữ liệu điểm đến theo từng trường ngữ cảnh chuyên biệt (như "ăn uống", "hoạt động") đã tạo ra các vector giàu ngữ nghĩa, giúp tối ưu hóa tối đa độ chính xác cho hệ thống truy xuất RAG của AI.'
+               data-en='🎯 Result: By encoding destination data into specific contextual fields (like 'dining' and 'activities'), we have generated semantically rich vectors that help maximize the retrieval accuracy of the AI's RAG system.'>
+            🎯 Kết quả: Việc mã hóa dữ liệu điểm đến theo từng trường ngữ cảnh chuyên biệt (như "ăn uống", "hoạt động") đã tạo ra các vector giàu ngữ nghĩa, giúp tối ưu hóa tối đa độ chính xác cho hệ thống truy xuất RAG của AI.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THÁCH THỨC Dự án 1 -->
+    <div class="challenge-box">
+  <h4 class="challenge-title lang-text"
+      data-vi="<i class='fa-solid fa-triangle-exclamation'></i> Thách thức lớn nhất"
+      data-en="<i class='fa-solid fa-triangle-exclamation'></i> Core Challenges">
+    <i class="fa-solid fa-triangle-exclamation"></i> Thách thức lớn nhất
+  </h4>
+  
+  <div class="c-item" style="width: 100%; margin-top: 15px;">
+    <div class="c-prob lang-text"
+         data-vi="▪ VẤN ĐỀ: Vượt rào Anti-Bot"
+         data-en="▪ PROBLEM: Anti-Bot Protection Bypass">▪ VẤN ĐỀ: Vượt rào Anti-Bot</div>
+    <div class="c-sol lang-text"
+         data-vi="OTA liên tục cập nhật chống bot (IP block, CAPTCHA, A/B testing), gây crash toàn bộ tiến trình thu thập.<br><br><strong>▸ GIẢI PHÁP:</strong> Xoay Chrome Profile, random độ trễ, giả lập cuộn/click tự nhiên. Lỗi ghi log để xử lý thủ công."
+         data-en="OTA platforms continuously update anti-bot mechanisms (IP blocking, CAPTCHA, A/B testing), which can cause the entire data collection process to crash.<br><br><strong>▸ SOLUTION:</strong> Rotate Chrome Profiles, randomize delays, and simulate natural scrolling and clicking behavior. Errors are logged for manual handling.">
+      OTA liên tục cập nhật chống bot (IP block, CAPTCHA, A/B testing), gây crash toàn bộ tiến trình thu thập.<br><br><strong>▸ GIẢI PHÁP:</strong> Xoay Chrome Profile, random độ trễ, giả lập cuộn/click tự nhiên. Lỗi ghi log để xử lý thủ công.
+    </div>
+  </div>
+</div>
+
+    <!-- SECTION 3: Quản lý & Thiết kế lưu trữ -->
+    <section class="mb-4 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-server'></i> 3. Quản lý &amp; Thiết kế hệ thống lưu trữ dữ liệu"
+          data-en="<i class='fa-solid fa-server'></i> 3. Data Management &amp; Storage System Design">
+        <i class="fa-solid fa-server"></i> 3. Quản lý &amp; Thiết kế hệ thống lưu trữ dữ liệu
+      </h3>
+
+      <!-- 3a: Quản lý dữ liệu crawling — text → ảnh -->
+      <div class="mb-12">
+        <h4 class="subsection-title lang-text"
+            data-vi="Quản lý dữ liệu crawling"
+            data-en="Crawling Data Management">Quản lý dữ liệu crawling</h4>
+        <p class="content-text mb-5 lang-text"
+           data-vi="Dữ liệu thô thu thập được sẽ lưu trữ tập trung tại GG Drive Desktop. Tại đây, dữ liệu được phân nhánh theo từng chủ đề cụ thể vào các thư mục riêng biệt (điểm đến, khách sạn, thành phố), mỗi thư mục chứa các tệp định dạng chuẩn JSONL hoặc CSV để tối ưu cho việc truy xuất và xử lý sau này."
+           data-en="The collected raw data is stored centrally on GG Drive Desktop in the root directory. Here, the data is organized into separate folders by specific topics (destinations, hotels, cities). Each folder contains standard JSONL or CSV files to optimize future retrieval and processing.">
+          Dữ liệu thô thu thập được sẽ lưu trữ tập trung tại GG Drive Desktop. Tại đây, dữ liệu được phân nhánh theo từng chủ đề cụ thể vào các thư mục riêng biệt (điểm đến, khách sạn, thành phố), mỗi thư mục chứa các tệp định dạng chuẩn JSONL hoặc CSV để tối ưu cho việc truy xuất và xử lý sau này.
+        </p>
+        <div class="img-wrapper"><img src="image/store_raw_data.svg" alt="Raw Data Storage"></div>
+      </div>
+
+      <!-- 3b: Thiết kế database — text → ảnh -->
+      <div>
+        <h4 class="subsection-title lang-text"
+            data-vi="Thiết kế database cho truy vấn &amp; Chatbot"
+            data-en="Database Design for Querying &amp; Chatbot">Thiết kế database cho truy vấn &amp; Chatbot</h4>
+        <p class="content-text mb-5 lang-text"
+           data-vi="<span class='block mb-2'>Thiết kế database được tối ưu  với kiến trúc <strong>3 nhóm bảng chính</strong>:</span><span class='block mb-1 pl-3'>• <strong>Session</strong> — Bảng chính lưu trữ ngữ cảnh hội thoại và ràng buộc đầu vào của người dùng.</span><span class='block mb-1 pl-3'>• <strong>Itinerary / Itinerary_Item</strong> — Chi tiết kết quả lịch trình do AI sinh ra, liên kết trực tiếp với Session qua khóa ngoại.</span><span class='block mb-3 pl-3'>• <strong>City / Hotel / Point</strong> — Kho thông tin thực thể gốc, là nguồn dữ liệu nền tảng cho toàn bộ hệ thống.</span><span class='block'>Cấu trúc được phân rã qua các <strong>khóa ngoại</strong> để tối ưu hiệu suất query, tránh quét toàn bảng và đảm bảo tốc độ render dữ liệu cực nhanh cho chatbot.</span>"
+           data-en="<span class='block mb-2'>The database design is optimized with an architecture of <strong>three main table groups</strong>:</span><span class='block mb-1 pl-3'>• <strong>Session</strong> — The main table storing conversation context and user input constraints.</span><span class='block mb-1 pl-3'>• <strong>Itinerary / Itinerary_Item</strong> — Detailed itinerary results generated by AI, linked directly to Session via foreign keys.</span><span class='block mb-3 pl-3'>• <strong>City / Hotel / Point</strong> — The repository of core entity information, the data foundation for the entire system.</span><span class='block'>The structure is normalized through <strong>foreign keys</strong> to optimize query performance, avoid full-table scans, and ensure very fast data rendering for the chatbot.</span>">
+          <span class="block mb-2">Thiết kế database được tối ưu với kiến trúc <strong>3 nhóm bảng chính</strong>:</span>
+          <span class="block mb-1 pl-3">• <strong>Session</strong> — Bảng chính lưu trữ ngữ cảnh hội thoại và ràng buộc đầu vào của người dùng.</span>
+          <span class="block mb-1 pl-3">• <strong>Itinerary / Itinerary_Item</strong> — Chi tiết kết quả lịch trình do AI sinh ra, liên kết trực tiếp với Session qua khóa ngoại.</span>
+          <span class="block mb-3 pl-3">• <strong>City / Hotel / Point</strong> — Kho thông tin thực thể gốc, là nguồn dữ liệu nền tảng cho toàn bộ hệ thống.</span>
+          <span class="block">Cấu trúc được phân rã qua các <strong>khóa ngoại</strong> để tối ưu hiệu suất query, tránh quét toàn bảng và đảm bảo tốc độ render dữ liệu cực nhanh cho chatbot.</span>
+        </p>
+        <div class="img-wrapper"><img src="image/erd_chatbot.svg" alt="ERD Diagram"></div>
+      </div>
+    </section>
+
+    
+
+  </article>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       DỰ ÁN 2: ETL CHO SẢN XUẤT AUDIOBOOK
+  ═══════════════════════════════════════════════════ -->
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án 2: Hệ thống ETL cho dự án sản xuất Audiobook"
+        data-en="Project 2: ETL System for Audiobook Production">
+      Dự án 2: Hệ thống ETL cho dự án sản xuất Audiobook
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Pandas, Regex</span>
+      <span class="tech-tag">Google Sheets API</span>
+      <span class="tech-tag">Gemini API</span>
+      <span class="tech-tag">Selenium</span>
+      <span class="tech-tag">PostgreSQL</span>
+    </div>
+
+    <!-- MÔ TẢ HỆ THỐNG: text → ảnh etl_audiobook.svg → ảnh tts_youtube.png + link -->
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-network-wired'></i> Kiến trúc Hệ thống"
+          data-en="<i class='fa-solid fa-network-wired'></i> System Architecture">
+        <i class="fa-solid fa-network-wired"></i> Kiến trúc Hệ thống
+      </h3>
+
+      <!-- Text mô tả -->
+      <p class="content-text mb-6 lang-text"
+         data-vi="Thiết kế và triển khai hệ thống crawl tự động 24/7 sử dụng Selenium, phân tán tác vụ thu thập dữ liệu truyện linh hoạt trên nhiều máy trạm. Tích hợp Google Sheets làm trung tâm để theo dõi tiến độ, quản lý hàng đợi và ghi nhận log lỗi theo thời gian thực. Nguồn dữ liệu được thu thập từ các trang truyện chữ nhiều chương như TruyenFull,... Dữ liệu sau khi thu thập được xử lý, làm sạch và chuẩn hóa nghiêm ngặt theo định dạng đầu vào của mô hình F5-TTS trước khi tiến hành render giọng nói."
+         data-en="Designed and implemented a 24/7 automated crawling system using Selenium, distributing story data collection tasks flexibly across multiple workstations. Integrated Google Sheets as a central hub for progress tracking, queue management, and real-time error logging. Data was collected from multi-chapter web novel platforms such as TruyenFull, ... The collected data was then processed, cleaned, and strictly standardized according to the input format requirements of the F5-TTS model before voice rendering.">
+        Thiết kế và triển khai hệ thống crawl tự động 24/7 sử dụng Selenium, phân tán tác vụ thu thập dữ liệu truyện linh hoạt trên nhiều máy trạm. Tích hợp Google Sheets làm trung tâm để theo dõi tiến độ, quản lý hàng đợi và ghi nhận log lỗi theo thời gian thực. Nguồn dữ liệu được thu thập từ các trang truyện chữ nhiều chương như TruyenFull,... Dữ liệu sau khi thu thập được xử lý, làm sạch và chuẩn hóa nghiêm ngặt theo định dạng đầu vào của mô hình F5-TTS trước khi tiến hành render giọng nói.
+      </p>
+
+      <!-- Ảnh ETL pipeline -->
+      <div class="img-wrapper mb-8"><img src="image/etl_audiobook.svg" alt="ETL Audiobook Pipeline"></div>
+
+      <!-- Sản phẩm đầu ra: ảnh tts_youtube.png + link -->
+      <div class="sys-desc-box">
+        <div class="sys-desc-label lang-text"
+             data-vi="<i class='fa-brands fa-youtube' style='color:#ff0000'></i> Sản phẩm đầu ra — Kênh Audiobook"
+             data-en="<i class='fa-brands fa-youtube' style='color:#ff0000'></i> Output Product — Audiobook Channel">
+          <i class="fa-brands fa-youtube" style="color:#ff0000;"></i> Sản phẩm đầu ra — Kênh Audiobook
+        </div>
+        <div class="yt-card">
+          <img src="image/tts_youtube.png" alt="YouTube Audiobook Channel"
+               onerror="this.outerHTML='<div class=\'yt-placeholder\'><i class=\'fa-brands fa-youtube\'></i><span>tts_youtube.png</span></div>'">
+          <div class="yt-info">
+            <p class="content-text lang-text" style="font-size:0.88rem; margin:0;"
+               data-vi="Kênh YouTube sản xuất Audiobook tự động bằng F5-TTS"
+               data-en="Automated Audiobook YouTube channel powered by F5-TTS">
+              Kênh YouTube sản xuất Audiobook tự động bằng F5-TTS
+            </p>
+            <a href="https://www.youtube.com/@vntienhiepaudio/playlists" target="_blank" rel="noopener" class="yt-link">
+              <i class="fa-brands fa-youtube" style="color:#ff0000;"></i>
+              <span class="lang-text" data-vi="Xem kênh trên YouTube" data-en="View Channel on YouTube">Xem kênh trên YouTube</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: Luồng cào dữ liệu tự động — ảnh trên, mô tả dưới -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-diagram-project'></i> 1. Xây dựng luồng cào dữ liệu tự động"
+          data-en="<i class='fa-solid fa-diagram-project'></i> 1. Building the Automated Data Crawling Workflow">
+        <i class="fa-solid fa-diagram-project"></i> 1. Xây dựng luồng cào dữ liệu tự động
+      </h3>
+
+      <!-- Ảnh trước -->
+      <div class="img-wrapper mb-6"><img src="image/automation_crawl.svg" alt="Auto Crawl"></div>
+
+      <!-- Mô tả sau -->
+      <p class="content-text font-semibold mb-3 lang-text"
+         data-vi="Hệ thống phân tán 2 giai đoạn, tập trung vào khả năng tự phục hồi và tối ưu tài nguyên:"
+         data-en="The system uses a two-stage distributed architecture, focusing on self-recovery and resource optimization:">
+        Hệ thống phân tán 2 giai đoạn, tập trung vào khả năng tự phục hồi và tối ưu tài nguyên:
+      </p>
+      <ul class="list-none content-text mb-5 lang-text" style="display:flex;flex-direction:column;gap:8px;"
+          data-vi="<li><i class='fa-solid fa-check text-green-600 mr-2'></i><strong>Giai đoạn 1 (Quản lý Task):</strong> Quét danh mục và cập nhật liên tục hàng đợi tác vụ lên Database trung tâm.</li><li><i class='fa-solid fa-check text-green-600 mr-2'></i><strong>Giai đoạn 2 (Trích xuất &amp; Chống đứt gãy):</strong> Chịu trách nhiệm điều phối dòng dữ liệu trích xuất cốt lõi của hệ thống.</li>"
+          data-en="<li><i class='fa-solid fa-check text-green-600 mr-2'></i><strong>Stage 1 (Task Management):</strong> Scan categories and continuously update the task queue to the central Database.</li><li><i class='fa-solid fa-check text-green-600 mr-2'></i><strong>Stage 2 (Extraction &amp; Fault Tolerance):</strong> Responsible for orchestrating the core data extraction flow of the system.</li>">
+        <li><i class="fa-solid fa-check text-green-600 mr-2"></i><strong>Giai đoạn 1 (Quản lý Task):</strong> Quét danh mục và cập nhật liên tục hàng đợi tác vụ lên Database trung tâm.</li>
+        <li><i class="fa-solid fa-check text-green-600 mr-2"></i><strong>Giai đoạn 2 (Trích xuất &amp; Chống đứt gãy):</strong> Chịu trách nhiệm điều phối dòng dữ liệu trích xuất cốt lõi của hệ thống.</li>
+      </ul>
+
+      <div class="flow-box lang-text"
+           data-vi="<p><strong>Luồng chuẩn khi có task:</strong> Quét dữ liệu → Hệ thống có task → Kiểm tra Checkpoint → Vòng lặp trích xuất → Click chuyển trang (Mặc định) → Lưu dữ liệu &amp; Đồng bộ Database → Quay lại quét dữ liệu.</p><p><strong>Luồng Fallback dự phòng:</strong> Vòng lặp trích xuất → Click chuyển trang lỗi → Tự động chuyển hướng sang dùng Regex quét mã nguồn → Lưu dữ liệu &amp; Đồng bộ Database → Quay lại quét dữ liệu.</p><p><strong>Luồng ngủ đông khi hết task:</strong> Quét dữ liệu → Hệ thống không có task → Ngủ đông rảnh rỗi chờ hết thời gian cấu hình → Thức giấc → Quay lại quét dữ liệu.</p><p><strong>Luồng xử lý lỗi hệ thống:</strong> Vòng lặp trích xuất → Gặp lỗi hệ thống → Ngủ đông an toàn chờ tự động thử lại → Khởi động lại luồng → Quay lại quét dữ liệu từ đầu.</p>"
+           data-en="<p><strong>Standard Flow when tasks are available:</strong> Scan data → System has tasks → Check Checkpoint → Extraction Loop → Click Next Page (Default) → Save Data &amp; Sync Database → Return to Data Scanning.</p><p><strong>Fallback Flow:</strong> Extraction Loop → Next Page Click Fails → Automatically switch to Regex-based source code extraction → Save Data &amp; Sync Database → Return to Data Scanning.</p><p><strong>Hibernate Flow when no tasks:</strong> Scan data → System has no tasks → Idle hibernation until configured time expires → Wake up → Return to Data Scanning.</p><p><strong>System Error Handling Flow:</strong> Extraction Loop → System Error Occurs → Safe hibernation and automatic retry → Restart Workflow → Return to Data Scanning from the beginning.</p>">
+        <p><strong>Luồng chuẩn khi có task:</strong> Quét dữ liệu → Hệ thống có task → Kiểm tra Checkpoint → Vòng lặp trích xuất → Click chuyển trang (Mặc định) → Lưu dữ liệu &amp; Đồng bộ Database → Quay lại quét dữ liệu.</p>
+        <p><strong>Luồng Fallback dự phòng:</strong> Vòng lặp trích xuất → Click chuyển trang lỗi → Tự động chuyển hướng sang dùng Regex quét mã nguồn → Lưu dữ liệu &amp; Đồng bộ Database → Quay lại quét dữ liệu.</p>
+        <p><strong>Luồng ngủ đông khi hết task:</strong> Quét dữ liệu → Hệ thống không có task → Ngủ đông rảnh rỗi chờ hết thời gian cấu hình → Thức giấc → Quay lại quét dữ liệu.</p>
+        <p><strong>Luồng xử lý lỗi hệ thống:</strong> Vòng lặp trích xuất → Gặp lỗi hệ thống → Ngủ đông an toàn chờ tự động thử lại → Khởi động lại luồng → Quay lại quét dữ liệu từ đầu.</p>
+      </div>
+      <div class="perf-box lang-text"
+           data-vi="⚡ Hiệu suất: 4 bộ truyện (~2.387 chương)/ngày."
+           data-en="⚡ Performance: 4 novels (~2,387 chapters)/day.">
+        ⚡ Hiệu suất: 4 bộ truyện (~2.387 chương)/ngày.
+      </div>
+    </section>
+
+    <!-- SECTION 2: Tiền xử lý F5-TTS -->
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-microchip'></i> 2. Tiền xử lý dữ liệu cho F5-TTS"
+          data-en="<i class='fa-solid fa-microchip'></i> 2. F5-TTS Data Preprocessing">
+        <i class="fa-solid fa-microchip"></i> 2. Tiền xử lý dữ liệu cho F5-TTS
+      </h3>
+
+      <!-- 2a: Luồng Phân Vai Nhân Vật GenAI — ảnh trên, text dưới -->
+      <div class="mb-12">
+        <h4 class="subsection-title lang-text"
+            data-vi="Luồng Phân Vai Nhân Vật GenAI"
+            data-en="GenAI Character Role Assignment Workflow">Luồng Phân Vai Nhân Vật GenAI</h4>
+        <div class="img-wrapper mb-5"><img src="image/role.svg" alt="Role Assignment"></div>
+        <p class="content-text lang-text"
+           data-vi="Hệ thống phân tích cấu trúc câu trước để tạo gợi ý định hướng, giúp mô hình suy luận chính xác hơn. Khi gặp giới hạn API, hệ thống tự xoay vòng key và chờ thay vì dừng lại. Đầu ra được kiểm tra tự động nếu gặp lỗi nhỏ thì suy luận lại, lỗi nghiêm trọng thì ghi nhận riêng để xử lý thủ công, đảm bảo pipeline không bao giờ bị gián đoạn."
+           data-en="The system first analyzes sentence structure to generate guidance prompts, helping the model reason more accurately. When API limits are reached, the system automatically rotates keys and waits instead of stopping. The output is automatically validated; minor errors trigger another reasoning attempt, while critical errors are logged separately for manual handling, ensuring the pipeline is never interrupted.">
+          Hệ thống phân tích cấu trúc câu trước để tạo gợi ý định hướng, giúp mô hình suy luận chính xác hơn. Khi gặp giới hạn API, hệ thống tự xoay vòng key và chờ thay vì dừng lại. Đầu ra được kiểm tra tự động nếu gặp lỗi nhỏ thì suy luận lại, lỗi nghiêm trọng thì ghi nhận riêng để xử lý thủ công, đảm bảo pipeline không bao giờ bị gián đoạn.
+        </p>
+        <div class="perf-box lang-text"
+             data-vi="⚡ Hiệu suất: 3 bộ truyện (~2.071 chương)/ngày."
+             data-en="⚡ Performance: 3 novels (~2,071 chapters)/day.">⚡ Hiệu suất: 3 bộ truyện (~2.071 chương)/ngày.</div>
+      </div>
+
+      <!-- 2b: Luồng Tiền Xử Lý Dữ Liệu F5-TTS — ảnh trên, text dưới -->
+      <div>
+        <h4 class="subsection-title lang-text"
+            data-vi="Luồng Tiền Xử Lý Dữ Liệu F5-TTS"
+            data-en="F5-TTS Text Normalization Workflow">Luồng Tiền Xử Lý Dữ Liệu F5-TTS</h4>
+        <div class="img-wrapper mb-5"><img src="image/tts_clean.svg" alt="TTS Clean"></div>
+        <p class="content-text lang-text"
+           data-vi="Mỗi lỗi nhỏ trong chuỗi ký tự đều có thể khiến mô hình F5-TTS đọc vấp, sai nhịp hoặc phát âm sai hoàn toàn. Vì vậy văn bản sau khi phân vai sẽ được tiếp tục lọc nhiễu AI, chuẩn hóa văn bản về đúng nhịp và cấu trúc ngôn ngữ nói, cuối cùng đóng gói thành kịch bản hoàn chỉnh sẵn sàng cho F5-TTS render."
+           data-en="Even a small error in the text can cause the F5-TTS model to stumble, lose rhythm, or pronounce words incorrectly. Therefore, after character role assignment, the text continues through AI-noise filtering, text normalization, and spoken-language structure adjustment. Finally, it is packaged into a complete script ready for F5-TTS rendering.">
+          Mỗi lỗi nhỏ trong chuỗi ký tự đều có thể khiến mô hình F5-TTS đọc vấp, sai nhịp hoặc phát âm sai hoàn toàn. Vì vậy văn bản sau khi phân vai sẽ được tiếp tục lọc nhiễu AI, chuẩn hóa văn bản về đúng nhịp và cấu trúc ngôn ngữ nói, cuối cùng đóng gói thành kịch bản hoàn chỉnh sẵn sàng cho F5-TTS render.
+        </p>
+        <div class="perf-box lang-text"
+             data-vi="⚡ Hiệu suất: Cực nhanh, tốc độ xử lý tức thời đạt ~250 chương/phút (đáp ứng dư công suất cho toàn bộ hệ thống)."
+             data-en="⚡ Performance: Extremely fast, with near-instant processing speed of approximately 250 chapters per minute (more than enough capacity for the entire system).">
+          ⚡ Hiệu suất: Cực nhanh, tốc độ xử lý tức thời đạt ~250 chương/phút (đáp ứng dư công suất cho toàn bộ hệ thống).
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Quản lý hệ thống lưu trữ — ảnh trên, text dưới -->
+    <section class="mb-4 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-folder-tree'></i> 3. Quản lý hệ thống lưu trữ"
+          data-en="<i class='fa-solid fa-folder-tree'></i> 3. Audio Data Storage Management">
+        <i class="fa-solid fa-folder-tree"></i> 3. Quản lý hệ thống lưu trữ
+      </h3>
+      <div class="img-wrapper mb-5"><img src="image/audio_data.svg" alt="Audio Data Storage"></div>
+      <p class="content-text lang-text"
+         data-vi="Luồng dữ liệu được thiết kế phân lớp độc lập, bắt đầu từ việc lưu trữ song song văn bản thô (HTML/TXT) để làm cơ sở đối chiếu. Các tệp tin sau khi được AI phân vai (HaveLabel) và làm sạch (afterClean) sẽ được lưu tại các thư mục riêng biệt nhằm bảo vệ tuyệt đối dữ liệu gốc. Cuối cùng, các tệp phân mảnh được tự động gộp thành một kịch bản tổng hoàn chỉnh, sẵn sàng đưa vào hệ thống Text-To-Speech."
+         data-en="The data flow is designed with independent layers, starting with parallel storage of raw text (HTML/TXT) as a reference source. Files that have been processed by AI role assignment (HaveLabel) and cleaned (afterClean) are stored in separate directories to fully protect the original data. Finally, fragmented files are automatically merged into a complete master script, ready for the Text-To-Speech system.">
+        Luồng dữ liệu được thiết kế phân lớp độc lập, bắt đầu từ việc lưu trữ song song văn bản thô (HTML/TXT) để làm cơ sở đối chiếu. Các tệp tin sau khi được AI phân vai (HaveLabel) và làm sạch (afterClean) sẽ được lưu tại các thư mục riêng biệt nhằm bảo vệ tuyệt đối dữ liệu gốc. Cuối cùng, các tệp phân mảnh được tự động gộp thành một kịch bản tổng hoàn chỉnh, sẵn sàng đưa vào hệ thống Text-To-Speech.
+      </p>
+    </section>
+
+    <!-- THÁCH THỨC Dự án 2 -->
+    <div class="challenge-box">
+      <h4 class="challenge-title lang-text"
+          data-vi="<i class='fa-solid fa-triangle-exclamation'></i> Thách thức lớn nhất"
+          data-en="<i class='fa-solid fa-triangle-exclamation'></i> Core Challenge">
+        <i class="fa-solid fa-triangle-exclamation"></i> Thách thức lớn nhất
+      </h4>
+      <div class="c-item">
+        <div class="c-prob lang-text"
+             data-vi="▪ VẤN ĐỀ: Lỗi do Nội Dung Nhạy Cảm"
+             data-en="▪ PROBLEM: Sensitive Content Issues">▪ VẤN ĐỀ: Lỗi do Nội Dung Nhạy Cảm</div>
+        <div class="c-sol lang-text"
+             data-vi="Truyện tiên hiệp/kiếm hiệp thường kích hoạt bộ lọc an toàn của LLM (lỗi PROHIBITED_CONTENT của Gemini), làm sập toàn bộ pipeline phân đoạn.<br><br><strong>▸ GIẢI PHÁP:</strong> Áp dụng cơ chế <strong>Correction Ledger</strong>, tự động bắt lỗi API, skip chương lỗi để duy trì tiến trình, và ghi log vào <code>chay_tay.json</code>. Hệ thống đảm bảo thu thập 99% dữ liệu hợp lệ một cách tự động mà không đứt gãy."
+             data-en="Xianxia/Wuxia novels may trigger LLM safety filters (Gemini's PROHIBITED_CONTENT), causing the chapter-processing pipeline to fail.<br><br><strong>▸ SOLUTION:</strong> <strong>Correction Ledger</strong>, Automatically detect API errors, skip problematic chapters to keep the workflow running, and log them into <code>chay_tay.json</code>. Automatically collect 99% of valid data while maintaining uninterrupted processing.">
+          Truyện tiên hiệp/kiếm hiệp thường kích hoạt bộ lọc an toàn của LLM (lỗi PROHIBITED_CONTENT của Gemini), làm sập toàn bộ pipeline phân đoạn.<br><br><strong>▸ GIẢI PHÁP:</strong> Áp dụng cơ chế <strong>Correction Ledger</strong>, tự động bắt lỗi API, skip chương lỗi để duy trì tiến trình, và ghi log vào <code>chay_tay.json</code>. Hệ thống đảm bảo thu thập 99% dữ liệu hợp lệ một cách tự động mà không đứt gãy.
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let lang = localStorage.getItem('portfolio_lang') || 'vi';
+    switchLang(lang);
+  });
+
+  function switchLang(lang) {
+    localStorage.setItem('portfolio_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll(`.lang-btn[onclick="switchLang('${lang}')"]`).forEach(btn => btn.classList.add('active'));
+    document.querySelectorAll('.lang-text').forEach(el => {
+      if (el.hasAttribute(`data-${lang}`)) el.innerHTML = el.getAttribute(`data-${lang}`);
+    });
+  }
+</script>
+</body>
+</html>

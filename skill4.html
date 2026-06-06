@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Details: RAG Chatbot - Trần Thị Thảo Vy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { accent: '#083573', 'accent-light': '#e6ecf1' },
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Open Sans"', 'sans-serif'],
+            slab: ['"Roboto Slab"', 'serif'],
+            code: ['"Fira Code"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1a1a2e; }
+
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
+    .nav-link { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; color: #083573; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .nav-link:hover { color: #3b82f6; transform: translateX(-4px); }
+    .lang-switcher { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
+    .lang-btn { text-decoration: none; color: #9ca3af; transition: color 0.2s; font-weight: 500; cursor: pointer; }
+    .lang-btn:hover { color: #4b5563; }
+    .lang-btn.active { color: #083573; font-weight: 800; }
+
+    .header-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px; }
+    .header-tag::after { content: ''; display: block; width: 40px; height: 1px; background: #083573; opacity: 0.4; }
+    .page-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 2.4rem; color: #083573; margin-top: 16px; margin-bottom: 16px; line-height: 1.2; }
+
+    .project-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 48px; margin-bottom: 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+    @media (max-width: 768px) { .project-card { padding: 24px; } .page-title { font-size: 1.8rem; } }
+
+    .project-title { font-family: 'Open Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: #1a1a2e; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f1f5f9; }
+    .section-subtitle { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 1.2rem; color: #083573; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .subsection-title { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: #1a1a2e; padding-bottom: 10px; border-bottom: 2px solid #083573; margin-bottom: 16px; }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tech-tag { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; color: #083573; background: #f0f4f8; border: 1px solid #cbd5e1; padding: 4px 12px; border-radius: 4px; }
+    .mini-tag { font-family: 'Fira Code', monospace; font-size: 0.75rem; background: #e2e8f0; color: #334155; padding: 4px 8px; border-radius: 4px; border: 1px solid #cbd5e1;}
+
+    .content-text { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #475569; line-height: 1.75; }
+    .content-text strong { color: #1a1a2e; font-weight: 700; }
+
+    /* IMAGES & VIDEO */
+    .img-wrapper { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 16px; display: flex; justify-content: center; align-items: center; width: 100%; }
+    .img-wrapper img { max-width: 100%; max-height: 700px; width: auto; height: auto; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .video-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 24px; }
+    .video-wrapper video { max-width: 100%; max-height: 600px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+
+    /* LAYOUTS */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 850px) { .two-col { grid-template-columns: 1fr; } }
+    .col-block { display: flex; flex-direction: column; gap: 14px; }
+
+    /* BOXES */
+    .result-box { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px 18px; border-radius: 4px; font-weight: 500; color: #1e3a8a; font-size: 0.9rem; font-family: 'Inter', sans-serif; line-height: 1.6;}
+    .insight-box { background: #fdfae8; border-left: 4px solid #eab308; padding: 16px 20px; border-radius: 6px; font-size: 0.9rem; font-family: 'Inter', sans-serif; margin-bottom: 16px; line-height: 1.6; color: #854d0e; }
+    
+    /* CHALLENGE (CHIỀU DỌC) */
+    .challenge-box { background: #fff1f2; border: 1px solid #ffe4e6; border-left: 4px solid #e11d48; border-radius: 6px; padding: 24px; margin-top: 48px; }
+    .challenge-title { font-family: 'Open Sans', sans-serif; font-weight: 700; color: #be123c; margin-bottom: 20px; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; }
+    .challenge-grid { display: flex; flex-direction: column; gap: 16px; }
+    .c-item { background: #fff5f6; border-radius: 6px; padding: 18px; border: 1px solid #fecdd3; }
+    .c-prob { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #9f1239; font-weight: 700; margin-bottom: 8px; }
+    .c-sol { font-family: 'Inter', sans-serif; font-size: 0.91rem; color: #4c0519; line-height: 1.65; }
+
+    /* RAG SUMMARY BOX */
+    .rag-summary-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #22c55e; padding: 18px; border-radius: 6px; margin-top: 24px; font-family: 'Inter', sans-serif; font-size: 0.92rem; color: #166534; line-height: 1.6; font-weight: 500; }
+
+    /* CODE BLOCK - Cập nhật để bọc text và không bị quá dài */
+    .code-block { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: hidden; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.5; border-left: 4px solid #3b82f6; max-height: 400px; white-space: pre-wrap; word-break: break-word;}
+    .code-block::-webkit-scrollbar { width: 6px; height: 6px; }
+    .code-block::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="max-w-[1280px] mx-auto px-[24px] lg:px-[80px] h-[70px] flex items-center justify-between">
+    <a href="index.html" class="nav-link lang-text"
+       data-vi='<i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ'
+       data-en='<i class="fa-solid fa-arrow-left"></i> Back to Home'>
+      <i class="fa-solid fa-arrow-left"></i> Quay lại Trang Chủ
+    </a>
+    <div class="lang-switcher">
+      <span class="lang-btn active" onclick="switchLang('vi')">VI</span>
+      <span style="color:#d1d5db;">/</span>
+      <span class="lang-btn" onclick="switchLang('en')">EN</span>
+    </div>
+  </div>
+</nav>
+
+<header class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pt-16 pb-8">
+  <div class="header-tag lang-text" data-vi="Kỹ năng 04" data-en="Skill 04">Kỹ năng 04</div>
+  <h1 class="page-title lang-text"
+      data-vi="Ứng dụng RAG trong Chatbot"
+      data-en="Application of RAG in Chatbot">
+    Ứng dụng RAG trong Chatbot
+  </h1>
+</header>
+
+<main class="max-w-[1000px] mx-auto px-[24px] lg:px-[0px] pb-24">
+
+  <article class="project-card">
+    <h2 class="project-title lang-text"
+        data-vi="Dự án: Ứng dụng RAG trong dự án AI Travel Chatbot"
+        data-en="Project: Applying RAG in AI Travel Chatbot">
+      Dự án: Ứng dụng RAG trong dự án AI Travel Chatbot
+    </h2>
+
+    <div class="tech-tags">
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">Django</span>
+      <span class="tech-tag">Gemini 2.5 Flash API</span>
+      <span class="tech-tag">LangChain Framework</span>
+      <span class="tech-tag">PostgreSQL (pgvector)</span>
+    </div>
+
+    <section class="mb-14">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-circle-info'></i> Tổng quan dự án"
+          data-en="<i class='fa-solid fa-circle-info'></i> Project Overview">
+        <i class="fa-solid fa-circle-info"></i> Tổng quan dự án
+      </h3>
+      <p class="content-text lang-text"
+         data-vi="Trong dự án AI Travel Chatbot, hệ thống RAG được vận hành theo quy trình: <strong>User Query → Cosine Similarity → Context Retrieval → Prompt Engineering → Gemini Response</strong>. Kiến trúc này giúp tối ưu hóa việc gợi ý điểm đến cho người dùng, đồng thời giảm thiểu đáng kể tình trạng ảo giác thông tin (hallucination)."
+         data-en="In the AI Travel Chatbot project, the RAG system operates through the following workflow: <strong>User Query → Cosine Similarity → Context Retrieval → Prompt Engineering → Gemini Response</strong>. This architecture optimizes destination recommendations for users while significantly reducing the risk of information hallucination.">
+        Trong dự án AI Travel Chatbot, hệ thống RAG được vận hành theo quy trình: <strong>User Query → Cosine Similarity → Context Retrieval → Prompt Engineering → Gemini Response</strong>. Kiến trúc này giúp tối ưu hóa việc gợi ý điểm đến cho người dùng, đồng thời giảm thiểu đáng kể tình trạng ảo giác thông tin (hallucination).
+      </p>
+
+      <div class="img-wrapper mt-6"><img src="image/rag_chatbot.svg" alt="RAG Architecture"></div>
+    </section>
+
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-layer-group'></i> 1. Vector Embedding &amp; Context Retrieval"
+          data-en="<i class='fa-solid fa-layer-group'></i> 1. Vector Embedding &amp; Context Retrieval">
+        <i class="fa-solid fa-layer-group"></i> 1. Vector Embedding &amp; Context Retrieval
+      </h3>
+      
+      <p class="content-text mb-4 lang-text"
+         data-vi="Input của người dùng được embedding rồi tính cosine similarity với toàn bộ vector điểm đến trong database -> trả về top‑k kết quả phù hợp nhất. Điểm đặc biệt là số lượng <strong>k</strong> không cố định mà linh hoạt điều chỉnh theo số ngày lưu trú của người dùng."
+         data-en="User input is converted into embeddings and compared against all destination vectors in the database using cosine similarity, returning the most relevant top-k results. The value of <strong>k</strong> is not fixed and dynamically adjusts based on the user's trip duration.">
+        Input của người dùng được embedding rồi tính cosine similarity với toàn bộ vector điểm đến trong database -> trả về top‑k kết quả phù hợp nhất. Điểm đặc biệt là số lượng <strong>k</strong> không cố định mà linh hoạt điều chỉnh theo số ngày lưu trú của người dùng.
+      </p>
+
+      <div class="flex gap-2 mb-6 flex-wrap">
+        <span class="mini-tag">pgvector</span>
+        <span class="mini-tag">PostgreSQL</span>
+        <span class="mini-tag">Cosine similarity</span>
+        <span class="mini-tag">Dynamic top‑k</span>
+      </div>
+
+      <div class="insight-box lang-text"
+           data-vi="✨ Nhu cầu du lịch đa dạng, không thể dùng score‑based hay keyword matching -> phương pháp <strong>semantic search</strong> cho phép hệ thống hiểu được ý định thực sự và ngữ nghĩa sâu xa từ yêu cầu của người dùng."
+           data-en="✨ Travel preferences are highly diverse, making score-based or keyword-matching approaches insufficient. <strong>Semantic search</strong> enables the system to understand the user's actual intent and deep semantic meaning.">
+        ✨ Nhu cầu du lịch đa dạng, không thể dùng score‑based hay keyword matching -> phương pháp <strong>semantic search</strong> cho phép hệ thống hiểu được ý định thực sự và ngữ nghĩa sâu xa từ yêu cầu của người dùng.
+      </div>
+    </section>
+
+    <section class="mb-14 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-terminal'></i> 2. LLM &amp; Prompt Engineering"
+          data-en="<i class='fa-solid fa-terminal'></i> 2. LLM &amp; Prompt Engineering">
+        <i class="fa-solid fa-terminal"></i> 2. LLM &amp; Prompt Engineering
+      </h3>
+
+      <p class="content-text mb-4 lang-text"
+         data-vi="Prompt được thiết kế theo cấu trúc ba lớp rõ ràng -> truyền đầy đủ thông tin người dùng và điểm đến dưới dạng Markdown để LLM có đủ ngữ cảnh tạo lịch trình."
+         data-en="The prompts are designed using a clear three-layer structure -> providing complete user information and destination context in Markdown format so that the LLM has sufficient context to generate an itinerary.">
+        Prompt được thiết kế theo cấu trúc ba lớp rõ ràng -> truyền đầy đủ thông tin người dùng và điểm đến dưới dạng Markdown để LLM có đủ ngữ cảnh tạo lịch trình.
+      </p>
+
+      <div class="flex gap-2 mb-6 flex-wrap">
+        <span class="mini-tag">Gemini 2.5 Flash</span>
+        <span class="mini-tag">LangChain</span>
+        <span class="mini-tag">system_prompt</span>
+        <span class="mini-tag">human_prompt</span>
+        <span class="mini-tag">ai_prompt</span>
+      </div>
+
+      <div class="two-col mt-8">
+        <div class="col-block">
+          <div class="subsection-title lang-text"
+               data-vi="Luồng Extract (Trích xuất thông tin đầu vào)"
+               data-en="Extract Flow (Input Information Extraction)">
+            Luồng Extract (Trích xuất thông tin đầu vào)
+          </div>
+          <pre class="code-block" style="border-left-color: #10b981;"><code>f"""
+Role: Bạn là trợ lý dữ liệu du lịch chuyên nghiệp.
+Context: Hôm nay là ngày {current_date_context}. Mọi tính toán thời gian (như "ngày mai", "tuần sau") phải được tính từ ngày này.
+Nhiệm vụ: Phân tích câu nhập của user và trích xuất thông tin du lịch.
+
+[USER INPUT]: "{user_input}"
+
+Yêu cầu nghiêm ngặt (ƯU TIÊN USER INPUT LÊN HÀNG ĐẦU):
+1. **Thời gian**: Trích xuất chính xác. NẾU thiếu năm, dùng mặc định {now.year}. NẾU thiếu tháng, dùng {now.month}. (travel_start): BẮT BUỘC chuyển thành chuỗi "YYYY-MM-DD".
+2. **Đoàn (people_num & people_detail)**:
+   - `people_num`: Số lượng tổng.
+   - `people_detail`: NẾU user có mô tả chi tiết (VD: 2 người lớn, 1 người già, có trẻ em), hãy viết thành một cụm từ tự nhiên. Nếu KHÔNG nhắc chi tiết, BẮT BUỘC để chuỗi rỗng "". TUYỆT ĐỐI không lặp lại số lượng ở đây.
+3. **Trọng số (Weights)**: Tự động điều chỉnh:
+   - weight_weather: cao nếu nhắc né nắng/mưa, có người già/trẻ nhỏ.
+   - weight_rating: cao nếu nhắc chất lượng, sang chảnh, tốt nhất.
+   - weight_review_count: cao nếu muốn nổi tiếng, đông đúc.
+   NẾU không yêu cầu, mặc định: weather: 0.45, rating: 0.35, review_count: 0.2.
+4. **Sở thích & Địa hình (interest, geo_feature)**:
+   - NẾU user có nhắc đến: Trích xuất chính xác.
+   - NẾU user KHÔNG nhắc đến: BẮT BUỘC tự suy luận và điền 2-4 từ khóa đặc trưng nhất của `city` (Ví dụ: Nha Trang thì tự điền ["biển", "đảo", "hải sản", "công viên giải trí"]). TUYỆT ĐỐI KHÔNG TRẢ VỀ MẢNG RỖNG [].
+5. **Lưu ý thêm (constrain)**:
+   - NẾU user có yêu cầu đặc biệt (nhà có trẻ em, xe lăn, dị ứng...): Trích xuất chi tiết.
+   - NẾU KHÔNG có yêu cầu: Trả về chuỗi "Không có yêu cầu đặc biệt." (TUYỆT ĐỐI không để trống).
+
+Trả về DUY NHẤT một JSON hợp lệ:
+{{
+  "city": "",
+  "travel_start": "",
+  "days": 0,
+  "people_num": 2,
+  "people_detail": "",
+  "interest": [],
+  "geo_feature": [],
+  "constrain": "",
+  "weight_weather": 0.45,
+  "weight_rating": 0.35,
+  "weight_review_count": 0.20,
+  "remove_places": [],
+  "add_places": [],
+  "refresh_all": false,
+  "replace_requests": [],
+  "raw_text": "{user_input}"
+}}
+"""</code></pre>
+        </div>
+
+        <div class="col-block">
+          <div class="subsection-title lang-text"
+               data-vi="Luồng Refine (Tinh chỉnh theo yêu cầu)"
+               data-en="Refine Flow (Requirement Refinement)">
+            Luồng Refine (Tinh chỉnh theo yêu cầu)
+          </div>
+          <pre class="code-block"><code>f"""
+Role: Bạn là AI Core Router quản lý trạng thái dữ liệu (State) cho một hệ thống gợi ý.
+Context: Hôm nay là ngày {now.strftime("%Y-%m-%d")}. Mọi tính toán thời gian tương đối phải mốc từ ngày này.
+
+[TRẠNG THÁI HIỆN TẠI]:
+- Thông tin chung: {json.dumps({k: v for k, v in current_state.items() if k in allowed_keys}, ensure_ascii=False)}
+- DANH SÁCH ĐỐI TƯỢNG ĐANG HIỂN THỊ:
+{attractions_context if attractions_context else "(Danh sách trống)"}
+
+[YÊU CẦU MỚI TỪ NGƯỜI DÙNG]: "{user_input}"
+
+Nhiệm vụ: Phân tích ngữ nghĩa toàn diện từ [YÊU CẦU MỚI], đối chiếu với [TRẠNG THÁI HIỆN TẠI] và xuất ra bản cập nhật JSON.
+
+BỘ QUY TẮC ÁNH XẠ Ý ĐỊNH (INTENT MAPPING RULES):
+
+PHẦN 1: THAO TÁC TRÊN DANH SÁCH ĐỐI TƯỢNG ĐANG HIỂN THỊ
+- Loại bỏ (`remove_places`): Quét [YÊU CẦU MỚI]. Thực hiện theo các nguyên tắc sau:
+  + Nếu người dùng chỉ định đích danh, trích xuất chính xác TÊN đó.
+  + Nếu người dùng từ chối theo nhóm thuộc tính (ví dụ: "không thích biển", "bỏ các chỗ massage"), BẠN PHẢI QUÉT TẤT CẢ CÁC TRƯỜNG: TÊN, THỂ LOẠI và MÔ TẢ. Bất kỳ đối tượng nào có chứa từ khóa hoặc ngữ nghĩa liên quan đến thuộc tính bị từ chối, BẮT BUỘC đưa TÊN của chúng vào mảng này.
+  + ĐẶC BIỆT (Giảm số lượng): Nếu người dùng yêu cầu giảm tổng số lượng địa điểm mà không nói rõ xóa điểm nào (ví dụ: "giảm xuống còn 10 điểm", "bỏ bớt 2 điểm đi"), BẠN PHẢI TỰ ĐỘNG chọn ra các địa điểm kém nổi bật hoặc ít phù hợp nhất trong danh sách và đưa TÊN của chúng vào `remove_places` sao cho số lượng điểm còn lại đúng bằng yêu cầu của người dùng.
+- Thay thế (`replace_requests`): Nếu người dùng muốn đổi đối tượng hiện tại lấy đối tượng khác kèm tiêu chí mới -> Xác định đối tượng bị thay thế (theo đích danh hoặc thuộc tính) đưa TÊN vào `remove_places`, đồng thời tạo object {{"target": "TÊN đối tượng", "requirement": "Mô tả tiêu chí mới"}}.
+- Thêm mới (`add_places`): Nếu người dùng yêu cầu đưa thêm đối tượng ngoài danh sách vào -> Trích xuất nguyên văn tên đối tượng đó.
+
+PHẦN 2: CẬP NHẬT THUỘC TÍNH NGỮ CẢNH (CONTEXT & PREFERENCES)
+- Lịch trình (`travel_start`, `days`): Nếu phát hiện thay đổi về mốc thời gian hoặc độ dài chuyến đi, tính toán lại giá trị tuyệt đối. (Định dạng YYYY-MM-DD).
+- Quy mô (`people_num`, `people_detail`): Nếu có thông tin mới về số lượng hoặc thành phần, cập nhật lại.
+- Sở thích & Đặc điểm (`interest`, `geo_feature`): Nếu người dùng có nhu cầu mới độc lập, XÓA MỚI toàn bộ mảng cũ và điền nhu cầu mới. Nếu dùng các từ mang tính bổ sung ("thêm", "và"), CỘNG DỒN vào mảng cũ.
+- Ràng buộc (`constrain`): Ghi nhận mọi lưu ý đặc biệt về thể chất, phương tiện, thời tiết.
+
+PHẦN 3: ĐIỀU CHỈNH TRỌNG SỐ (WEIGHTS) & HỆ THỐNG
+- Trọng số: Tự động điều chỉnh `weight_weather`, `weight_rating`, `weight_review_count` (tổng luôn xấp xỉ 1.0) nếu người dùng bộc lộ rõ sự ưu tiên. Giữ nguyên nếu không nhắc đến.
+- Làm mới (`refresh_all`): Đặt 'true' NẾU VÀ CHỈ NẾU người dùng thay đổi Thành phố (`city`) hoặc yêu cầu làm lại một bộ danh sách mới hoàn toàn từ đầu.
+
+BẮT BUỘC TRẢ VỀ DUY NHẤT 1 ĐỐI TƯỢNG JSON ĐÚNG CẤU TRÚC SAU:
+{{
+  "city": "Giá trị sau cập nhật",
+  "travel_start": "YYYY-MM-DD",
+  "days": 0,
+  "people_num": 0,
+  "people_detail": "",
+  "interest": [],
+  "geo_feature": [],
+  "constrain": "",
+  "weight_weather": 0.0,
+  "weight_rating": 0.0,
+  "weight_review_count": 0.0,
+  "remove_places": [],
+  "add_places": [],
+  "replace_requests": [],
+  "refresh_all": false,
+  "raw_text": "{user_input}"
+}}
+"""</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-10 border-t border-gray-100 pt-10">
+      <h3 class="section-subtitle lang-text"
+          data-vi="<i class='fa-solid fa-flag-checkered'></i> 3. Kết quả: Lịch trình cá nhân hoá theo yêu cầu"
+          data-en="<i class='fa-solid fa-flag-checkered'></i> 3. Results: Personalized Travel Itinerary">
+        <i class="fa-solid fa-flag-checkered"></i> 3. Kết quả: Lịch trình cá nhân hoá theo yêu cầu
+      </h3>
+      <p class="content-text lang-text"
+         data-vi="Người dùng nhập địa điểm, thời gian, số người hoặc chọn gợi ý nhanh -> hệ thống tự động đề xuất lịch trình và xác nhận nhu cầu du lịch phù hợp nhất."
+         data-en="Users can enter their destination, travel duration, number of travelers, or select quick recommendations -> the system automatically generates itinerary suggestions and confirms the most suitable travel preferences.">
+        Người dùng nhập địa điểm, thời gian, số người hoặc chọn gợi ý nhanh -> hệ thống tự động đề xuất lịch trình và xác nhận nhu cầu du lịch phù hợp nhất.
+      </p>
+
+      <div class="video-wrapper">
+        <video src="image/demorag.mp4" controls loop muted onerror="this.outerHTML='<div style=\'padding: 40px; background: #f1f5f9; text-align:center; border-radius: 8px; width:100%;\'><i class=\'fa-solid fa-video text-gray-400 text-4xl\'></i><p class=\'mt-2 text-gray-500\'>demorag.mp4</p></div>'"></video>
+      </div>
+    </section>
+
+    <div class="challenge-box">
+      <h4 class="challenge-title lang-text"
+          data-vi="<i class='fa-solid fa-triangle-exclamation'></i> Những Thách Thức Trong Triển Khai"
+          data-en="<i class='fa-solid fa-triangle-exclamation'></i> Implementation Challenges">
+        <i class="fa-solid fa-triangle-exclamation"></i> Những Thách Thức Trong Triển Khai
+      </h4>
+      <div class="challenge-grid">
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ Prompt không cho ra kết quả đúng ngay từ đầu"
+               data-en="▪ Prompts Do Not Produce Correct Results from the Start">▪ Prompt không cho ra kết quả đúng ngay từ đầu</div>
+          <div class="c-sol lang-text"
+               data-vi="LLM rất nhạy với cách diễn đạt -> thay đổi một câu trong system prompt có thể khiến output lệch hoàn toàn. Phải thử nghiệm và tinh chỉnh qua nhiều cấu trúc khác nhau mới đạt được độ ổn định."
+               data-en="LLMs are highly sensitive to prompt wording -> changing a single sentence in the system prompt can completely alter the output. Multiple prompt structures had to be tested before achieving stable results.">
+            LLM rất nhạy với cách diễn đạt -> thay đổi một câu trong system prompt có thể khiến output lệch hoàn toàn. Phải thử nghiệm và tinh chỉnh qua nhiều cấu trúc khác nhau mới đạt được độ ổn định.
+          </div>
+        </div>
+        
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ Chất lượng embedding ảnh hưởng trực tiếp đến retrieval"
+               data-en="▪ Embedding Quality Directly Impacts Retrieval">▪ Chất lượng embedding ảnh hưởng trực tiếp đến retrieval</div>
+          <div class="c-sol lang-text"
+               data-vi="Nếu mô tả điểm đến được embed không đủ ngữ nghĩa, cosine similarity sẽ trả về kết quả lệch -> dù prompt có tốt đến đâu cũng khó cứu vãn được chất lượng dữ liệu đầu vào kém."
+               data-en="If destination descriptions are not embedded with sufficient semantic information, cosine similarity may return irrelevant results. In such cases, even a well-designed prompt cannot fully compensate for poor retrieval quality.">
+            Nếu mô tả điểm đến được embed không đủ ngữ nghĩa, cosine similarity sẽ trả về kết quả lệch -> dù prompt có tốt đến đâu cũng khó cứu vãn được chất lượng dữ liệu đầu vào kém.
+          </div>
+        </div>
+
+        <div class="c-item">
+          <div class="c-prob lang-text"
+               data-vi="▪ Không có ground truth rõ ràng để đánh giá"
+               data-en="▪ No Clear Ground Truth for Evaluation">▪ Không có ground truth rõ ràng để đánh giá</div>
+          <div class="c-sol lang-text"
+               data-vi="Lịch trình 'tốt' là một khái niệm chủ quan -> không thể đo đếm bằng accuracy thông thường. Cần phải tự thiết kế tiêu chí đánh giá và kiểm tra thủ công (human-in-the-loop) rất nhiều trường hợp thực tế."
+               data-en="A 'good' itinerary is subjective and cannot be measured using standard accuracy metrics. Custom evaluation criteria must be designed, and numerous cases must be manually reviewed and validated (human-in-the-loop).">
+            Lịch trình "tốt" là một khái niệm chủ quan -> không thể đo đếm bằng accuracy thông thường. Cần phải tự thiết kế tiêu chí đánh giá và kiểm tra thủ công (human-in-the-loop) rất nhiều trường hợp thực tế.
+          </div>
+        </div>
+      </div>
+
+      <div class="rag-summary-box lang-text"
+           data-vi="✨ RAG hiệu quả là kết quả của nhiều vòng lặp thực nghiệm -> chỉnh prompt, đánh giá output, điều chỉnh retrieval, rồi lặp lại. Không có công thức cố định nào cho mọi bài toán."
+           data-en="✨ Effective RAG systems are the result of many experimental iterations -> refining prompts, evaluating outputs, adjusting retrieval strategies, and repeating the process. There is no fixed formula for all problems.">
+        ✨ RAG hiệu quả là kết quả của nhiều vòng lặp thực nghiệm -> chỉnh prompt, đánh giá output, điều chỉnh retrieval, rồi lặp lại. Không có công thức cố định nào cho mọi bài toán.
+      </div>
+    </div>
+
+  </article>
+
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let lang = localStorage.getItem('portfolio_lang') || 'vi';
+    switchLang(lang);
+  });
+
+  function switchLang(lang) {
+    localStorage.setItem('portfolio_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll(`.lang-btn[onclick="switchLang('${lang}')"]`).forEach(btn => btn.classList.add('active'));
+    document.querySelectorAll('.lang-text').forEach(el => {
+      if (el.hasAttribute(`data-${lang}`)) el.innerHTML = el.getAttribute(`data-${lang}`);
+    });
+  }
+</script>
+</body>
+</html>
