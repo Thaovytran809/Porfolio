@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@700;800&family=Roboto+Slab:wght@700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Fira+Code:wght@400;500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
@@ -55,16 +55,24 @@
     /* ─── NAVBAR ─── */
     .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e5e7eb; }
     .navbar-logo { font-family: 'Roboto Slab', serif; font-weight: 700; font-size: 1.2rem; color: #083573; text-decoration: none; letter-spacing: 0.02em; white-space: nowrap; flex: 1; }
+    
     .nav-link { 
       position: relative; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 500; 
-      color: #374151; text-decoration: none; transition: color 0.3s ease, font-weight 0.1s; padding: 5px 0;
+      color: #374151; text-decoration: none; transition: all 0.3s ease; padding: 5px 0;
     }
     .nav-link::after {
-      content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px; background: #083573;
-      transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease;
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: #083573;
+      transform: scaleX(0); transform-origin: center; transition: transform 0.3s ease;
     }
-    .nav-link:hover { color: #083573; font-weight: 700; }
-    .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+    
+    /* CẬP NHẬT: Thêm trạng thái .active khi cuộn màn hình đến phần tương ứng */
+    .nav-link:hover, .nav-link.active { 
+      color: #083573; 
+      text-shadow: 0 0 .65px #083573, 0 0 .65px #083573; 
+    }
+    .nav-link:hover::after, .nav-link.active::after { 
+      transform: scaleX(1); 
+    }
     
     .lang-switcher { display: flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-size: 0.9rem; cursor: pointer;}
     .lang-btn { text-decoration: none; color: #9ca3af; transition: color 0.2s; font-weight: 500; }
@@ -72,18 +80,30 @@
     .lang-btn.active { color: #083573; font-weight: 800; }
     .lang-divider { color: #e5e7eb; }
 
+    /* ─── NÚT BẤM CV ─── */
     .btn-cv {
       font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 700;
-      background: #083573; color: #fff; padding: 12px 32px;
+      background: #083573; color: #fff; padding: 12px 24px;
       border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
       transition: all 0.3s ease; white-space: nowrap; box-shadow: 0 4px 12px rgba(8,53,115,0.15);
+      border: 2px solid #083573;
     }
-    .btn-cv:hover { background: #062856; box-shadow: 0 6px 16px rgba(8,53,115,0.25); transform: translateY(-2px); }
+    .btn-cv:hover { background: #062856; border-color: #062856; box-shadow: 0 6px 16px rgba(8,53,115,0.25); transform: translateY(-2px); color: #fff;}
+    
+    .btn-cv.outline-btn {
+      background: transparent;
+      color: #083573;
+      box-shadow: none;
+    }
+    .btn-cv.outline-btn:hover {
+      background: #083573;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(8,53,115,0.25);
+    }
 
     /* ─── HERO & ABOUT LAYOUT ─── */
     .greeting-small { font-family: 'Inter', sans-serif; font-size: 1.2rem; font-weight: 600; color: #6b7280; display: block; margin-bottom: 8px; }
     
-    /* Font Playfair Display, giữ nguyên hiệu ứng bóng bẩy trượt màu (Shine Gradient), màu xanh đậm - xanh nhạt */
     .name-highlight { 
       font-family: 'Segoe UI', serif; font-weight: 800; font-size: 3.8rem; line-height: 1.2;
       background: linear-gradient(90deg, #083573 0%, #60a5fa 50%, #083573 100%);
@@ -93,7 +113,6 @@
     @keyframes shine { to { background-position: 200% center; } }
     @media (max-width: 768px) { .name-highlight { font-size: 2.5rem; } }
     
-    /* Chức danh: Cách điệu dạng Code, thêm border 2 bên để cân đối khi ở giữa */
     .hero-title { 
         font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 1.3rem; 
         color: #083573; margin-top: 16px; margin-bottom: 24px; letter-spacing: 0.05em;
@@ -101,7 +120,6 @@
         border-left: 3px solid #083573; border-right: 3px solid #083573;
     }
     
-    /* Box About Me */
     .about-card {
         position: relative; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px);
         border: 1px solid rgba(8, 53, 115, 0.1); border-radius: 16px; padding: 32px; margin-bottom: 36px;
@@ -250,11 +268,16 @@
                    Xuất phát từ niềm đam mê với dữ liệu, mình luôn cố gắng tìm cách thu thập, xử lý và biến dữ liệu thô thành các giải pháp thực tế cho doanh nghiệp. Điểm mạnh của mình nằm ở tư duy giải quyết vấn đề, sự kiên nhẫn khi debug và tối ưu hóa các pipeline tự động. Trong 1–2 năm tới, mục tiêu của mình là trở thành một Data Analytics Engineer vững chuyên môn, có khả năng thiết kế hệ thống end-to-end và ứng dụng linh hoạt AI Agent (RAG &amp; LLM).
                 </p>
             </div>
-            <div class="flex justify-start max-[900px]:justify-center">
-              <a id="cv-link" href="image/CV_VN.pdf" download="CV_Tran_Thi_Thao_Vy_VN.pdf" class="btn-cv lang-text" data-vi='<i class="fa-solid fa-download" style="margin-right:8px;"></i> Tải CV' data-en='<i class="fa-solid fa-download" style="margin-right:8px;"></i> Download CV'>
-                <i class="fa-solid fa-download" style="margin-right:8px;"></i> Tải CV
+            
+            <div class="flex flex-wrap justify-start max-[900px]:justify-center gap-4">
+              <a href="image/CV_VN.pdf" download="CV_Tran_Thi_Thao_Vy_VN.pdf" class="btn-cv lang-text" data-vi='<i class="fa-solid fa-download" style="margin-right:8px;"></i> Tải CV (VN)' data-en='<i class="fa-solid fa-download" style="margin-right:8px;"></i> Download CV (VN)'>
+                <i class="fa-solid fa-download" style="margin-right:8px;"></i> Tải CV (VN)
+              </a>
+              <a href="image/CV_ENG.pdf" download="CV_Tran_Thi_Thao_Vy_ENG.pdf" class="btn-cv outline-btn lang-text" data-vi='<i class="fa-solid fa-download" style="margin-right:8px;"></i> Tải CV (EN)' data-en='<i class="fa-solid fa-download" style="margin-right:8px;"></i> Download CV (EN)'>
+                <i class="fa-solid fa-download" style="margin-right:8px;"></i> Tải CV (EN)
               </a>
             </div>
+
         </div>
 
         <div class="flex justify-center items-center max-[900px]:order-1">
@@ -275,7 +298,7 @@
                     <div class="terminal-card">
                         <span class="terminal-arrow">></span>
                         <span class="terminal-label">TOEIC:</span>
-                        <span class="terminal-val">650</span>
+                        <span class="terminal-val">715</span>
                     </div>
                 </div>
             </div>
@@ -381,7 +404,7 @@
                   <div class="skill-title lang-text" data-vi="Xây dựng ứng dụng tích hợp GenAI" data-en="GenAI Integrated Application Development">Xây dựng ứng dụng tích hợp GenAI</div>
                   <div class="skill-num">05</div>
               </div>
-              <div class="skill-desc lang-text" data-vi="Phát triển ứng dụng GenAI hỗ trợ lên kế hoạch du lịch cá nhân hóa, thiết kế kiến trúc Multi-Agent (bao gồm Chat Agent, Strategy Agent và Advice Agent) tích hợp với Django và PostgreSQL để tự động hóa việc tối ưu và đề xuất lịch trình." data-en="Engineered a GenAI-powered travel planning application utilizing a Multi-Agent architecture (Chat Agent, Strategy Agent and Advice Agent). Integrated with Django and PostgreSQL to automatically generate and optimize personalized travel itineraries.">Phát triển ứng dụng GenAI hỗ trợ lên kế hoạch du lịch cá nhân hóa, thiết kế kiến trúc Multi-Agent (bao gồm Chat Agent, Strategy Agent và Advice Agent) tích hợp với Django và PostgreSQL để tự động hóa việc tối ưu và đề xuất lịch trình.</div>
+              <div class="skill-desc lang-text" data-vi="Phát triển ứng dụng GenAI hỗ trợ lên kế hoạch du lịch cá nhân hóa, thiết kế kiến trúc Multi-Agent (bao gồm Chat Agent, Strategy Agent và Advice Agent) tích hợp với Django và PostgreSQL để tự động hóa việc tối ưu và đề xuất lịch trình." data-en="Engineered a GenAI-powered travel planning application utilizing a Multi-Agent architecture (Chat Agent, Strategy Agent and Advice Agent). Integrated with Django and PostgreSQL to automatically generate and optimize personalized travel itineraries.">Phát triển ứng dụng GenAI hỗ trợ lên kế hoạch du lịch cá nhân hóa, thiết kế kiến trúc Multi-Agent (bao gồm Chat Agent, Strategy Agent và Advice Agent) tích hợp với Django và PostgreSQL để tự động hóa việc tối ưu và đề xuất lịch trình."</div>
           </div>
         </div>
       </div>
@@ -432,17 +455,37 @@
       document.querySelectorAll('.lang-text').forEach(el => {
         if (el.hasAttribute(`data-${lang}`)) el.innerHTML = el.getAttribute(`data-${lang}`);
       });
-      const cvLink = document.getElementById('cv-link');
-      if (cvLink) {
-        if (lang === 'vi') {
-          cvLink.href = 'image/CV_VN.pdf';
-          cvLink.download = 'CV_Tran_Thi_Thao_Vy_VN.pdf';
-        } else {
-          cvLink.href = 'image/CV_ENG.pdf';
-          cvLink.download = 'CV_Tran_Thi_Thao_Vy_ENG.pdf';
-        }
-      }
     }
+
+    // JS LOGIC FOR SCROLLSPY (Tự động cập nhật Menu khi cuộn)
+    document.addEventListener("DOMContentLoaded", function () {
+      const targets = document.querySelectorAll('#about, #skills, #contact');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      const observerOptions = {
+        root: null,
+        // Điều chỉnh biên độ nhận diện (bật active khi phần nội dung chiếm giữa màn hình)
+        rootMargin: '-30% 0px -50% 0px', 
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          }
+        });
+      }, observerOptions);
+
+      targets.forEach(target => observer.observe(target));
+    });
   </script>
 </body>
 </html>
